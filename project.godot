@@ -9,18 +9,25 @@
 config_version=4
 
 _global_script_classes=[ {
+"base": "Node",
+"class": "StateMachine",
+"language": "GDScript",
+"path": "res://utils/state_machine/state_machine.gd"
+}, {
 "base": "Reference",
 "class": "Utils",
 "language": "GDScript",
 "path": "res://utils/utils.gd"
 } ]
 _global_script_class_icons={
+"StateMachine": "",
 "Utils": ""
 }
 
 [application]
 
 config/name="Glass Brick Templates"
+run/main_scene="res://demos/demo_platformer.tscn"
 config/icon="res://icon.png"
 
 [autoload]
@@ -28,11 +35,32 @@ config/icon="res://icon.png"
 SettingsManager="*res://utils/settings_manager.gd"
 AudioManager="*res://utils/audio_manager.gd"
 
+[display]
+
+window/stretch/mode="viewport"
+window/stretch/aspect="keep"
+
+[importer_defaults]
+
+texture={
+"flags/filter": false
+}
+
 [input]
 
 fire={
 "deadzone": 0.5,
 "events": [ Object(InputEventKey,"resource_local_to_scene":false,"resource_name":"","device":0,"alt":false,"shift":false,"control":false,"meta":false,"command":false,"pressed":false,"scancode":75,"physical_scancode":0,"unicode":0,"echo":false,"script":null)
+ ]
+}
+jump={
+"deadzone": 0.5,
+"events": [ Object(InputEventKey,"resource_local_to_scene":false,"resource_name":"","device":0,"alt":false,"shift":false,"control":false,"meta":false,"command":false,"pressed":false,"scancode":32,"physical_scancode":0,"unicode":0,"echo":false,"script":null)
+ ]
+}
+dash={
+"deadzone": 0.5,
+"events": [ Object(InputEventKey,"resource_local_to_scene":false,"resource_name":"","device":0,"alt":false,"shift":false,"control":false,"meta":false,"command":false,"pressed":false,"scancode":16777237,"physical_scancode":0,"unicode":0,"echo":false,"script":null)
  ]
 }
 
