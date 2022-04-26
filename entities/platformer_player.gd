@@ -9,7 +9,9 @@ export (int) var acceleration_frames = 5
 export (int) var decceleration_frames = 2
 onready var acceleration = float(max_speed) / float(acceleration_frames)
 onready var decceleration = float(max_speed) / float(decceleration_frames)
-var flipped = false
+
+enum DIRECTIONS { LEFT, RIGHT }
+var facing_direction = DIRECTIONS.RIGHT
 
 export (float, 0, 5, 0.1) var air_time = 1
 export (float, 0, 20, 0.5) var max_jump_height = 3.0
@@ -18,23 +20,26 @@ onready var jump_speed = -player_height * max_jump_height * 9 / air_time
 onready var gravity = -jump_speed * 2 / air_time
 var can_floor_jump = false
 var can_double_jump = true
+var can_wall_jump = false
+var wall_jumped = false
 var jump_cancel_time = 0
 
 export (float) var dash_speed = 1000
 export (float, 0, 0.5) var dash_duration = 0.2
 var dash_timer = 0
-var dash_direction = 1
 var dash_jumped = false
 
 export (float) var invincibility_time = 0.5
 var invincibility_counter = 0.0
 var invincibility = false
 
-export (float) var acme_time = 0.1
+export (float) var acme_time_floor = 0.1
+export (float) var acme_time_wall = 0.1
 
 onready var animated_sprite : AnimatedSprite = $AnimatedSprite
 onready var dash_trail : CPUParticles2D = $Trail
 onready var flipped_dash_trail : CPUParticles2D = $TrailFlipped
+onready var wall_raycast : RayCast2D = $RayCast2D
 
 onready var smp = StateMachine.new(
 	self,
@@ -42,6 +47,7 @@ onready var smp = StateMachine.new(
 	[
 		'Floored',
 		'Airborne',
+		'Walled',
 		'Dash',
 		'Dead',
 	]
@@ -52,18 +58,49 @@ func set_health(new_health):
 	if health <= 0:
 		smp.travel_to('Dead')
 
+func get_wall_side():
+	for i in range(get_slide_count()):
+			var collision = get_slide_collision(i)
+			if collision.normal.x == 0:
+				continue
+			return DIRECTIONS.LEFT if collision.normal.x > 0 else DIRECTIONS.RIGHT
+	return null
+
+func process_walled_input():
+	var direction := Input.get_axis('ui_left', 'ui_right')
+	var jump_just_pressed := Input.is_action_just_pressed('jump')
+	can_wall_jump = true
+
+	if is_on_floor():
+		smp.travel_to('Floored')
+	elif jump_just_pressed:
+		wall_jump()
+		smp.travel_to('Airborne')
+	elif not wall_raycast.is_colliding() or (is_facing(DIRECTIONS.LEFT) and direction > 0) or (is_facing(DIRECTIONS.RIGHT) and direction < 0):
+		smp.travel_to('Airborne')
+
+func wall_jump():
+	var jump_direction = facing_direction if smp.state == "Walled" else opposite(facing_direction)
+
+	velocity = Vector2(2 * max_speed * (1 if jump_direction == DIRECTIONS.LEFT else -1), jump_speed)
+	wall_jumped = true
+	can_wall_jump = false
 
 func process_horizontal_move():
 	var direction := Input.get_axis('ui_left', 'ui_right')
 	var dash_just_pressed := Input.is_action_just_pressed('dash')
 
 	if not is_zero_approx(direction):
-		velocity.x = clamp(velocity.x + acceleration * direction, -max_speed * abs(direction), max_speed * abs(direction))
+		velocity.x = velocity.x + acceleration * direction
+		if not wall_jumped:
+			velocity.x = clamp(velocity.x, -max_speed * abs(direction), max_speed * abs(direction))
+		if abs(velocity.x) < max_speed:
+			wall_jumped = false
 		if direction > 0:
-			flip_right()
+			face_right()
 		else:
-			flip_left()
-	else:
+			face_left()
+	if wall_jumped or is_zero_approx(direction):
 		if velocity.x > 0:
 			velocity.x = max(velocity.x - decceleration, 0)
 		elif velocity.x < 0:
@@ -72,14 +109,31 @@ func process_horizontal_move():
 	if dash_just_pressed and (is_on_floor() or not dash_jumped):
 		smp.travel_to('Dash')
 
-func flip_left():
-	if not flipped:
-		flipped = true
+	if wall_raycast.is_colliding() and not is_on_floor():
+		var wall_side = get_wall_side()
+		if (direction > 0 and wall_side == DIRECTIONS.RIGHT) or (direction < 0 and wall_side == DIRECTIONS.LEFT):
+			smp.travel_to('Walled')
+
+func opposite(direction):
+	return DIRECTIONS.LEFT if direction == DIRECTIONS.RIGHT else DIRECTIONS.RIGHT
+
+func is_facing(direction):
+	return facing_direction == direction
+
+func flip():
+	if is_facing(DIRECTIONS.LEFT):
+		face_right()
+	else:
+		face_left()
+
+func face_left():
+	if is_facing(DIRECTIONS.RIGHT):
+		facing_direction = DIRECTIONS.LEFT
 		scale.x = -1
 
-func flip_right():
-	if flipped:
-		flipped = false
+func face_right():
+	if is_facing(DIRECTIONS.LEFT):
+		facing_direction = DIRECTIONS.RIGHT
 		scale.x = -1
 
 func process_jump_input(delta: float):
@@ -88,10 +142,15 @@ func process_jump_input(delta: float):
 
 	if is_on_floor():
 		can_floor_jump = true
-	elif smp.time_since("Floored") > acme_time:
+	elif smp.time_since("Floored") > acme_time_floor:
 		can_floor_jump = false
 
-	if jump_just_pressed and (can_floor_jump or can_double_jump):
+	if smp.time_since("Walled") > acme_time_wall:
+		can_wall_jump = false
+
+	if jump_just_pressed and can_wall_jump:
+		wall_jump()
+	elif jump_just_pressed and (can_floor_jump or can_double_jump):
 		velocity.y = jump_speed
 		dash_jumped = false
 		if can_floor_jump:
@@ -111,24 +170,30 @@ func process_jump_input(delta: float):
 
 func transited_state(_from, to):
 	match to:
-		"Floored":
+		"Floored", "Walled":
 			can_double_jump = true
 			dash_jumped = false
+			continue
+		"Floored":
+			can_wall_jump = false
 		"Dead":
 			health = 0
 			velocity = Vector2()
 		"Dash":
-			if flipped:
+			if is_facing(DIRECTIONS.LEFT):
 				flipped_dash_trail.emitting = true
-			else:
+			elif is_facing(DIRECTIONS.RIGHT):
 				dash_trail.emitting = true
-			dash_direction = -1 if flipped else 1
+			var dash_direction = -1 if is_facing(DIRECTIONS.LEFT) else 1
+			velocity = Vector2(dash_direction * dash_speed, 0)
 			if not is_on_floor():
 				dash_jumped = true
 
 
 func _process(delta):
 	match smp.state:
+		"Floored":
+			animated_sprite.play('Idle' if is_zero_approx(velocity.x) else 'Run')
 		"Airborne":
 			if not can_double_jump:
 				animated_sprite.play('DoubleJump')
@@ -140,14 +205,14 @@ func _process(delta):
 				smp.travel_to('Floored')
 		"Dash":
 			animated_sprite.play('Dash')
-			velocity.y = 0
-			velocity.x = dash_direction * dash_speed
 			dash_timer += delta
 			if dash_timer > dash_duration:
 				dash_timer = 0
 				flipped_dash_trail.emitting = false
 				dash_trail.emitting = false
 				smp.travel_to("Airborne")
+		"Walled":
+			animated_sprite.play('WallSlide')
 				
 	
 func _physics_process(delta: float):
@@ -158,11 +223,15 @@ func _physics_process(delta: float):
 			process_horizontal_move()
 			process_jump_input(delta)
 			continue
-		"Floored":
-			animated_sprite.play('Idle' if is_zero_approx(velocity.x) else 'Run')
+		"Floored", "Airborne", "Walled":
+			velocity.y += gravity * delta
+			if velocity.y > 0:
+				jump_cancel_time = 0
+			continue
+		"Walled":
+			process_walled_input()
 
 	if smp.state != 'Dead':
-		velocity.y += gravity * delta
 		velocity = move_and_slide(velocity, Vector2(0, -1))
 		process_invincibility(delta)
 
