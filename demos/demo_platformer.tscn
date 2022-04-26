@@ -1,7 +1,7 @@
 [gd_scene load_steps=18 format=2]
 
 [ext_resource path="res://assets/pixel_adventure_pack/Terrain/Terrain (16x16).png" type="Texture" id=1]
-[ext_resource path="res://entities/platformer_player.tscn" type="PackedScene" id=2]
+[ext_resource path="res://entities/platformer_player/no_dash_no_walled.tscn" type="PackedScene" id=2]
 [ext_resource path="res://assets/pixel_adventure_pack/Background/Purple.png" type="Texture" id=3]
 
 [sub_resource type="ConvexPolygonShape2D" id=2]
