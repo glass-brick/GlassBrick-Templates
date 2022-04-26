@@ -37,8 +37,7 @@ export (float) var acme_time_floor = 0.1
 export (float) var acme_time_wall = 0.1
 
 onready var animated_sprite : AnimatedSprite = $AnimatedSprite
-onready var dash_trail : CPUParticles2D = $Trail
-onready var flipped_dash_trail : CPUParticles2D = $TrailFlipped
+onready var dash_trail : Node2D = $Trail
 onready var wall_raycast : RayCast2D = $RayCast2D
 
 onready var smp = StateMachine.new(
@@ -180,10 +179,7 @@ func transited_state(_from, to):
 			health = 0
 			velocity = Vector2()
 		"Dash":
-			if is_facing(DIRECTIONS.LEFT):
-				flipped_dash_trail.emitting = true
-			elif is_facing(DIRECTIONS.RIGHT):
-				dash_trail.emitting = true
+			dash_trail.enable()
 			var dash_direction = -1 if is_facing(DIRECTIONS.LEFT) else 1
 			velocity = Vector2(dash_direction * dash_speed, 0)
 			if not is_on_floor():
@@ -204,13 +200,11 @@ func _process(delta):
 			if is_on_floor():
 				smp.travel_to('Floored')
 		"Dash":
-			animated_sprite.play('Dash')
 			dash_timer += delta
 			if dash_timer > dash_duration:
 				dash_timer = 0
-				flipped_dash_trail.emitting = false
-				dash_trail.emitting = false
 				smp.travel_to("Airborne")
+				dash_trail.disable()
 		"Walled":
 			animated_sprite.play('WallSlide')
 				
