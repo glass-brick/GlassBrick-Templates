@@ -15,9 +15,12 @@ func _unhandled_input(_event):
 			pause()
 		else:
 			unpause()
+	if Input.is_action_just_pressed('ui_cancel'):
+		unpause()
 
 
 func pause():
+	get_tree().set_input_as_handled()
 	paused = true
 	get_tree().paused = true
 	pause_menu.visible = true
@@ -27,6 +30,7 @@ func pause():
 
 
 func unpause():
+	get_tree().set_input_as_handled()
 	paused = false
 	get_tree().paused = false
 	pause_menu.visible = false
