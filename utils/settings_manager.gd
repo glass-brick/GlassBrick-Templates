@@ -11,6 +11,7 @@ var settings := initial_settings
 
 
 func _enter_tree():
+	pause_mode = PAUSE_MODE_PROCESS
 	load_settings_to_memory()
 	load_keybindings()
 	load_audio()
@@ -21,6 +22,12 @@ func serialize_input_event(event: InputEvent) -> Dictionary:
 		return {"type": "InputEventKey", "scancode": event.scancode}
 	elif event is InputEventJoypadButton:
 		return {"type": "InputEventJoypadButton", "button_index": event.button_index}
+	elif event is InputEventJoypadMotion:
+		return {
+			"type": "InputEventJoypadMotion", "axis": event.axis, "axis_value": event.axis_value
+		}
+	elif event is InputEventMouseButton:
+		return {"type": "InputEventMouseButton", "button_index": event.button_index}
 	return {"type": "Unknown"}
 
 
@@ -31,6 +38,13 @@ func deserialize_input_event(dict: Dictionary) -> InputEvent:
 		event.scancode = dict["scancode"]
 	elif dict["type"] == "InputEventJoypadButton":
 		event = InputEventJoypadButton.new()
+		event.button_index = dict["button_index"]
+	elif dict["type"] == "InputEventJoypadMotion":
+		event = InputEventJoypadMotion.new()
+		event.axis = dict["axis"]
+		event.axis_value = dict["axis_value"]
+	elif dict["type"] == "InputEventMouseButton":
+		event = InputEventMouseButton.new()
 		event.button_index = dict["button_index"]
 	return event
 
@@ -77,7 +91,3 @@ func load_settings_to_memory():
 		return
 	file.open(settings_path, File.READ)
 	settings = Utils.merge_dicts(initial_settings, parse_json(file.get_line()))
-
-
-func toggle_fullscreen():
-	OS.window_fullscreen = not OS.window_fullscreen

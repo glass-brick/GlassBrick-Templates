@@ -88,20 +88,32 @@ func on_erased_action_event(action, _event):
 		set_buttons()
 
 
+func is_valid_change_event_input(event: InputEvent):
+	if event is InputEventKey and event.is_pressed():
+		return true
+	elif event is InputEventMouseButton and event.is_pressed():
+		return true
+	elif event is InputEventJoypadButton and event.is_pressed():
+		return true
+	elif event is InputEventJoypadMotion and abs(event.axis_value) > 0.5:
+		event.axis_value = 1.0 if event.axis_value > 0 else -1.0
+		return true
+	elif event is InputEventMouseButton and event.is_pressed():
+		return true
+	return false
+
+
 func _input(event: InputEvent):
-	if (
-		selected_key_idx != null
-		and event.is_pressed()
-		and (event is InputEventJoypadButton or event is InputEventKey)
-	):
+	if selected_key_idx != null and is_valid_change_event_input(event):
 		get_tree().set_input_as_handled()
+		var event_to_change = main_event if selected_key_idx == 0 else secondary_event
+
 		if event is InputEventKey and event.scancode == KEY_ESCAPE:
+			InputMap.action_erase_event(action_name, event_to_change)
 			finish_key_change()
 			return
 
-		InputManager.map_event_to_action(
-			action_name, event, main_event if selected_key_idx == 0 else secondary_event
-		)
+		InputManager.map_event_to_action(action_name, event, event_to_change)
 		finish_key_change()
 
 

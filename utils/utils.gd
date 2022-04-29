@@ -14,3 +14,15 @@ static func merge_dicts(dict_one: Dictionary, dict_two: Dictionary):
 		else:
 			final_dict[key] = dict_two[key]
 	return final_dict
+
+static func find_focusable_child(node: Node):
+	if node is Control and node.focus_mode == 2:
+		return node
+	for child in node.get_children():
+		if node is Control and child.focus_mode == 2:
+			return child
+		else:
+			var result = find_focusable_child(child)
+			if result:
+				return result
+	return null

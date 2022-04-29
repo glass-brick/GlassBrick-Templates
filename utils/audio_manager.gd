@@ -28,6 +28,10 @@ var audio_data = {
 var slider_steps = 10
 
 
+func _ready():
+	pause_mode = PAUSE_MODE_PROCESS
+
+
 func get_volume(type):
 	return audio_data[type]["volume"]
 
