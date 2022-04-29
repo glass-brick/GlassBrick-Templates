@@ -1,0 +1,116 @@
+[gd_scene load_steps=6 format=2]
+
+[ext_resource path="res://assets/theme.tres" type="Theme" id=1]
+[ext_resource path="res://entities/menu_settings/audio_slider.tscn" type="PackedScene" id=2]
+[ext_resource path="res://entities/menu_settings/keybinding_option.tscn" type="PackedScene" id=3]
+[ext_resource path="res://entities/menu_settings/resolution_selector.tscn" type="PackedScene" id=4]
+[ext_resource path="res://entities/menu_settings/fullscreen_toggle.tscn" type="PackedScene" id=5]
+
+[node name="SettingsMenu" type="MarginContainer"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+theme = ExtResource( 1 )
+custom_constants/margin_right = 20
+custom_constants/margin_top = 20
+custom_constants/margin_left = 20
+custom_constants/margin_bottom = 20
+
+[node name="VBoxContainer2" type="VBoxContainer" parent="."]
+margin_left = 20.0
+margin_top = 20.0
+margin_right = 300.0
+margin_bottom = 160.0
+
+[node name="Title" type="Label" parent="VBoxContainer2"]
+margin_right = 280.0
+margin_bottom = 14.0
+text = "settings"
+align = 1
+uppercase = true
+
+[node name="ScrollContainer" type="ScrollContainer" parent="VBoxContainer2"]
+margin_top = 18.0
+margin_right = 280.0
+margin_bottom = 140.0
+size_flags_horizontal = 3
+size_flags_vertical = 3
+follow_focus = true
+
+[node name="MarginContainer" type="MarginContainer" parent="VBoxContainer2/ScrollContainer"]
+margin_right = 274.0
+margin_bottom = 216.0
+size_flags_horizontal = 3
+size_flags_vertical = 3
+custom_constants/margin_right = 20
+custom_constants/margin_left = 20
+
+[node name="VBoxContainer" type="VBoxContainer" parent="VBoxContainer2/ScrollContainer/MarginContainer"]
+margin_left = 20.0
+margin_right = 254.0
+margin_bottom = 216.0
+size_flags_horizontal = 3
+size_flags_vertical = 3
+
+[node name="Label5" type="Label" parent="VBoxContainer2/ScrollContainer/MarginContainer/VBoxContainer"]
+margin_right = 234.0
+margin_bottom = 14.0
+text = "video settings"
+align = 1
+uppercase = true
+
+[node name="ResolutionSelector" parent="VBoxContainer2/ScrollContainer/MarginContainer/VBoxContainer" instance=ExtResource( 4 )]
+margin_top = 18.0
+margin_right = 234.0
+margin_bottom = 40.0
+
+[node name="FullscreenToggle" parent="VBoxContainer2/ScrollContainer/MarginContainer/VBoxContainer" instance=ExtResource( 5 )]
+margin_top = 44.0
+margin_right = 234.0
+margin_bottom = 68.0
+
+[node name="Label6" type="Label" parent="VBoxContainer2/ScrollContainer/MarginContainer/VBoxContainer"]
+margin_top = 72.0
+margin_right = 234.0
+margin_bottom = 86.0
+text = "audio settings"
+align = 1
+uppercase = true
+
+[node name="AudioSlider" parent="VBoxContainer2/ScrollContainer/MarginContainer/VBoxContainer" instance=ExtResource( 2 )]
+anchor_right = 0.0
+anchor_bottom = 0.0
+margin_top = 90.0
+margin_right = 234.0
+margin_bottom = 106.0
+
+[node name="AudioSlider3" parent="VBoxContainer2/ScrollContainer/MarginContainer/VBoxContainer" instance=ExtResource( 2 )]
+anchor_right = 0.0
+anchor_bottom = 0.0
+margin_top = 110.0
+margin_right = 234.0
+margin_bottom = 126.0
+
+[node name="AudioSlider2" parent="VBoxContainer2/ScrollContainer/MarginContainer/VBoxContainer" instance=ExtResource( 2 )]
+anchor_right = 0.0
+anchor_bottom = 0.0
+margin_top = 130.0
+margin_right = 234.0
+margin_bottom = 146.0
+
+[node name="Label7" type="Label" parent="VBoxContainer2/ScrollContainer/MarginContainer/VBoxContainer"]
+margin_top = 150.0
+margin_right = 234.0
+margin_bottom = 164.0
+text = "controller settings"
+align = 1
+uppercase = true
+
+[node name="KeybindingOption" parent="VBoxContainer2/ScrollContainer/MarginContainer/VBoxContainer" instance=ExtResource( 3 )]
+margin_top = 168.0
+margin_right = 234.0
+margin_bottom = 190.0
+
+[node name="KeybindingOption2" parent="VBoxContainer2/ScrollContainer/MarginContainer/VBoxContainer" instance=ExtResource( 3 )]
+margin_top = 194.0
+margin_right = 234.0
+margin_bottom = 216.0

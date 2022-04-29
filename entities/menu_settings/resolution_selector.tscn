@@ -1,0 +1,25 @@
+[gd_scene load_steps=3 format=2]
+
+[ext_resource path="res://entities/menu_settings/resolution_selector.gd" type="Script" id=1]
+[ext_resource path="res://assets/theme.tres" type="Theme" id=2]
+
+[node name="HBoxContainer" type="HBoxContainer"]
+margin_right = 78.0
+margin_bottom = 22.0
+
+[node name="Label" type="Label" parent="."]
+margin_top = 4.0
+margin_right = 84.0
+margin_bottom = 18.0
+size_flags_horizontal = 3
+text = "screen size"
+uppercase = true
+
+[node name="ResolutionSelector" type="OptionButton" parent="."]
+margin_left = 88.0
+margin_right = 166.0
+margin_bottom = 22.0
+size_flags_horizontal = 3
+theme = ExtResource( 2 )
+text = "1280x720"
+script = ExtResource( 1 )

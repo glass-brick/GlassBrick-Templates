@@ -29,7 +29,7 @@ var jump_cancel_time = 0
 
 export (float, 50, 400) var wall_slide_max_speed = 100
 
-export (float) var dash_speed = 1000
+export (float) var dash_speed = 500
 export (float, 0, 0.5) var dash_duration = 0.2
 var dash_timer = 0
 var dash_jumped = false
@@ -179,21 +179,20 @@ func transited_state(_from, to):
 			velocity = Vector2()
 		STATES.DASH:
 			jump_cancel_time = 0
-			var direction_x := Input.get_axis('ui_left', 'ui_right')
-			var direction_y := Input.get_axis('ui_up', 'ui_down')
+			var direction := Input.get_vector('ui_left', 'ui_right', 'ui_up', 'ui_down')
 			dash_trail.enable()
-			if(is_zero_approx(direction_x) and is_zero_approx(direction_y)):
+			if(is_zero_approx(direction.x) and is_zero_approx(direction.y)):
 				velocity = Vector2((-1 if is_facing(DIRECTIONS.LEFT) else 1) * dash_speed, 0)
 			else:
-				if abs(direction_x) > 0.2:
-					direction_x = 1 if direction_x > 0 else -1
+				if abs(direction.x) > 0.2:
+					direction.x = 1 if direction.x > 0 else -1
 				else:
-					direction_x = 0
-				if abs(direction_y) > 0.2:
-					direction_y = 1 if direction_y > 0 else -1
+					direction.x = 0
+				if abs(direction.y) > 0.2:
+					direction.y = 1 if direction.y > 0 else -1
 				else:
-					direction_y = 0
-				velocity = Vector2(direction_x, direction_y).normalized() * dash_speed
+					direction.y = 0
+				velocity = Vector2(direction.x, direction.y).normalized() * dash_speed
 			if not is_on_floor():
 				dash_jumped = true
 

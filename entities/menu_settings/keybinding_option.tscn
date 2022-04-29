@@ -1,64 +1,68 @@
 [gd_scene load_steps=2 format=2]
 
-[ext_resource path="res://utils/keybinding_option.gd" type="Script" id=2]
+[ext_resource path="res://entities/menu_settings/keybinding_option.gd" type="Script" id=1]
 
 [node name="KeybindingOption" type="HBoxContainer"]
-anchor_right = 1.0
-anchor_bottom = 0.09
-margin_bottom = -2.0
-rect_min_size = Vector2( 408, 54 )
-script = ExtResource( 2 )
-action_name = "fire"
+margin_right = 161.0
+margin_bottom = 22.0
+script = ExtResource( 1 )
+action_name = "jump"
 
 [node name="Label" type="Label" parent="."]
-margin_top = 20.0
-margin_right = 340.0
-margin_bottom = 34.0
+margin_right = 48.0
+margin_bottom = 22.0
 size_flags_horizontal = 3
+size_flags_vertical = 5
 text = "Action: "
+valign = 1
 __meta__ = {
 "_edit_use_anchors_": false
 }
 
 [node name="HBoxContainer" type="HBoxContainer" parent="."]
-margin_left = 344.0
-margin_right = 1024.0
-margin_bottom = 54.0
+margin_left = 52.0
+margin_right = 190.0
+margin_bottom = 22.0
 size_flags_horizontal = 11
 size_flags_stretch_ratio = 2.0
-custom_constants/separation = 30
+custom_constants/separation = 10
 __meta__ = {
 "_edit_use_anchors_": false
 }
 
 [node name="MainKey" type="Button" parent="HBoxContainer"]
-margin_right = 325.0
-margin_bottom = 54.0
+margin_right = 64.0
+margin_bottom = 22.0
+rect_min_size = Vector2( 64, 0 )
 size_flags_horizontal = 3
-text = "K"
 __meta__ = {
 "_edit_use_anchors_": false
 }
 
 [node name="SecondaryKey" type="Button" parent="HBoxContainer"]
-margin_left = 355.0
-margin_right = 680.0
-margin_bottom = 54.0
+margin_left = 74.0
+margin_right = 138.0
+margin_bottom = 22.0
+rect_min_size = Vector2( 64, 0 )
 size_flags_horizontal = 3
-text = "[ Unset ]"
 __meta__ = {
 "_edit_use_anchors_": false
 }
 
 [node name="PressAKey" type="Label" parent="HBoxContainer"]
 visible = false
-margin_top = 1.0
-margin_right = 680.0
-margin_bottom = 53.0
+margin_left = 148.0
+margin_top = 4.0
+margin_right = 223.0
+margin_bottom = 18.0
 size_flags_horizontal = 3
 text = "Press a key"
 align = 1
 valign = 1
 
+[node name="Timer" type="Timer" parent="."]
+wait_time = 5.0
+
 [connection signal="pressed" from="HBoxContainer/MainKey" to="." method="_on_MainKey_pressed"]
 [connection signal="pressed" from="HBoxContainer/SecondaryKey" to="." method="_on_SecondaryKey_pressed"]
+[connection signal="timeout" from="Timer" to="." method="_on_Timer_timeout"]
