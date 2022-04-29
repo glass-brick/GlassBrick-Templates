@@ -1,11 +1,12 @@
 extends CanvasLayer
 
 var paused = false
-onready var pause_menu = $PauseMenu
+onready var pause_menu: Control = $PauseMenu
 
 
 func _ready():
 	pause_menu.visible = false
+	pause_menu.release_focus()
 
 
 func _unhandled_input(_event):
@@ -20,7 +21,7 @@ func pause():
 	paused = true
 	get_tree().paused = true
 	pause_menu.visible = true
-	var child = Utils.find_focusable_child(self)
+	var child = Utils.find_focusable_child(pause_menu)
 	if child:
 		child.grab_focus()
 

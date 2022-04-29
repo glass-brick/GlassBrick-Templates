@@ -203,6 +203,7 @@ tracks/3/keys = {
 
 [node name="GlassbrickIntro" type="CanvasLayer"]
 script = ExtResource( 2 )
+next_scene_path = "res://demos/demo_platformer.tscn"
 
 [node name="ColorRect" type="ColorRect" parent="."]
 anchor_right = 1.0
