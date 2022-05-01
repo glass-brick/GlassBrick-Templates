@@ -31,6 +31,7 @@ var invincibility = false
 export (float) var acme_time_floor = 0.1
 
 onready var animated_sprite : AnimatedSprite = $AnimatedSprite
+onready var player_particles: Node2D = $PlayerParticles
 
 enum STATES { FLOORED, AIRBORNE, DEAD }
 
@@ -99,6 +100,7 @@ func process_jump_input(delta: float):
 		elif can_double_jump:
 			can_double_jump = false
 		animated_sprite.play('Jump' if can_double_jump else 'DoubleJump')
+		player_particles.emit_jump_particles()
 		jump_cancel_time = air_time / 2.0
 
 	if jump_cancel_time > 0:

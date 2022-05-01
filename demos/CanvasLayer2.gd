@@ -10,13 +10,14 @@ func _ready():
 
 
 func _unhandled_input(_event):
+	if Input.is_action_just_pressed('ui_cancel'):
+		unpause()
+
 	if Input.is_action_just_pressed('ui_pause'):
 		if not paused:
 			pause()
 		else:
 			unpause()
-	if Input.is_action_just_pressed('ui_cancel'):
-		unpause()
 
 
 func pause():

@@ -28,8 +28,8 @@ func _physics_process(delta: float) -> void:
 
 func travel_to(new_state: int) -> void:
 	if state != new_state:
+		entity.call_deferred('transited_state', state, new_state)
 		state = new_state
-		entity.transited_state(state, new_state)
 
 
 func time_since(_state: int) -> float:

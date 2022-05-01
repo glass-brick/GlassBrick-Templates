@@ -42,8 +42,8 @@ export (float) var acme_time_floor = 0.1
 export (float) var acme_time_wall = 0.2
 
 onready var animated_sprite : AnimatedSprite = $AnimatedSprite
-onready var dash_trail : Node2D = $Trail
 onready var wall_detector : Node2D = $WallDetector
+onready var player_particles: Node2D = $PlayerParticles
 
 enum STATES { FLOORED, AIRBORNE, WALLED, DASH, DEAD }
 
@@ -63,6 +63,7 @@ func process_walled_input():
 	var jump_just_pressed := Input.is_action_just_pressed('jump')
 	var dash_just_pressed := Input.is_action_just_pressed('dash')
 	can_wall_jump = true
+	var is_moving_off_wall = (is_facing(DIRECTIONS.LEFT) and direction > 0) or (is_facing(DIRECTIONS.RIGHT) and direction < 0)
 
 	if is_on_floor():
 		sm.travel_to(STATES.FLOORED)
@@ -70,10 +71,9 @@ func process_walled_input():
 		wall_jump()
 		flip()
 		sm.travel_to(STATES.AIRBORNE)
-	elif not wall_detector.is_on_wall() or (is_facing(DIRECTIONS.LEFT) and direction > 0) or (is_facing(DIRECTIONS.RIGHT) and direction < 0):
+	elif not wall_detector.is_on_wall() or is_moving_off_wall:
 		sm.travel_to(STATES.AIRBORNE)
 	elif dash_just_pressed:
-		flip()
 		sm.travel_to(STATES.DASH)
 
 func wall_jump():
@@ -153,6 +153,7 @@ func process_jump_input(delta: float):
 		elif can_double_jump:
 			can_double_jump = false
 		animated_sprite.play('Jump' if can_double_jump else 'DoubleJump')
+		player_particles.emit_jump_particles()
 		jump_cancel_time = air_time / 2.0
 
 	if jump_cancel_time > 0:
@@ -162,14 +163,27 @@ func process_jump_input(delta: float):
 		else:
 			jump_cancel_time -= delta
 
+func process_dash(delta):
+	dash_timer += delta
+	if dash_timer > dash_duration:
+		dash_timer = 0
+		sm.travel_to(STATES.AIRBORNE)
+		velocity.y = 0
+		player_particles.stop_emitting_ghost_particles()
+	if is_zero_approx(velocity.y) and wall_detector.is_wall_in_front():
+		dash_timer = 0
+		sm.travel_to(STATES.WALLED)
+		player_particles.stop_emitting_ghost_particles()
 
-func transited_state(_from, to):
+
+func transited_state(from, to):
 	match to:
 		STATES.FLOORED, STATES.WALLED:
 			can_double_jump = true
 			dash_jumped = false
 			continue
 		STATES.WALLED:
+			player_particles.start_emitting_wall_slide_particles()
 			if wall_detector.is_wall_behind():
 				flip()
 		STATES.FLOORED:
@@ -180,8 +194,10 @@ func transited_state(_from, to):
 		STATES.DASH:
 			jump_cancel_time = 0
 			var direction := Input.get_vector('ui_left', 'ui_right', 'ui_up', 'ui_down')
-			dash_trail.enable()
+			player_particles.start_emitting_ghost_particles()
 			if(is_zero_approx(direction.x) and is_zero_approx(direction.y)):
+				if from == STATES.WALLED:
+					flip()
 				velocity = Vector2((-1 if is_facing(DIRECTIONS.LEFT) else 1) * dash_speed, 0)
 			else:
 				if abs(direction.x) > 0.2:
@@ -193,11 +209,20 @@ func transited_state(_from, to):
 				else:
 					direction.y = 0
 				velocity = Vector2(direction.x, direction.y).normalized() * dash_speed
+				if velocity.x > 0:
+					face_right()
+				elif velocity.x < 0:
+					face_left()
 			if not is_on_floor():
 				dash_jumped = true
 
+	match from:
+		STATES.WALLED:
+			player_particles.stop_emitting_wall_slide_particles()
 
-func _process(delta):
+
+
+func _process(_delta):	
 	match sm.state:
 		STATES.FLOORED:
 			animated_sprite.play('Idle' if is_zero_approx(velocity.x) else 'Run')
@@ -208,15 +233,6 @@ func _process(delta):
 				animated_sprite.play('Jump')
 			else:
 				animated_sprite.play('Fall')
-			if is_on_floor():
-				sm.travel_to(STATES.FLOORED)
-		STATES.DASH:
-			dash_timer += delta
-			if dash_timer > dash_duration:
-				dash_timer = 0
-				sm.travel_to(STATES.AIRBORNE)
-				velocity.y = 0
-				dash_trail.disable()
 		STATES.WALLED:
 			animated_sprite.play('WallSlide')
 				
@@ -234,6 +250,11 @@ func _physics_process(delta: float):
 			if velocity.y > 0:
 				jump_cancel_time = 0
 			continue
+		STATES.AIRBORNE:
+			if is_on_floor():
+				sm.travel_to(STATES.FLOORED)
+		STATES.DASH:
+			process_dash(delta)
 		STATES.WALLED:
 			velocity.y = clamp(velocity.y, -wall_slide_max_speed, wall_slide_max_speed)
 			process_walled_input()

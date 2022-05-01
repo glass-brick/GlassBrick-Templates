@@ -38,6 +38,7 @@ export (float) var acme_time_wall = 0.2
 
 onready var animated_sprite : AnimatedSprite = $AnimatedSprite
 onready var wall_detector : Node2D = $WallDetector
+onready var player_particles: Node2D = $PlayerParticles
 
 enum STATES { FLOORED, AIRBORNE, WALLED, DEAD }
 
@@ -138,6 +139,7 @@ func process_jump_input(delta: float):
 		elif can_double_jump:
 			can_double_jump = false
 		animated_sprite.play('Jump' if can_double_jump else 'DoubleJump')
+		player_particles.emit_jump_particles()
 		jump_cancel_time = air_time / 2.0
 
 	if jump_cancel_time > 0:

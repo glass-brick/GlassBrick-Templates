@@ -36,7 +36,7 @@ var invincibility = false
 export (float) var acme_time_floor = 0.1
 
 onready var animated_sprite : AnimatedSprite = $AnimatedSprite
-onready var dash_trail : Node2D = $Trail
+onready var player_particles: Node2D = $PlayerParticles
 
 enum STATES { FLOORED, AIRBORNE, DASH, DEAD }
 
@@ -110,6 +110,7 @@ func process_jump_input(delta: float):
 		elif can_double_jump:
 			can_double_jump = false
 		animated_sprite.play('Jump' if can_double_jump else 'DoubleJump')
+		player_particles.emit_jump_particles()
 		jump_cancel_time = air_time / 2.0
 
 	if jump_cancel_time > 0:
@@ -131,7 +132,7 @@ func transited_state(_from, to):
 		STATES.DASH:
 			jump_cancel_time = 0
 			var direction := Input.get_vector('ui_left', 'ui_right', 'ui_up', 'ui_down')
-			dash_trail.enable()
+			player_particles.start_emitting_ghost_particles()
 			if(is_zero_approx(direction.x) and is_zero_approx(direction.y)):
 				velocity = Vector2((-1 if is_facing(DIRECTIONS.LEFT) else 1) * dash_speed, 0)
 			else:
@@ -167,7 +168,7 @@ func _process(delta):
 				dash_timer = 0
 				sm.travel_to(STATES.AIRBORNE)
 				velocity.y = 0
-				dash_trail.disable()
+				player_particles.stop_emitting_ghost_particles()
 				
 	
 func _physics_process(delta: float):

@@ -1,4 +1,4 @@
-[gd_scene load_steps=49 format=2]
+[gd_scene load_steps=50 format=2]
 
 [ext_resource path="res://assets/pixel_adventure_pack/Main Characters/Virtual Guy/Wall Jump (32x32).png" type="Texture" id=1]
 [ext_resource path="res://assets/pixel_adventure_pack/Main Characters/Virtual Guy/Run (32x32).png" type="Texture" id=2]
@@ -7,6 +7,7 @@
 [ext_resource path="res://assets/pixel_adventure_pack/Main Characters/Virtual Guy/Fall (32x32).png" type="Texture" id=5]
 [ext_resource path="res://utils/wall_detector.tscn" type="PackedScene" id=6]
 [ext_resource path="res://entities/platformer_player/no_dash.gd" type="Script" id=7]
+[ext_resource path="res://utils/player_particles.tscn" type="PackedScene" id=8]
 [ext_resource path="res://shaders/aura_shader.gdshader" type="Shader" id=9]
 [ext_resource path="res://assets/pixel_adventure_pack/Main Characters/Virtual Guy/Idle (32x32).png" type="Texture" id=10]
 
@@ -17,10 +18,6 @@ shader_param/modulate = Color( 0, 0, 0, 0 )
 shader_param/modulate_active = Color( 1, 1, 1, 1 )
 shader_param/active = false
 shader_param/time_scale = 30.0
-
-[sub_resource type="AtlasTexture" id=33]
-atlas = ExtResource( 5 )
-region = Rect2( 0, 0, 32, 32 )
 
 [sub_resource type="AtlasTexture" id=34]
 atlas = ExtResource( 3 )
@@ -45,26 +42,6 @@ region = Rect2( 128, 0, 32, 32 )
 [sub_resource type="AtlasTexture" id=39]
 atlas = ExtResource( 3 )
 region = Rect2( 160, 0, 32, 32 )
-
-[sub_resource type="AtlasTexture" id=94]
-atlas = ExtResource( 1 )
-region = Rect2( 0, 0, 32, 32 )
-
-[sub_resource type="AtlasTexture" id=95]
-atlas = ExtResource( 1 )
-region = Rect2( 32, 0, 32, 32 )
-
-[sub_resource type="AtlasTexture" id=96]
-atlas = ExtResource( 1 )
-region = Rect2( 64, 0, 32, 32 )
-
-[sub_resource type="AtlasTexture" id=97]
-atlas = ExtResource( 1 )
-region = Rect2( 96, 0, 32, 32 )
-
-[sub_resource type="AtlasTexture" id=98]
-atlas = ExtResource( 1 )
-region = Rect2( 128, 0, 32, 32 )
 
 [sub_resource type="AtlasTexture" id=2]
 atlas = ExtResource( 10 )
@@ -110,9 +87,25 @@ region = Rect2( 288, 0, 32, 32 )
 atlas = ExtResource( 10 )
 region = Rect2( 320, 0, 32, 32 )
 
-[sub_resource type="AtlasTexture" id=32]
-atlas = ExtResource( 4 )
+[sub_resource type="AtlasTexture" id=94]
+atlas = ExtResource( 1 )
 region = Rect2( 0, 0, 32, 32 )
+
+[sub_resource type="AtlasTexture" id=95]
+atlas = ExtResource( 1 )
+region = Rect2( 32, 0, 32, 32 )
+
+[sub_resource type="AtlasTexture" id=96]
+atlas = ExtResource( 1 )
+region = Rect2( 64, 0, 32, 32 )
+
+[sub_resource type="AtlasTexture" id=97]
+atlas = ExtResource( 1 )
+region = Rect2( 96, 0, 32, 32 )
+
+[sub_resource type="AtlasTexture" id=98]
+atlas = ExtResource( 1 )
+region = Rect2( 128, 0, 32, 32 )
 
 [sub_resource type="AtlasTexture" id=15]
 atlas = ExtResource( 2 )
@@ -162,21 +155,19 @@ region = Rect2( 320, 0, 32, 32 )
 atlas = ExtResource( 2 )
 region = Rect2( 352, 0, 32, 32 )
 
+[sub_resource type="AtlasTexture" id=32]
+atlas = ExtResource( 4 )
+region = Rect2( 0, 0, 32, 32 )
+
+[sub_resource type="AtlasTexture" id=33]
+atlas = ExtResource( 5 )
+region = Rect2( 0, 0, 32, 32 )
+
 [sub_resource type="SpriteFrames" id=13]
 animations = [ {
-"frames": [ SubResource( 33 ) ],
-"loop": true,
-"name": "Fall",
-"speed": 20.0
-}, {
 "frames": [ SubResource( 34 ), SubResource( 35 ), SubResource( 36 ), SubResource( 37 ), SubResource( 38 ), SubResource( 39 ) ],
 "loop": true,
 "name": "DoubleJump",
-"speed": 20.0
-}, {
-"frames": [ SubResource( 94 ), SubResource( 95 ), SubResource( 96 ), SubResource( 97 ), SubResource( 98 ) ],
-"loop": true,
-"name": "WallSlide",
 "speed": 20.0
 }, {
 "frames": [ SubResource( 2 ), SubResource( 3 ), SubResource( 4 ), SubResource( 5 ), SubResource( 6 ), SubResource( 7 ), SubResource( 8 ), SubResource( 9 ), SubResource( 10 ), SubResource( 11 ), SubResource( 12 ) ],
@@ -184,14 +175,24 @@ animations = [ {
 "name": "Idle",
 "speed": 20.0
 }, {
-"frames": [ SubResource( 32 ) ],
+"frames": [ SubResource( 94 ), SubResource( 95 ), SubResource( 96 ), SubResource( 97 ), SubResource( 98 ) ],
 "loop": true,
-"name": "Jump",
+"name": "WallSlide",
 "speed": 20.0
 }, {
 "frames": [ SubResource( 15 ), SubResource( 16 ), SubResource( 17 ), SubResource( 18 ), SubResource( 19 ), SubResource( 20 ), SubResource( 21 ), SubResource( 22 ), SubResource( 23 ), SubResource( 24 ), SubResource( 25 ), SubResource( 26 ) ],
 "loop": true,
 "name": "Run",
+"speed": 20.0
+}, {
+"frames": [ SubResource( 32 ) ],
+"loop": true,
+"name": "Jump",
+"speed": 20.0
+}, {
+"frames": [ SubResource( 33 ) ],
+"loop": true,
+"name": "Fall",
 "speed": 20.0
 } ]
 
@@ -212,3 +213,6 @@ position = Vector2( 0, 4 )
 shape = SubResource( 1 )
 
 [node name="WallDetector" parent="." instance=ExtResource( 6 )]
+
+[node name="PlayerParticles" parent="." instance=ExtResource( 8 )]
+animated_sprite_path = NodePath("../AnimatedSprite")
