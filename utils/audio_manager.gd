@@ -2,7 +2,7 @@ extends Node
 
 const min_volume = -80.0
 # when doing `log(0.00001) * logarithm_magic_number`, the result should approach -80.0 as much as possible
-const logarithm_magic_number = 8.685
+const logarithm_magic_number = 20.0 / log(10.0)
 
 # All this should be in an autoload since bgm/se should be accessible always
 # Use setup_slider(slider, "bgm"/"se") to make a slider functional for volume change in settings
@@ -39,7 +39,7 @@ func get_volume(type):
 
 func volume_to_logarithmic(amount: float):
 	if is_zero_approx(amount):
-		return -80.0
+		return min_volume
 	return log(amount) * logarithm_magic_number
 
 
