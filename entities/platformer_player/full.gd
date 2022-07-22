@@ -77,6 +77,7 @@ func process_walled_input():
 		sm.travel_to(STATES.DASH)
 
 func wall_jump():
+	$Jump.play()
 	var jump_direction = facing_direction if sm.state == STATES.WALLED else opposite(facing_direction)
 
 	velocity = Vector2(wall_jump_speed * max_speed * (1 if jump_direction == DIRECTIONS.LEFT else -1), jump_speed)
@@ -148,6 +149,7 @@ func process_jump_input(delta: float):
 	elif jump_just_pressed and (can_floor_jump or can_double_jump):
 		velocity.y = jump_speed
 		dash_jumped = false
+		$Jump.play()
 		if can_floor_jump:
 			can_floor_jump = false
 		elif can_double_jump:
