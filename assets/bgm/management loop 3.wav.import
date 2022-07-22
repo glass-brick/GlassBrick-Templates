@@ -1,0 +1,21 @@
+[remap]
+
+importer="wav"
+type="AudioStreamSample"
+path="res://.import/management loop 3.wav-da6826bf232796bc7cdb21b2c755f442.sample"
+
+[deps]
+
+source_file="res://assets/bgm/management loop 3.wav"
+dest_files=[ "res://.import/management loop 3.wav-da6826bf232796bc7cdb21b2c755f442.sample" ]
+
+[params]
+
+force/8_bit=false
+force/mono=false
+force/max_rate=false
+force/max_rate_hz=44100
+edit/trim=false
+edit/normalize=false
+edit/loop=false
+compress/mode=0

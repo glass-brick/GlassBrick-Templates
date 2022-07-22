@@ -1,5 +1,9 @@
 extends Node
 
+const min_volume = -80.0
+# when doing `log(0.00001) * logarithm_magic_number`, the result should approach -80.0 as much as possible
+const logarithm_magic_number = 8.685
+
 # All this should be in an autoload since bgm/se should be accessible always
 # Use setup_slider(slider, "bgm"/"se") to make a slider functional for volume change in settings
 # Add the bus name to every bgm/se you use to make them react to the global volume
@@ -7,21 +11,18 @@ extends Node
 var audio_data = {
 	"master":
 	{
+		"bus_name": "Master",
 		"volume": 1.0,
 	},
 	"bgm":
 	{
 		"bus_name": "Music",
 		"volume": 1.0,
-		"max_volume": 0,
-		"min_volume": -20,
 	},
 	"se":
 	{
 		"bus_name": "SoundEffects",
 		"volume": 1.0,
-		"max_volume": 0,
-		"min_volume": -20,
 	}
 }
 
@@ -36,38 +37,25 @@ func get_volume(type):
 	return audio_data[type]["volume"]
 
 
-func set_master_volume(volume: float, save: bool = true):
-	audio_data["master"]["volume"] = volume
-	for audio_type in audio_data.keys():
-		if audio_type != "master":
-			set_volume(audio_data[audio_type]["volume"], audio_type, false)
-	if save:
-		SettingsManager.save_audio("master", volume)
+func volume_to_logarithmic(amount: float):
+	if is_zero_approx(amount):
+		return -80.0
+	return log(amount) * logarithm_magic_number
 
 
-func set_volume(local_value: float, audio_type: String, save: bool = true):
-	if audio_type == "master":
-		set_master_volume(local_value, save)
-		return
+func set_volume(local_value: float, audio_type: String, should_save: bool = true):
 	audio_data[audio_type]["volume"] = local_value
 
-	var real_volume = (
-		(
-			local_value
-			* audio_data["master"]["volume"]
-			* (audio_data[audio_type]["max_volume"] - audio_data[audio_type]["min_volume"])
-		)
-		+ audio_data[audio_type]["min_volume"]
-	)
+	var real_volume = volume_to_logarithmic(local_value)
 	var audio_index = AudioServer.get_bus_index(audio_data[audio_type]["bus_name"])
 
 	if audio_index != -1:
 		AudioServer.set_bus_volume_db(audio_index, real_volume)
-		if is_zero_approx(local_value * audio_data["master"]["volume"]):
+		if is_zero_approx(local_value):
 			AudioServer.set_bus_mute(audio_index, true)
 		else:
 			AudioServer.set_bus_mute(audio_index, false)
-	if save:
+	if should_save:
 		SettingsManager.save_audio(audio_type, local_value)
 
 
