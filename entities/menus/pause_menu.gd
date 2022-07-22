@@ -14,7 +14,7 @@ func _ready():
 
 
 func _unhandled_input(event: InputEvent):
-	if event.is_action_pressed('ui_pause'):
+	if event.is_action_pressed('ui_pause') or (event.is_action_pressed('ui_cancel') and paused):
 		get_tree().set_input_as_handled()
 		if not paused:
 			pause()
