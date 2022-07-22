@@ -28,31 +28,31 @@ const MOUSE_BUTTON_NAMES = {
 }
 
 const GAMEPAD_BUTTON_IMAGES = {
-	JOY_SONY_X: preload("res://assets/ps4_buttons/cross.tres"),
-	JOY_SONY_CIRCLE: preload("res://assets/ps4_buttons/circle.tres"),
-	JOY_SONY_SQUARE: preload("res://assets/ps4_buttons/square.tres"),
-	JOY_SONY_TRIANGLE: preload("res://assets/ps4_buttons/triangle.tres"),
-	JOY_DPAD_UP: preload("res://assets/ps4_buttons/d-pad-up.tres"),
-	JOY_DPAD_DOWN: preload("res://assets/ps4_buttons/d-pad-down.tres"),
-	JOY_DPAD_LEFT: preload("res://assets/ps4_buttons/d-pad-left.tres"),
-	JOY_DPAD_RIGHT: preload("res://assets/ps4_buttons/d-pad-right.tres"),
-	JOY_L: preload("res://assets/ps4_buttons/l1.tres"),
-	JOY_R: preload("res://assets/ps4_buttons/r1.tres"),
-	JOY_L2: preload("res://assets/ps4_buttons/l2.tres"),
-	JOY_R2: preload("res://assets/ps4_buttons/r2.tres"),
-	JOY_L3: preload("res://assets/ps4_buttons/l3.tres"),
-	JOY_R3: preload("res://assets/ps4_buttons/r3.tres"),
-	JOY_SELECT: preload("res://assets/ps4_buttons/select.tres"),
-	JOY_START: preload("res://assets/ps4_buttons/start.tres"),
+	JOY_XBOX_A: preload("res://assets/xbox_buttons/a.png"),
+	JOY_XBOX_B: preload("res://assets/xbox_buttons/b.png"),
+	JOY_XBOX_X: preload("res://assets/xbox_buttons/x.png"),
+	JOY_XBOX_Y: preload("res://assets/xbox_buttons/y.png"),
+	JOY_DPAD_UP: preload("res://assets/xbox_buttons/d-pad-up.png"),
+	JOY_DPAD_DOWN: preload("res://assets/xbox_buttons/d-pad-down.png"),
+	JOY_DPAD_LEFT: preload("res://assets/xbox_buttons/d-pad-left.png"),
+	JOY_DPAD_RIGHT: preload("res://assets/xbox_buttons/d-pad-right.png"),
+	JOY_L: preload("res://assets/xbox_buttons/lb.png"),
+	JOY_R: preload("res://assets/xbox_buttons/rb.png"),
+	JOY_L2: preload("res://assets/xbox_buttons/lt.png"),
+	JOY_R2: preload("res://assets/xbox_buttons/rt.png"),
+	JOY_L3: preload("res://assets/xbox_buttons/l3.png"),
+	JOY_R3: preload("res://assets/xbox_buttons/r3.png"),
+	JOY_SELECT: preload("res://assets/xbox_buttons/select.png"),
+	JOY_START: preload("res://assets/xbox_buttons/start.png"),
 }
 
 const GAMEPAD_AXIS_IMAGES = {
-	JOY_AXIS_0: preload("res://assets/ps4_buttons/l-stick-x-axis.tres"),
-	JOY_AXIS_1: preload("res://assets/ps4_buttons/l-stick-y-axis.tres"),
-	JOY_AXIS_2: preload("res://assets/ps4_buttons/r-stick-x-axis.tres"),
-	JOY_AXIS_3: preload("res://assets/ps4_buttons/r-stick-y-axis.tres"),
-	JOY_AXIS_6: preload("res://assets/ps4_buttons/l2.tres"),
-	JOY_AXIS_7: preload("res://assets/ps4_buttons/r2.tres"),
+	JOY_AXIS_0: preload("res://assets/xbox_buttons/l-stick-x-axis.png"),
+	JOY_AXIS_1: preload("res://assets/xbox_buttons/l-stick-y-axis.png"),
+	JOY_AXIS_2: preload("res://assets/xbox_buttons/r-stick-x-axis.png"),
+	JOY_AXIS_3: preload("res://assets/xbox_buttons/r-stick-y-axis.png"),
+	JOY_AXIS_6: preload("res://assets/xbox_buttons/lt.png"),
+	JOY_AXIS_7: preload("res://assets/xbox_buttons/rt.png"),
 }
 
 
