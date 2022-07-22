@@ -23,6 +23,11 @@ func _ready():
 	top_back_raycast.cast_to = Vector2(-(width + 1), 0)
 	bottom_back_raycast.cast_to = Vector2(-(width + 1), 0)
 
+	top_front_raycast.collision_mask = 2
+	bottom_front_raycast.collision_mask = 2
+	top_back_raycast.collision_mask = 2
+	bottom_back_raycast.collision_mask = 2
+
 	get_parent().call_deferred("add_child", top_front_raycast)
 	get_parent().call_deferred("add_child", bottom_front_raycast)
 	get_parent().call_deferred("add_child", top_back_raycast)
