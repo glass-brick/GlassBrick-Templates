@@ -2,8 +2,16 @@ extends OptionButton
 
 onready var screen_size = OS.get_screen_size()
 onready var base_resolution = Vector2(
-	ProjectSettings.get_setting('display/window/size/width'),
-	ProjectSettings.get_setting('display/window/size/height')
+	(
+		ProjectSettings.get_setting('display/window/integer_resolution_handler/base_width')
+		if ProjectSettings.has_setting('display/window/integer_resolution_handler/base_width')
+		else 320
+	),
+	(
+		ProjectSettings.get_setting('display/window/integer_resolution_handler/base_height')
+		if ProjectSettings.has_setting('display/window/integer_resolution_handler/base_height')
+		else 240
+	)
 )
 onready var resolution_options = []
 
@@ -15,7 +23,7 @@ func _ready():
 		option += base_resolution
 	for idx in resolution_options.size():
 		var resolution_option = resolution_options[idx]
-		add_item('%dx%d' % [resolution_option.x, resolution_option.y], idx)
+		add_item('x%d' % (idx + 1), idx)
 		if OS.window_size == resolution_option:
 			select(idx)
 	connect('item_selected', self, '_on_resolution_selected')

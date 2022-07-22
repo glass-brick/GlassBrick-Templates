@@ -52,6 +52,7 @@ SettingsManager="*res://utils/settings_manager.gd"
 AudioManager="*res://utils/audio_manager.gd"
 SceneManager="*res://addons/scene_manager/SceneManager.tscn"
 InputManager="*res://utils/input_manager.gd"
+IntegerResolutionHandler="*res://addons/integer_resolution_handler/integer_resolution_handler.gd"
 
 [debug]
 
@@ -59,17 +60,16 @@ gdscript/warnings/return_value_discarded=false
 
 [display]
 
-window/size/width=320
-window/size/height=180
+window/integer_resolution_handler/base_height=180
+window/size/width=1280
+window/size/height=720
 window/size/resizable=false
-window/size/test_width=1280
-window/size/test_height=720
 window/stretch/mode="viewport"
 window/stretch/aspect="keep"
 
 [editor_plugins]
 
-enabled=PoolStringArray( "res://addons/scene_manager/plugin.cfg" )
+enabled=PoolStringArray( "res://addons/integer_resolution_handler/plugin.cfg", "res://addons/scene_manager/plugin.cfg" )
 
 [gui]
 
