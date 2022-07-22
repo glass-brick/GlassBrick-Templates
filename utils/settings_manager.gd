@@ -90,4 +90,4 @@ func load_settings_to_memory():
 	if not file.file_exists(settings_path):
 		return
 	file.open(settings_path, File.READ)
-	settings = Utils.merge_dicts(initial_settings, parse_json(file.get_line()))
+	settings = Utils.merge_dicts(initial_settings, parse_json(file.get_as_text()))
