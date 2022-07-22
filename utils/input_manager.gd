@@ -72,14 +72,14 @@ func _input(event: InputEvent):
 	):
 		Input.set_mouse_mode(Input.MOUSE_MODE_VISIBLE)
 		control_mode = CONTROL_MODES.KEYBOARD
-		emit_signal("control_mode_changed", control_mode)
+		emit_signal("control_mode_changed")
 	elif (
 		(event is InputEventJoypadButton or event is InputEventJoypadMotion)
 		and control_mode != CONTROL_MODES.CONTROLLER
 	):
 		Input.set_mouse_mode(Input.MOUSE_MODE_HIDDEN)
 		control_mode = CONTROL_MODES.CONTROLLER
-		emit_signal("control_mode_changed", control_mode)
+		emit_signal("control_mode_changed")
 
 
 func get_input_event_node(input_event: InputEvent) -> Control:
