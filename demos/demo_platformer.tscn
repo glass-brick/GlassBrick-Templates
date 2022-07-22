@@ -197,6 +197,7 @@ color = Color( 0, 0, 0, 0.411765 )
 [node name="SettingsMenu" parent="CanvasLayer2/PauseMenu" instance=ExtResource( 4 )]
 
 [node name="AudioStreamPlayer" type="AudioStreamPlayer" parent="."]
+pause_mode = 2
 stream = ExtResource( 6 )
 autoplay = true
 bus = "Music"

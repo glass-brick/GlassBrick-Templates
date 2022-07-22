@@ -9,8 +9,9 @@ onready var label: Label = $Label
 
 
 func _ready():
-	slider = AudioManager.get_volume(audio_type)
+	slider.value = AudioManager.get_volume(audio_type)
 	slider.connect("value_changed", AudioManager, "set_volume", [audio_type, true])
+	label.text = label_text
 
 
 func set_steps(new_steps: int):
@@ -20,4 +21,5 @@ func set_steps(new_steps: int):
 
 func set_label_text(new_label_text: String):
 	label_text = new_label_text
-	label.text = label_text
+	if label:
+		label.text = label_text
