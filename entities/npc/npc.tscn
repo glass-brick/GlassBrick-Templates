@@ -59,7 +59,7 @@ animations = [ {
 "speed": 10.0
 } ]
 
-[node name="Interactable" type="KinematicBody2D"]
+[node name="NPC" type="KinematicBody2D"]
 collision_layer = 32
 collision_mask = 2
 script = ExtResource( 2 )
