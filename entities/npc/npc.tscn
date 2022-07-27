@@ -79,6 +79,7 @@ margin_right = 19.0
 margin_bottom = -23.0
 
 [node name="DialogueBubble" parent="." instance=ExtResource( 3 )]
+visible = false
 anchor_right = 0.0
 anchor_bottom = 0.0
 margin_left = -64.0
