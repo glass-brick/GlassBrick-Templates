@@ -9,7 +9,7 @@ var is_targeted = false
 func _ready():
 	prompt_container.visible = false
 	set_prompt()
-	InputManager.connect("control_mode_changed", self, "set_prompt")
+	InputManager.connect("controls_changed", self, "set_prompt")
 
 
 func _unhandled_input(event: InputEvent):
@@ -40,7 +40,20 @@ func set_prompt():
 
 func show_prompt():
 	prompt_container.visible = true
+	var tween := Tween.new()
+	add_child(tween)
+	tween.interpolate_property(prompt_container, "modulate", Color.transparent, Color.white, 0.2)
+	tween.start()
+	yield(tween, "tween_completed")
+	tween.queue_free()
 
 
 func hide_prompt():
-	prompt_container.visible = false
+	var tween := Tween.new()
+	add_child(tween)
+	tween.interpolate_property(prompt_container, "modulate", Color.white, Color.transparent, 0.2)
+	tween.start()
+	yield(tween, "tween_completed")
+	if not is_targeted:
+		prompt_container.visible = false
+	tween.queue_free()

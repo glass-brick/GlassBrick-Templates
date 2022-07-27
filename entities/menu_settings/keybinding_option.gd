@@ -79,7 +79,7 @@ func _process(_delta):
 		)
 
 
-func on_control_mode_changed(_control_mode):
+func on_control_mode_changed():
 	set_buttons()
 
 
@@ -110,10 +110,8 @@ func _input(event: InputEvent):
 
 		if event is InputEventKey and event.scancode == KEY_ESCAPE:
 			InputMap.action_erase_event(action_name, event_to_change)
-			finish_key_change()
-			return
-
-		InputManager.map_event_to_action(action_name, event, event_to_change)
+		else:
+			InputManager.map_event_to_action(action_name, event, event_to_change)
 		finish_key_change()
 
 

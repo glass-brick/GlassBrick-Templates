@@ -20,11 +20,11 @@ script = ExtResource( 6 )
 [node name="VBoxContainer2" type="VBoxContainer" parent="."]
 margin_left = 20.0
 margin_top = 20.0
-margin_right = 300.0
-margin_bottom = 160.0
+margin_right = 1260.0
+margin_bottom = 700.0
 
 [node name="Title" type="Label" parent="VBoxContainer2"]
-margin_right = 280.0
+margin_right = 1240.0
 margin_bottom = 14.0
 text = "settings"
 align = 1
@@ -32,15 +32,15 @@ uppercase = true
 
 [node name="ScrollContainer" type="ScrollContainer" parent="VBoxContainer2"]
 margin_top = 18.0
-margin_right = 280.0
-margin_bottom = 140.0
+margin_right = 1240.0
+margin_bottom = 680.0
 size_flags_horizontal = 3
 size_flags_vertical = 3
 follow_focus = true
 
 [node name="MarginContainer" type="MarginContainer" parent="VBoxContainer2/ScrollContainer"]
-margin_right = 274.0
-margin_bottom = 236.0
+margin_right = 1240.0
+margin_bottom = 662.0
 size_flags_horizontal = 3
 size_flags_vertical = 3
 custom_constants/margin_right = 20
@@ -48,13 +48,13 @@ custom_constants/margin_left = 20
 
 [node name="VBoxContainer" type="VBoxContainer" parent="VBoxContainer2/ScrollContainer/MarginContainer"]
 margin_left = 20.0
-margin_right = 254.0
-margin_bottom = 236.0
+margin_right = 1220.0
+margin_bottom = 662.0
 size_flags_horizontal = 3
 size_flags_vertical = 3
 
 [node name="Label5" type="Label" parent="VBoxContainer2/ScrollContainer/MarginContainer/VBoxContainer"]
-margin_right = 234.0
+margin_right = 1200.0
 margin_bottom = 14.0
 text = "video settings"
 align = 1
@@ -62,17 +62,17 @@ uppercase = true
 
 [node name="ResolutionSelector" parent="VBoxContainer2/ScrollContainer/MarginContainer/VBoxContainer" instance=ExtResource( 2 )]
 margin_top = 18.0
-margin_right = 234.0
+margin_right = 1200.0
 margin_bottom = 40.0
 
 [node name="FullscreenToggle" parent="VBoxContainer2/ScrollContainer/MarginContainer/VBoxContainer" instance=ExtResource( 3 )]
 margin_top = 44.0
-margin_right = 234.0
+margin_right = 1200.0
 margin_bottom = 68.0
 
 [node name="Label6" type="Label" parent="VBoxContainer2/ScrollContainer/MarginContainer/VBoxContainer"]
 margin_top = 72.0
-margin_right = 234.0
+margin_right = 1200.0
 margin_bottom = 86.0
 text = "audio settings"
 align = 1
@@ -82,7 +82,7 @@ uppercase = true
 anchor_right = 0.0
 anchor_bottom = 0.0
 margin_top = 90.0
-margin_right = 234.0
+margin_right = 1200.0
 margin_bottom = 104.0
 label_text = "master volume"
 
@@ -90,7 +90,7 @@ label_text = "master volume"
 anchor_right = 0.0
 anchor_bottom = 0.0
 margin_top = 108.0
-margin_right = 234.0
+margin_right = 1200.0
 margin_bottom = 122.0
 audio_type = "bgm"
 label_text = "bgm volume"
@@ -99,14 +99,14 @@ label_text = "bgm volume"
 anchor_right = 0.0
 anchor_bottom = 0.0
 margin_top = 126.0
-margin_right = 234.0
+margin_right = 1200.0
 margin_bottom = 140.0
 audio_type = "se"
 label_text = "sfx volume"
 
 [node name="Label7" type="Label" parent="VBoxContainer2/ScrollContainer/MarginContainer/VBoxContainer"]
 margin_top = 144.0
-margin_right = 234.0
+margin_right = 1200.0
 margin_bottom = 158.0
 text = "controller settings"
 align = 1
@@ -114,19 +114,25 @@ uppercase = true
 
 [node name="KeybindingOption" parent="VBoxContainer2/ScrollContainer/MarginContainer/VBoxContainer" instance=ExtResource( 4 )]
 margin_top = 162.0
-margin_right = 234.0
+margin_right = 1200.0
 margin_bottom = 184.0
 
 [node name="KeybindingOption2" parent="VBoxContainer2/ScrollContainer/MarginContainer/VBoxContainer" instance=ExtResource( 4 )]
 margin_top = 188.0
-margin_right = 234.0
+margin_right = 1200.0
 margin_bottom = 210.0
 action_name = "dash"
 
-[node name="GoBack" type="Button" parent="VBoxContainer2/ScrollContainer/MarginContainer/VBoxContainer"]
+[node name="KeybindingOption3" parent="VBoxContainer2/ScrollContainer/MarginContainer/VBoxContainer" instance=ExtResource( 4 )]
 margin_top = 214.0
-margin_right = 234.0
+margin_right = 1200.0
 margin_bottom = 236.0
+action_name = "interact"
+
+[node name="GoBack" type="Button" parent="VBoxContainer2/ScrollContainer/MarginContainer/VBoxContainer"]
+margin_top = 240.0
+margin_right = 1200.0
+margin_bottom = 262.0
 text = "GO BACK"
 
 [connection signal="pressed" from="VBoxContainer2/ScrollContainer/MarginContainer/VBoxContainer/GoBack" to="." method="_on_GoBack_pressed"]

@@ -18,25 +18,37 @@ onready var next_indicator: Control = $NextIndicator
 func _ready():
 	stop_dialogue()
 	set_next_indicator_node()
-	InputManager.connect("control_mode_changed", self, "set_next_indicator_node")
+	InputManager.connect("controls_changed", self, "set_next_indicator_node")
 
 
 func start_dialogue(_texts: Array):
 	texts = _texts
-	started = true
 	visible = true
+	var tween := Tween.new()
+	add_child(tween)
+	tween.interpolate_property(self, "modulate", Color.transparent, Color.white, 0.2)
+	tween.start()
+	yield(tween, "tween_completed")
+	tween.queue_free()
+	started = true
 	set_text()
 
 
 func stop_dialogue():
-	visible = false
+	next_indicator.visible = false
 	started = false
+	var tween := Tween.new()
+	add_child(tween)
+	tween.interpolate_property(self, "modulate", Color.white, Color.transparent, 0.2)
+	tween.start()
+	yield(tween, "tween_completed")
+	tween.queue_free()
+	visible = false
 	texts = []
 	text_index = 0
 	progress = 0.0
 	finished_current = false
 	dialogue_content.text = ""
-	next_indicator.visible = false
 
 
 func set_text():

@@ -1,4 +1,5 @@
 extends Node
+signal controls_changed
 signal control_mode_changed
 signal erased_action_event
 
@@ -6,7 +7,7 @@ signal erased_action_event
 # However, some actions cannot be remapped and are super important (like "ui_left", "ui_accept", etc.).
 # Please enter here which actions should be remappable
 
-var safe_remap_actions = ['jump', 'dash']
+var safe_remap_actions = ['jump', 'dash', 'interact']
 
 # This is just a flag to indicate if the player is in a state where he can't be controlled.
 
@@ -77,6 +78,7 @@ func _input(event: InputEvent):
 		Input.set_mouse_mode(Input.MOUSE_MODE_VISIBLE)
 		control_mode = CONTROL_MODES.KEYBOARD
 		emit_signal("control_mode_changed")
+		emit_signal("controls_changed")
 	elif (
 		(event is InputEventJoypadButton or event is InputEventJoypadMotion)
 		and control_mode != CONTROL_MODES.CONTROLLER
@@ -84,6 +86,7 @@ func _input(event: InputEvent):
 		Input.set_mouse_mode(Input.MOUSE_MODE_HIDDEN)
 		control_mode = CONTROL_MODES.CONTROLLER
 		emit_signal("control_mode_changed")
+		emit_signal("controls_changed")
 
 
 func get_input_event_display_resource(input_event: InputEvent):
@@ -131,6 +134,7 @@ func map_event_to_action(action_name: String, event: InputEvent, previous_event:
 	InputMap.action_add_event(action_name, event)
 	if previous_event:
 		InputMap.action_erase_event(action_name, previous_event)
+	emit_signal("controls_changed")
 	SettingsManager.save_keybindings(action_name)
 
 
