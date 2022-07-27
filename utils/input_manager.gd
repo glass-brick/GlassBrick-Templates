@@ -8,6 +8,10 @@ signal erased_action_event
 
 var safe_remap_actions = ['jump', 'dash']
 
+# This is just a flag to indicate if the player is in a state where he can't be controlled.
+
+var input_enabled = true
+
 # This sets the mode that's being used to control the game.
 # Might be used to tell which icons to show in the UI, or hide the mouse cursor.
 
@@ -82,29 +86,38 @@ func _input(event: InputEvent):
 		emit_signal("control_mode_changed")
 
 
-func get_input_event_node(input_event: InputEvent) -> Control:
-	var label_node := Label.new()
-	label_node.anchor_bottom = 1.0
-	label_node.anchor_right = 1.0
-	label_node.valign = Label.ALIGN_CENTER
-	label_node.align = Label.ALIGN_CENTER
-	var texture_rect := TextureRect.new()
-	texture_rect.anchor_bottom = 1.0
-	texture_rect.anchor_right = 1.0
-	texture_rect.stretch_mode = TextureRect.STRETCH_KEEP_CENTERED
+func get_input_event_display_resource(input_event: InputEvent):
 	if input_event == null:
-		label_node.text = '[ Unset ]'
+		return '[ Unset ]'
 	if input_event is InputEventKey:
-		label_node.text = OS.get_scancode_string(input_event.get_scancode_with_modifiers())
-	elif input_event is InputEventJoypadButton:
-		texture_rect.texture = GAMEPAD_BUTTON_IMAGES[input_event.button_index]
+		return OS.get_scancode_string(input_event.get_scancode_with_modifiers())
+	if input_event is InputEventJoypadButton:
+		return GAMEPAD_BUTTON_IMAGES[input_event.button_index]
+	if input_event is InputEventJoypadMotion:
+		return GAMEPAD_AXIS_IMAGES[input_event.axis]
+	if input_event is InputEventMouseButton:
+		return MOUSE_BUTTON_NAMES[input_event.button_index]
+	return '[ Unknown ]'
+
+
+func get_input_event_node(input_event: InputEvent) -> Control:
+	var display_resource = get_input_event_display_resource(input_event)
+	if display_resource is String:
+		var label_node := Label.new()
+		label_node.anchor_bottom = 1.0
+		label_node.anchor_right = 1.0
+		label_node.valign = Label.ALIGN_CENTER
+		label_node.align = Label.ALIGN_CENTER
+		label_node.text = display_resource
+		return label_node
+	if display_resource is Texture:
+		var texture_rect := TextureRect.new()
+		texture_rect.anchor_bottom = 1.0
+		texture_rect.anchor_right = 1.0
+		texture_rect.stretch_mode = TextureRect.STRETCH_KEEP_CENTERED
+		texture_rect.texture = display_resource
 		return texture_rect
-	elif input_event is InputEventJoypadMotion:
-		texture_rect.texture = GAMEPAD_AXIS_IMAGES[input_event.axis]
-		return texture_rect
-	elif input_event is InputEventMouseButton:
-		label_node.text = MOUSE_BUTTON_NAMES[input_event.button_index]
-	return label_node
+	return Control.new()
 
 
 func map_event_to_action(action_name: String, event: InputEvent, previous_event: InputEvent):
@@ -131,6 +144,11 @@ func get_action_input_node(action_name: String, idx: int) -> Control:
 	return get_input_event_node(input_event)
 
 
+func get_action_display_resource(action_name: String, idx: int):
+	var input_event = get_action_event(action_name, idx)
+	return get_input_event_display_resource(input_event)
+
+
 func get_action_list(action_name) -> Array:
 	var actions = InputMap.get_action_list(action_name)
 	var final_actions = []
@@ -147,3 +165,11 @@ func get_action_list(action_name) -> Array:
 		):
 			final_actions.append(event)
 	return final_actions
+
+
+func disable_input():
+	input_enabled = false
+
+
+func enable_input():
+	input_enabled = true

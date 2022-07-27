@@ -53,15 +53,19 @@ onready var sm = StateMachine.new(
 	STATES
 )
 
+onready var interactable_area : Area2D = $InteractableDetectionArea
+var interactables := []
+var interactable_target : Interactable
+
 func set_health(new_health):
 	health = max(new_health, 0)
 	if health <= 0:
 		sm.travel_to(STATES.DEAD)
 
 func process_walled_input():
-	var direction := Input.get_axis('ui_left', 'ui_right')
-	var jump_just_pressed := Input.is_action_just_pressed('jump')
-	var dash_just_pressed := Input.is_action_just_pressed('dash')
+	var direction := Input.get_axis('ui_left', 'ui_right') if InputManager.input_enabled else 0.0
+	var jump_just_pressed := Input.is_action_just_pressed('jump') if InputManager.input_enabled else false
+	var dash_just_pressed := Input.is_action_just_pressed('dash') if InputManager.input_enabled else false
 	can_wall_jump = true
 	var is_moving_off_wall = (is_facing(DIRECTIONS.LEFT) and direction > 0) or (is_facing(DIRECTIONS.RIGHT) and direction < 0)
 
@@ -85,8 +89,8 @@ func wall_jump():
 	can_wall_jump = false
 
 func process_horizontal_move():
-	var direction := Input.get_axis('ui_left', 'ui_right')
-	var dash_just_pressed := Input.is_action_just_pressed('dash')
+	var direction := Input.get_axis('ui_left', 'ui_right') if InputManager.input_enabled else 0.0
+	var dash_just_pressed := Input.is_action_just_pressed('dash') if InputManager.input_enabled else false
 
 	if abs(velocity.x) < max_speed:
 		wall_jumped = false
@@ -133,8 +137,8 @@ func face_right():
 		scale.x = -1
 
 func process_jump_input(delta: float):
-	var jump_pressed = Input.is_action_pressed('jump')
-	var jump_just_pressed = Input.is_action_just_pressed('jump')
+	var jump_pressed = Input.is_action_pressed('jump') if InputManager.input_enabled else false
+	var jump_just_pressed = Input.is_action_just_pressed('jump') if InputManager.input_enabled else false
 
 	if is_on_floor():
 		can_floor_jump = true
@@ -195,7 +199,7 @@ func transited_state(from, to):
 			velocity = Vector2()
 		STATES.DASH:
 			jump_cancel_time = 0
-			var direction := Input.get_vector('ui_left', 'ui_right', 'ui_up', 'ui_down')
+			var direction := Input.get_vector('ui_left', 'ui_right', 'ui_up', 'ui_down') if InputManager.input_enabled else Vector2.ZERO
 			player_particles.start_emitting_ghost_particles()
 			if(is_zero_approx(direction.x) and is_zero_approx(direction.y)):
 				if from == STATES.WALLED:
@@ -263,6 +267,7 @@ func _physics_process(delta: float):
 
 	if sm.state != STATES.DEAD:
 		velocity = move_and_slide(velocity, Vector2(0, -1))
+		check_interactables()
 		process_invincibility(delta)
 
 func process_invincibility(delta):
@@ -283,3 +288,30 @@ func _on_hit(damage, _damager):
 		set_health(health - damage)
 		invincibility = true
 
+
+func _on_InteractableDetectionArea_body_exited(body:Node):
+	if body is Interactable:
+		if body == interactable_target:
+			body.unset_target()
+			interactable_target = null
+		interactables.erase(body)
+
+
+func _on_InteractableDetectionArea_body_entered(body:Node):
+	if body is Interactable:
+		interactables.append(body)
+
+
+func check_interactables():
+	var closest_distance := INF
+	var closest_interactable : Interactable = null
+	for interactable in interactables:
+		var distance = (interactable.get_global_position() - get_global_position()).length()
+		if distance < closest_distance:
+			closest_distance = distance
+			closest_interactable = interactable
+	if closest_interactable != interactable_target:
+		if interactable_target:
+			interactable_target.unset_target()
+		interactable_target = closest_interactable
+		interactable_target.set_target()
