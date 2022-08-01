@@ -21,18 +21,22 @@ func interact():
 
 
 func open_door():
+	interactable.disable()
 	tween.interpolate_property(
 		self, "position", self.position, self.position + Vector2.UP * height, time
 	)
 	tween.start()
 	yield(tween, "tween_completed")
 	open = true
+	interactable.enable()
 
 
 func close_door():
+	interactable.disable()
 	tween.interpolate_property(
 		self, "position", self.position, self.position + Vector2.DOWN * height, time
 	)
 	tween.start()
 	yield(tween, "tween_completed")
 	open = false
+	interactable.enable()

@@ -8,6 +8,7 @@ onready var prompt_container = get_node(prompt_container_path)
 export (Shape2D) var collision_shape = RectangleShape2D.new() setget set_collision_shape
 var collision_shape_node := CollisionShape2D.new()
 var is_targeted = false
+var enabled = true
 
 
 func _ready():
@@ -26,7 +27,16 @@ func _unhandled_input(event: InputEvent):
 
 
 func interact():
-	emit_signal("interacted")
+	if enabled:
+		emit_signal("interacted")
+
+
+func enable():
+	enabled = true
+
+
+func disable():
+	enabled = false
 
 
 func set_target():

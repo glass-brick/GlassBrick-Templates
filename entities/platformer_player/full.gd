@@ -299,18 +299,17 @@ func _on_InteractableDetectionArea_area_entered(area:Area2D):
 	if area is Interactable:
 		interactables.append(area)
 
-
-
 func check_interactables():
 	var closest_distance := INF
 	var closest_interactable : Interactable = null
 	for interactable in interactables:
 		var distance = (interactable.get_global_position() - get_global_position()).length()
-		if distance < closest_distance:
+		if interactable.enabled and distance < closest_distance:
 			closest_distance = distance
 			closest_interactable = interactable
 	if closest_interactable != interactable_target:
 		if interactable_target:
 			interactable_target.unset_target()
 		interactable_target = closest_interactable
-		interactable_target.set_target()
+		if interactable_target:
+			interactable_target.set_target()
