@@ -3,10 +3,8 @@ extends Node
 var settings_path := "user://settings.json"
 var keybindings_key := "keybindings"
 var audio_key := "audio"
-var initial_settings := {
-	keybindings_key: {},
-	audio_key: {},
-}
+var video_key := "video"
+var initial_settings := {keybindings_key: {}, audio_key: {}, video_key: {}}
 var settings := initial_settings
 
 
@@ -15,6 +13,7 @@ func _enter_tree():
 	load_settings_to_memory()
 	load_keybindings()
 	load_audio()
+	load_video_settings()
 
 
 func serialize_input_event(event: InputEvent) -> Dictionary:
@@ -73,6 +72,32 @@ func load_audio():
 
 func save_audio(bus_name: String, volume: float):
 	save_settings({audio_key: {bus_name: volume}})
+
+
+func load_video_settings():
+	OS.window_fullscreen = (
+		settings[video_key]["fullscreen"]
+		if settings[video_key].has("fullscreen")
+		else false
+	)
+	if (
+		not OS.window_fullscreen
+		and settings[video_key].has("resolution_x")
+		and settings[video_key].has("resolution_y")
+	):
+		var resolution = Vector2(
+			settings[video_key]["resolution_x"], settings[video_key]["resolution_y"]
+		)
+		OS.window_size = resolution
+		OS.window_position = (OS.get_screen_size() - resolution) / 2
+
+
+func save_fullscreen(is_fullscreen: bool):
+	save_settings({video_key: {"fullscreen": is_fullscreen}})
+
+
+func save_resolution(resolution: Vector2):
+	save_settings({video_key: {"resolution_x": resolution.x, "resolution_y": resolution.y}})
 
 
 func save_settings(data_to_save: Dictionary):

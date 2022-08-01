@@ -7,3 +7,4 @@ func _ready():
 
 func _on_fullscreen_toggle(pressed):
 	OS.window_fullscreen = pressed
+	SettingsManager.save_fullscreen(pressed)

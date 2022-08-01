@@ -40,3 +40,4 @@ func _on_resolution_selected(idx):
 	var selected_resolution = resolution_options[idx]
 	OS.window_size = selected_resolution
 	OS.window_position = (screen_size - selected_resolution) / 2
+	SettingsManager.save_resolution(selected_resolution)
