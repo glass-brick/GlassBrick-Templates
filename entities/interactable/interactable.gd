@@ -46,6 +46,8 @@ func set_collision_shape(new_shape):
 
 func set_prompt_container_path(new_path):
 	prompt_container_path = new_path
+	if Engine.editor_hint:
+		return
 	prompt_container = get_node(prompt_container_path)
 
 

@@ -196,9 +196,4 @@ stream = ExtResource( 6 )
 autoplay = true
 bus = "Music"
 
-[node name="DialogueLayer" type="CanvasLayer" parent="." groups=["scene_manager_entity_nodes"]]
-__meta__ = {
-"entity_name": "DialogueLayer"
-}
-
 [node name="PauseMenu" parent="." instance=ExtResource( 4 )]
