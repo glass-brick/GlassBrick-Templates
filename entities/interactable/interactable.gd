@@ -1,25 +1,32 @@
-extends KinematicBody2D
+tool
+extends Area2D
 class_name Interactable
+signal interacted
 
-export (NodePath) var prompt_container_path
+export (NodePath) var prompt_container_path setget set_prompt_container_path
 onready var prompt_container = get_node(prompt_container_path)
+export (Shape2D) var collision_shape = RectangleShape2D.new() setget set_collision_shape
+var collision_shape_node := CollisionShape2D.new()
 var is_targeted = false
 
 
 func _ready():
+	add_child(collision_shape_node)
+	if Engine.editor_hint:
+		return
 	prompt_container.visible = false
 	set_prompt()
 	InputManager.connect("controls_changed", self, "set_prompt")
 
 
 func _unhandled_input(event: InputEvent):
-	if event.is_action_pressed("interact") and is_targeted:
+	if (not Engine.editor_hint) and event.is_action_pressed("interact") and is_targeted:
 		get_tree().set_input_as_handled()
 		interact()
 
 
 func interact():
-	pass
+	emit_signal("interacted")
 
 
 func set_target():
@@ -30,6 +37,16 @@ func set_target():
 func unset_target():
 	hide_prompt()
 	is_targeted = false
+
+
+func set_collision_shape(new_shape):
+	collision_shape = new_shape
+	collision_shape_node.shape = collision_shape
+
+
+func set_prompt_container_path(new_path):
+	prompt_container_path = new_path
+	prompt_container = get_node(prompt_container_path)
 
 
 func set_prompt():

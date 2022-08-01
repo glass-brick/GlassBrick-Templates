@@ -1,14 +1,15 @@
-extends Interactable
+extends KinematicBody2D
 
 onready var dialogue_bubble: DialogueBubble = $DialogueBubble
 onready var animated_sprite: AnimatedSprite = $AnimatedSprite
+onready var interactable: Interactable = $Interactable
 var dialogue_open := false
 
 
 func _ready():
-	._ready()
 	dialogue_bubble.connect("dialogue_finished", self, "close_dialogue")
 	animated_sprite.play()
+	interactable.connect("interacted", self, "interact")
 
 
 func interact():
@@ -17,7 +18,7 @@ func interact():
 
 func open_dialogue():
 	InputManager.disable_input()
-	hide_prompt()
+	interactable.hide_prompt()
 	dialogue_open = true
 	dialogue_bubble.start_dialogue(
 		[
@@ -31,6 +32,6 @@ func open_dialogue():
 
 func close_dialogue():
 	InputManager.enable_input()
-	show_prompt()
+	interactable.show_prompt()
 	dialogue_open = false
 	dialogue_bubble.stop_dialogue()

@@ -288,18 +288,17 @@ func _on_hit(damage, _damager):
 		set_health(health - damage)
 		invincibility = true
 
-
-func _on_InteractableDetectionArea_body_exited(body:Node):
-	if body is Interactable:
-		if body == interactable_target:
-			body.unset_target()
+func _on_InteractableDetectionArea_area_exited(area:Area2D):
+	if area is Interactable:
+		if area == interactable_target:
+			area.unset_target()
 			interactable_target = null
-		interactables.erase(body)
+		interactables.erase(area)
 
+func _on_InteractableDetectionArea_area_entered(area:Area2D):
+	if area is Interactable:
+		interactables.append(area)
 
-func _on_InteractableDetectionArea_body_entered(body:Node):
-	if body is Interactable:
-		interactables.append(body)
 
 
 func check_interactables():

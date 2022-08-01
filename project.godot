@@ -12,12 +12,12 @@ _global_script_classes=[ {
 "base": "Panel",
 "class": "DialogueBubble",
 "language": "GDScript",
-"path": "res://entities/npc/dialogue_bubble.gd"
+"path": "res://entities/interactable/dialogue_bubble.gd"
 }, {
-"base": "KinematicBody2D",
+"base": "Area2D",
 "class": "Interactable",
 "language": "GDScript",
-"path": "res://entities/npc/interactable.gd"
+"path": "res://entities/interactable/interactable.gd"
 }, {
 "base": "Control",
 "class": "MenuManager",
