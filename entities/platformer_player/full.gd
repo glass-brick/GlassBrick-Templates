@@ -57,6 +57,10 @@ onready var interactable_area : Area2D = $InteractableDetectionArea
 var interactables := []
 var interactable_target : Interactable
 
+func _ready():
+	# fix camera jitter https://godotengine.org/qa/24510/camera2d-smoothing-jitter-in-godot-3-0
+	Engine.set_target_fps(Engine.get_iterations_per_second())
+
 func set_health(new_health):
 	health = max(new_health, 0)
 	if health <= 0:

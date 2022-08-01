@@ -165,14 +165,6 @@ stretch_mode = 2
 [node name="Player" parent="." instance=ExtResource( 2 )]
 position = Vector2( 35, 480 )
 
-[node name="Camera2D" type="Camera2D" parent="Player"]
-current = true
-limit_left = 0
-limit_top = 0
-limit_right = 740
-limit_bottom = 512
-smoothing_speed = 1.0
-
 [node name="TileMap" type="TileMap" parent="."]
 tile_set = SubResource( 1 )
 cell_size = Vector2( 16, 16 )
@@ -197,3 +189,5 @@ autoplay = true
 bus = "Music"
 
 [node name="PauseMenu" parent="." instance=ExtResource( 4 )]
+
+[node name="Light2D" type="Light2D" parent="."]

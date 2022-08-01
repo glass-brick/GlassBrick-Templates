@@ -22,8 +22,6 @@ var audio_data = {
 	}
 }
 
-var slider_steps = 10
-
 
 func _ready():
 	pause_mode = PAUSE_MODE_PROCESS
@@ -47,12 +45,3 @@ func set_volume(local_value: float, audio_type: String, should_save: bool = true
 			AudioServer.set_bus_mute(audio_index, false)
 	if should_save:
 		SettingsManager.save_audio(audio_type, local_value)
-
-
-func setup_volume_slider(slider: Slider, audio_type: String):
-	slider.min_value = 0.0
-	slider.max_value = 1.0
-	slider.rounded = false
-	slider.step = 1.0 / float(slider_steps)
-	slider.value = audio_data[audio_type]["volume"]
-	slider.connect("value_changed", self, "set_volume", [audio_type, true])
