@@ -26,3 +26,11 @@ static func find_focusable_child(node: Node):
 			if result:
 				return result
 	return null
+
+static func set_volume(bus_name: String, volume: float) -> void:
+	var bus_index = AudioServer.get_bus_index(bus_name)
+	AudioServer.set_bus_volume_db(bus_index, linear2db(volume))
+
+static func get_volume(bus_name) -> float:
+	var bus_index = AudioServer.get_bus_index(bus_name)
+	return db2linear(AudioServer.get_bus_volume_db(bus_index))

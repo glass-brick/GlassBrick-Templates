@@ -61,7 +61,6 @@ config/icon="res://assets/glassbrick logo.png"
 [autoload]
 
 SettingsManager="*res://utils/settings_manager.gd"
-AudioManager="*res://utils/audio_manager.gd"
 SceneManager="*res://addons/scene_manager/SceneManager.tscn"
 InputManager="*res://utils/input_manager.gd"
 IntegerResolutionHandler="*res://addons/integer_resolution_handler/integer_resolution_handler.gd"

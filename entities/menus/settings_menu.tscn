@@ -84,6 +84,7 @@ anchor_bottom = 0.0
 margin_top = 90.0
 margin_right = 1200.0
 margin_bottom = 104.0
+bus_name = "Master"
 label_text = "master volume"
 
 [node name="AudioSlider3" parent="VBoxContainer2/ScrollContainer/MarginContainer/VBoxContainer" instance=ExtResource( 5 )]
@@ -92,7 +93,7 @@ anchor_bottom = 0.0
 margin_top = 108.0
 margin_right = 1200.0
 margin_bottom = 122.0
-audio_type = "bgm"
+bus_name = "Music"
 label_text = "bgm volume"
 
 [node name="AudioSlider2" parent="VBoxContainer2/ScrollContainer/MarginContainer/VBoxContainer" instance=ExtResource( 5 )]
@@ -101,7 +102,7 @@ anchor_bottom = 0.0
 margin_top = 126.0
 margin_right = 1200.0
 margin_bottom = 140.0
-audio_type = "se"
+bus_name = "SoundEffects"
 label_text = "sfx volume"
 
 [node name="Label7" type="Label" parent="VBoxContainer2/ScrollContainer/MarginContainer/VBoxContainer"]

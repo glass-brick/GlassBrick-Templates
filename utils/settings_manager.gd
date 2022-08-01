@@ -67,12 +67,12 @@ func load_keybindings():
 
 func load_audio():
 	var audio_settings: Dictionary = settings[audio_key]
-	for audio_type in audio_settings:
-		AudioManager.set_volume(audio_settings[audio_type], audio_type, false)
+	for bus_name in audio_settings.keys():
+		Utils.set_volume(bus_name, audio_settings[bus_name])
 
 
-func save_audio(audio_type: String, volume: float):
-	save_settings({audio_key: {audio_type: volume}})
+func save_audio(bus_name: String, volume: float):
+	save_settings({audio_key: {bus_name: volume}})
 
 
 func save_settings(data_to_save: Dictionary):
