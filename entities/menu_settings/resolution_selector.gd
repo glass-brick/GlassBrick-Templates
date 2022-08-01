@@ -17,6 +17,7 @@ onready var resolution_options = []
 
 
 func _ready():
+	SettingsManager.connect('settings_changed', self, '_on_settings_changed')
 	var option = base_resolution
 	while option.x <= screen_size.x and option.y <= screen_size.y:
 		resolution_options.append(option)
@@ -41,3 +42,9 @@ func _on_resolution_selected(idx):
 	OS.window_size = selected_resolution
 	OS.window_position = (screen_size - selected_resolution) / 2
 	SettingsManager.save_resolution(selected_resolution)
+
+
+func _on_settings_changed():
+	for idx in resolution_options.size():
+		if OS.window_size == resolution_options[idx]:
+			selected = idx

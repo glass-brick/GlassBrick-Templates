@@ -11,3 +11,7 @@ func _ready():
 
 func _on_GoBack_pressed():
 	emit_signal("exited_menu")
+
+
+func _on_ResetDefaults_pressed():
+	SettingsManager.reset_defaults()

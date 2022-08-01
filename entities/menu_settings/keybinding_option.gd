@@ -14,7 +14,8 @@ var selected_key_idx = null
 
 
 func _ready():
-	InputManager.connect("control_mode_changed", self, "on_control_mode_changed")
+	SettingsManager.connect('settings_changed', self, 'set_buttons')
+	InputManager.connect("control_mode_changed", self, "set_buttons")
 	InputManager.connect("erased_action_event", self, "on_erased_action_event")
 	action_label.text = action_name.capitalize()
 	set_buttons()
@@ -77,10 +78,6 @@ func _process(_delta):
 				timer.time_left + 1
 			]
 		)
-
-
-func on_control_mode_changed():
-	set_buttons()
 
 
 func on_erased_action_event(action, _event):

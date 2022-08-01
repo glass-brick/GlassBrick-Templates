@@ -189,5 +189,3 @@ autoplay = true
 bus = "Music"
 
 [node name="PauseMenu" parent="." instance=ExtResource( 4 )]
-
-[node name="Light2D" type="Light2D" parent="."]

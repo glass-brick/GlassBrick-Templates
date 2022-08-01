@@ -1,4 +1,5 @@
 extends Node
+signal settings_changed
 
 var settings_path := "user://settings.json"
 var keybindings_key := "keybindings"
@@ -104,8 +105,12 @@ func save_settings(data_to_save: Dictionary):
 	var new_settings = Utils.merge_dicts(settings, data_to_save)
 	if to_json(settings) == to_json(new_settings):
 		return
-	var file = File.new()
 	settings = new_settings
+	overwrite_settings()
+
+
+func overwrite_settings():
+	var file = File.new()
 	file.open(settings_path, File.WRITE)
 	file.store_line(to_json(settings))
 
@@ -116,3 +121,14 @@ func load_settings_to_memory():
 		return
 	file.open(settings_path, File.READ)
 	settings = Utils.merge_dicts(initial_settings, parse_json(file.get_as_text()))
+
+
+func reset_defaults():
+	settings = initial_settings
+	InputMap.load_from_globals()
+	load_video_settings()
+	for bus_index in range(0, AudioServer.bus_count):
+		var bus_name = AudioServer.get_bus_name(bus_index)
+		Utils.set_volume(bus_name, 1.0)
+	overwrite_settings()
+	emit_signal("settings_changed")

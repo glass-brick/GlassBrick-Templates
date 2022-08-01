@@ -12,8 +12,19 @@ func _ready():
 	label.text = label_text
 	if Engine.editor_hint:
 		return
-	slider.value = Utils.get_volume(bus_name)
+	set_slider()
 	slider.connect("value_changed", self, "set_volume")
+	SettingsManager.connect('settings_changed', self, 'set_slider')
+
+
+func _input(event: InputEvent) -> void:
+	if (
+		event is InputEventMouseButton
+		and (event.button_index == BUTTON_WHEEL_DOWN || event.button_index == BUTTON_WHEEL_UP)
+	):
+		slider.set_mouse_filter(Control.MOUSE_FILTER_IGNORE)
+	else:
+		slider.set_mouse_filter(Control.MOUSE_FILTER_PASS)
 
 
 func set_steps(new_steps: int):
@@ -30,3 +41,7 @@ func set_label_text(new_label_text: String):
 func set_volume(volume: float):
 	Utils.set_volume(bus_name, volume)
 	SettingsManager.save_audio(bus_name, volume)
+
+
+func set_slider():
+	slider.value = Utils.get_volume(bus_name)
