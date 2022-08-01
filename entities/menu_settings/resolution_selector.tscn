@@ -17,9 +17,9 @@ uppercase = true
 
 [node name="ResolutionSelector" type="OptionButton" parent="."]
 margin_left = 88.0
-margin_right = 166.0
+margin_right = 124.0
 margin_bottom = 22.0
 size_flags_horizontal = 3
 theme = ExtResource( 2 )
-text = "1280x720"
+text = "x4"
 script = ExtResource( 1 )
