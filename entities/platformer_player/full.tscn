@@ -234,21 +234,5 @@ collision_mask = 32
 [node name="CollisionShape2D" type="CollisionShape2D" parent="InteractableDetectionArea"]
 shape = SubResource( 99 )
 
-[node name="CameraOffset" type="Position2D" parent="."]
-position = Vector2( 23, 0 )
-__meta__ = {
-"_edit_group_": true
-}
-
-[node name="Camera2D" type="Camera2D" parent="CameraOffset"]
-current = true
-limit_left = 0
-limit_top = 0
-limit_right = 740
-limit_bottom = 512
-drag_margin_h_enabled = true
-smoothing_enabled = true
-smoothing_speed = 10.0
-
 [connection signal="area_entered" from="InteractableDetectionArea" to="." method="_on_InteractableDetectionArea_area_entered"]
 [connection signal="area_exited" from="InteractableDetectionArea" to="." method="_on_InteractableDetectionArea_area_exited"]
