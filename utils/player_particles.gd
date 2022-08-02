@@ -35,7 +35,7 @@ func draw_ghost():
 	tween.connect('tween_completed', self, 'on_ghost_faded', [tween])
 	add_child(tween)
 	tween.start()
-	get_tree().current_scene.add_child(ghost)
+	SceneManager.get_entity("Level").add_child(ghost)
 
 
 func on_ghost_faded(ghost, _key, tween):

@@ -152,8 +152,11 @@ points = PoolVector2Array( 16, 16, 0, 16, 0, 0, 16, 0 )
 } ]
 0/z_index = 0
 
-[node name="Level" type="Node2D"]
+[node name="Level" type="Node2D" groups=["scene_manager_entity_nodes"]]
 script = ExtResource( 4 )
+__meta__ = {
+"entity_name": "Level"
+}
 background_texture = ExtResource( 3 )
 music = ExtResource( 6 )
 
