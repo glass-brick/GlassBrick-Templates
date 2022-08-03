@@ -3,7 +3,7 @@
 [ext_resource path="res://assets/pixel_adventure_pack/Terrain/Terrain (16x16).png" type="Texture" id=1]
 [ext_resource path="res://entities/platformer_player/full.tscn" type="PackedScene" id=2]
 [ext_resource path="res://assets/pixel_adventure_pack/Background/Purple.png" type="Texture" id=3]
-[ext_resource path="res://demos/level.gd" type="Script" id=4]
+[ext_resource path="res://entities/menus/pause_menu.tscn" type="PackedScene" id=4]
 [ext_resource path="res://entities/interactable/npc.tscn" type="PackedScene" id=5]
 [ext_resource path="res://assets/bgm/management loop 3.wav" type="AudioStream" id=6]
 [ext_resource path="res://entities/interactable/door.tscn" type="PackedScene" id=7]
@@ -153,12 +153,18 @@ points = PoolVector2Array( 16, 16, 0, 16, 0, 0, 16, 0 )
 0/z_index = 0
 
 [node name="Level" type="Node2D" groups=["scene_manager_entity_nodes"]]
-script = ExtResource( 4 )
 __meta__ = {
 "entity_name": "Level"
 }
-background_texture = ExtResource( 3 )
-music = ExtResource( 6 )
+
+[node name="BackgroundLayer" type="CanvasLayer" parent="."]
+layer = -1
+
+[node name="TextureRect" type="TextureRect" parent="BackgroundLayer"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+texture = ExtResource( 3 )
+stretch_mode = 2
 
 [node name="Player" parent="." instance=ExtResource( 2 )]
 position = Vector2( 35, 480 )
@@ -191,3 +197,12 @@ editor_draw_limits = true
 editor_draw_drag_margin = true
 script = ExtResource( 8 )
 main_target = NodePath("../Player")
+
+[node name="Music" type="AudioStreamPlayer" parent="."]
+pause_mode = 2
+stream = ExtResource( 6 )
+autoplay = true
+bus = "Music"
+
+[node name="PauseMenu" parent="." instance=ExtResource( 4 )]
+layer = 2

@@ -10,6 +10,7 @@ stretch = true
 stretch_shrink = 4
 
 [node name="PauseMenu" parent="." instance=ExtResource( 1 )]
+layer = 2
 
 [node name="Viewport" type="Viewport" parent="."]
 size = Vector2( 320, 180 )
