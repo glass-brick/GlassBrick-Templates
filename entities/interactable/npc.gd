@@ -1,13 +1,12 @@
 extends KinematicBody2D
 
-onready var dialogue_bubble: DialogueBubble = $DialogueBubble
+export (String) var timeline_name
 onready var animated_sprite: AnimatedSprite = $AnimatedSprite
 onready var interactable: Interactable = $Interactable
-var dialogue_open := false
+var dialog: Node
 
 
 func _ready():
-	dialogue_bubble.connect("dialogue_finished", self, "close_dialogue")
 	animated_sprite.play()
 	interactable.connect("interacted", self, "interact")
 
@@ -19,19 +18,13 @@ func interact():
 func open_dialogue():
 	InputManager.disable_input()
 	interactable.hide_prompt()
-	dialogue_open = true
-	dialogue_bubble.start_dialogue(
-		[
-			"che, [color=yellow]lamponne[/color]...",
-			"te agachas y te la [color=yellow]ponen[/color]!",
-			"jajajajaj     \njaj",
-			"alto bobo"
-		]
-	)
+	dialog = Dialogic.start(timeline_name)
+	dialog.connect("timeline_end", self, "_on_close_dialogue")
+	add_child(dialog)
 
 
-func close_dialogue():
+func _on_close_dialogue(_timeline_name):
 	InputManager.enable_input()
 	interactable.show_prompt()
-	dialogue_open = false
-	dialogue_bubble.stop_dialogue()
+	if dialog.is_connected("timeline_end", self, "_on_close_dialogue"):
+		dialog.disconnect("timeline_end", self, "_on_close_dialogue")

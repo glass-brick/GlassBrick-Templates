@@ -21,7 +21,12 @@ func _ready():
 
 
 func _unhandled_input(event: InputEvent):
-	if (not Engine.editor_hint) and event.is_action_pressed("interact") and is_targeted:
+	if (
+		(not Engine.editor_hint)
+		and InputManager.input_enabled
+		and event.is_action_pressed("interact")
+		and is_targeted
+	):
 		get_tree().set_input_as_handled()
 		interact()
 
