@@ -24,7 +24,6 @@ func open_dialogue():
 
 
 func _on_close_dialogue(_timeline_name):
+	yield(get_tree().create_timer(0.2), "timeout")
 	InputManager.enable_input()
 	interactable.show_prompt()
-	if dialog.is_connected("timeline_end", self, "_on_close_dialogue"):
-		dialog.disconnect("timeline_end", self, "_on_close_dialogue")
