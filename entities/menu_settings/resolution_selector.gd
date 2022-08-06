@@ -30,13 +30,6 @@ func _ready():
 	connect('item_selected', self, '_on_resolution_selected')
 
 
-func _process(_delta):
-	disabled = OS.window_fullscreen
-	for idx in resolution_options.size():
-		if OS.window_size == resolution_options[idx]:
-			select(idx)
-
-
 func _on_resolution_selected(idx):
 	var selected_resolution = resolution_options[idx]
 	OS.window_size = selected_resolution
@@ -45,6 +38,7 @@ func _on_resolution_selected(idx):
 
 
 func _on_settings_changed():
+	disabled = OS.window_fullscreen
 	for idx in resolution_options.size():
 		if OS.window_size == resolution_options[idx]:
-			selected = idx
+			select(idx)

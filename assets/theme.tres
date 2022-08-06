@@ -1,4 +1,4 @@
-[gd_resource type="Theme" load_steps=25 format=2]
+[gd_resource type="Theme" load_steps=29 format=2]
 
 [ext_resource path="res://assets/grabber.png" type="Texture" id=1]
 [ext_resource path="res://assets/check.png" type="Texture" id=2]
@@ -30,14 +30,6 @@ content_margin_left = 4.0
 content_margin_right = 4.0
 bg_color = Color( 0.196078, 0.270588, 0.388235, 1 )
 
-[sub_resource type="AtlasTexture" id=20]
-atlas = ExtResource( 2 )
-region = Rect2( 0, 0, 16, 16 )
-
-[sub_resource type="AtlasTexture" id=22]
-atlas = ExtResource( 2 )
-region = Rect2( 0, 16, 16, 16 )
-
 [sub_resource type="AtlasTexture" id=21]
 atlas = ExtResource( 2 )
 region = Rect2( 16, 0, 16, 16 )
@@ -45,6 +37,14 @@ region = Rect2( 16, 0, 16, 16 )
 [sub_resource type="AtlasTexture" id=23]
 atlas = ExtResource( 2 )
 region = Rect2( 16, 16, 16, 16 )
+
+[sub_resource type="AtlasTexture" id=20]
+atlas = ExtResource( 2 )
+region = Rect2( 0, 0, 16, 16 )
+
+[sub_resource type="AtlasTexture" id=22]
+atlas = ExtResource( 2 )
+region = Rect2( 0, 16, 16, 16 )
 
 [sub_resource type="AtlasTexture" id=17]
 atlas = ExtResource( 1 )
@@ -89,6 +89,32 @@ content_margin_top = 2.0
 content_margin_bottom = 2.0
 bg_color = Color( 0.129412, 0.137255, 0.168627, 1 )
 
+[sub_resource type="StyleBoxFlat" id=24]
+content_margin_left = 10.0
+content_margin_right = 10.0
+content_margin_top = 10.0
+content_margin_bottom = 10.0
+bg_color = Color( 0.192157, 0.180392, 0.227451, 1 )
+anti_aliasing = false
+
+[sub_resource type="StyleBoxFlat" id=25]
+content_margin_left = 6.0
+content_margin_right = 6.0
+bg_color = Color( 0.192157, 0.180392, 0.227451, 1 )
+skew = Vector2( 0.5, 0 )
+
+[sub_resource type="StyleBoxFlat" id=26]
+content_margin_left = 6.0
+content_margin_right = 6.0
+bg_color = Color( 0.141176, 0.141176, 0.141176, 1 )
+skew = Vector2( 0.5, 0 )
+
+[sub_resource type="StyleBoxFlat" id=27]
+content_margin_left = 12.0
+content_margin_right = 12.0
+bg_color = Color( 0.196078, 0.270588, 0.388235, 1 )
+skew = Vector2( 0.5, 0 )
+
 [sub_resource type="StyleBoxFlat" id=5]
 bg_color = Color( 0.694118, 0.839216, 0.92549, 1 )
 
@@ -110,6 +136,10 @@ Button/styles/focus = SubResource( 11 )
 Button/styles/hover = SubResource( 12 )
 Button/styles/normal = SubResource( 13 )
 Button/styles/pressed = SubResource( 14 )
+CheckBox/icons/checked = SubResource( 21 )
+CheckBox/icons/checked_disabled = SubResource( 23 )
+CheckBox/icons/unchecked = SubResource( 20 )
+CheckBox/icons/unchecked_disabled = SubResource( 22 )
 CheckButton/icons/off = SubResource( 20 )
 CheckButton/icons/off_disabled = SubResource( 22 )
 CheckButton/icons/on = SubResource( 21 )
@@ -122,6 +152,12 @@ HSlider/styles/grabber_area_highlight = SubResource( 4 )
 HSlider/styles/slider = SubResource( 2 )
 PopupMenu/styles/hover = SubResource( 16 )
 PopupMenu/styles/panel = SubResource( 15 )
+TabContainer/constants/label_valign_bg = 0
+TabContainer/constants/side_margin = 4
+TabContainer/styles/panel = SubResource( 24 )
+TabContainer/styles/tab_bg = SubResource( 25 )
+TabContainer/styles/tab_disabled = SubResource( 26 )
+TabContainer/styles/tab_fg = SubResource( 27 )
 VScrollBar/styles/grabber = SubResource( 5 )
 VScrollBar/styles/grabber_highlight = SubResource( 6 )
 VScrollBar/styles/grabber_pressed = SubResource( 7 )

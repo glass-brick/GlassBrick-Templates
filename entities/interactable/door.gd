@@ -72,9 +72,11 @@ func close_door():
 
 func set_height(new_height):
 	height = new_height
-	$Tilemap.clear()
+	if not is_inside_tree():
+		yield(self, 'ready')
+	tilemap.clear()
 	for y in range(height):
-		$Tilemap.set_cell(0, y, 0)
-	$Tilemap.update_bitmask_region(Vector2.ZERO, Vector2(1, height))
-	$Interactable.collision_shape.extents = $Tilemap.cell_size * Vector2(0.5, height * 0.5)
-	$Interactable.position = $Interactable.collision_shape.extents
+		tilemap.set_cell(0, y, 0)
+	tilemap.update_bitmask_region(Vector2.ZERO, Vector2(1, height))
+	interactable.collision_shape.extents = tilemap.cell_size * Vector2(0.5, height * 0.5)
+	interactable.position = interactable.collision_shape.extents

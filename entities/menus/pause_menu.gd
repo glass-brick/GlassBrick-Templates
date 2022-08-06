@@ -1,9 +1,9 @@
 extends CanvasLayer
 
 var paused = false
-onready var container: Control = $Control
-onready var pause_menu: Control = $Control/PauseMenu
-onready var settings_menu: Control = $Control/SettingsMenu
+onready var container: Control = $"%PauseMenuContainer"
+onready var pause_menu: Control = $"%PauseMenu"
+onready var settings_menu: Control = $"%SettingsMenu"
 onready var menus = [pause_menu, settings_menu]
 onready var mm := MenuManager.new(self, menus, "_on_top_level_back_requested")
 

@@ -3,13 +3,14 @@
 [ext_resource path="res://entities/menu_settings/keybinding_option.gd" type="Script" id=1]
 
 [node name="KeybindingOption" type="HBoxContainer"]
-margin_right = 161.0
+anchor_right = 1.0
 margin_bottom = 22.0
 script = ExtResource( 1 )
+label_path = NodePath("Label")
 action_name = "jump"
 
 [node name="Label" type="Label" parent="."]
-margin_right = 48.0
+margin_right = 425.0
 margin_bottom = 22.0
 size_flags_horizontal = 3
 size_flags_vertical = 5
@@ -20,8 +21,8 @@ __meta__ = {
 }
 
 [node name="HBoxContainer" type="HBoxContainer" parent="."]
-margin_left = 52.0
-margin_right = 190.0
+margin_left = 429.0
+margin_right = 1280.0
 margin_bottom = 22.0
 size_flags_horizontal = 11
 size_flags_stretch_ratio = 2.0
@@ -31,7 +32,7 @@ __meta__ = {
 }
 
 [node name="MainKey" type="Button" parent="HBoxContainer"]
-margin_right = 64.0
+margin_right = 420.0
 margin_bottom = 22.0
 rect_min_size = Vector2( 64, 0 )
 size_flags_horizontal = 3
@@ -40,8 +41,8 @@ __meta__ = {
 }
 
 [node name="SecondaryKey" type="Button" parent="HBoxContainer"]
-margin_left = 74.0
-margin_right = 138.0
+margin_left = 430.0
+margin_right = 851.0
 margin_bottom = 22.0
 rect_min_size = Vector2( 64, 0 )
 size_flags_horizontal = 3

@@ -1,15 +1,12 @@
-extends Control
-tool
+extends MenuOption
 
 export var bus_name := 'Master'
 export var label_text := 'volume' setget set_label_text
 export var steps := 10 setget set_steps
 onready var slider: Slider = $HSlider
-onready var label: Label = $Label
 
 
 func _ready():
-	label.text = label_text
 	if Engine.editor_hint:
 		return
 	set_slider()
@@ -29,13 +26,16 @@ func _input(event: InputEvent) -> void:
 
 func set_steps(new_steps: int):
 	steps = new_steps
+	if not is_inside_tree():
+		yield(self, 'ready')
 	slider.step = 1.0 / float(steps)
 
 
 func set_label_text(new_label_text: String):
 	label_text = new_label_text
-	if label:
-		label.text = label_text
+	if not is_inside_tree():
+		yield(self, 'ready')
+	label.text = label_text
 
 
 func set_volume(volume: float):

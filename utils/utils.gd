@@ -15,17 +15,27 @@ static func merge_dicts(dict_one: Dictionary, dict_two: Dictionary):
 			final_dict[key] = dict_two[key]
 	return final_dict
 
-static func find_focusable_child(node: Node):
-	if node is Control and node.focus_mode == 2:
+static func find_focusable_child(node: Node, exclude_self: bool = true):
+	if not exclude_self and node is Control and node.focus_mode == 2:
 		return node
 	for child in node.get_children():
-		if node is Control and child.focus_mode == 2:
+		if child is Control and child.focus_mode == 2:
 			return child
 		else:
-			var result = find_focusable_child(child)
+			var result = find_focusable_child(child, false)
 			if result:
 				return result
 	return null
+
+static func is_child_focused(node: Node, exclude_self: bool = true):
+	if not exclude_self and node is Control and node.has_focus():
+		return true
+	for child in node.get_children():
+		if child is Control and child.has_focus():
+			return true
+		elif is_child_focused(child, false):
+			return true
+	return false
 
 static func set_volume(bus_name: String, volume: float) -> void:
 	var bus_index = AudioServer.get_bus_index(bus_name)

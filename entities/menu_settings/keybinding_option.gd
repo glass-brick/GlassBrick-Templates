@@ -1,8 +1,8 @@
-extends Control
+extends MenuOption
 
 export (String) var action_name = ""
+export (String) var option_name = "ACTION" setget set_option_name
 
-onready var action_label: Label = $Label
 onready var instruction_label: Label = $HBoxContainer/PressAKey
 onready var main_key: Button = $HBoxContainer/MainKey
 onready var secondary_key: Button = $HBoxContainer/SecondaryKey
@@ -17,8 +17,13 @@ func _ready():
 	SettingsManager.connect('settings_changed', self, 'set_buttons')
 	InputManager.connect("control_mode_changed", self, "set_buttons")
 	InputManager.connect("erased_action_event", self, "on_erased_action_event")
-	action_label.text = action_name.capitalize()
 	set_buttons()
+
+
+func set_option_name(value: String):
+	if not is_inside_tree():
+		yield(self, 'ready')
+	label.text = value
 
 
 func set_buttons():
@@ -65,7 +70,8 @@ func finish_key_change():
 	selected_key_idx = null
 
 
-func _process(_delta):
+func _process(delta):
+	._process(delta)
 	if timer.time_left > 0:
 		instruction_label.text = (
 			"Press a %s (%d)"
