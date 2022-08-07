@@ -207,3 +207,4 @@ bus = "Music"
 
 [node name="PauseMenu" parent="." instance=ExtResource( 4 )]
 layer = 2
+visible = false

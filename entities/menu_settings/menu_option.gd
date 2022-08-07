@@ -4,6 +4,7 @@ class_name MenuOption
 export (NodePath) var label_path: NodePath setget set_label_path
 export (Color) var focus_color := Color(1, 1, 0.7, 1)
 export (Color) var selected_color := Color.yellow
+export (bool) var exit_with_accept := false
 var in_option := false
 var label: Label
 
@@ -21,15 +22,24 @@ func _gui_input(event: InputEvent):
 
 
 func _unhandled_input(event: InputEvent):
-	if in_option and event.is_action_pressed("ui_cancel"):
+	if (
+		in_option
+		and (
+			event.is_action_pressed("ui_cancel")
+			or (exit_with_accept and event.is_action_pressed("ui_accept"))
+		)
+	):
 		get_tree().set_input_as_handled()
 		unselect_option()
 
 
 func _process(_delta):
-	if in_option and not Utils.is_child_focused(self):
-		in_option = false
-		label.modulate = Color.white
+	if not is_visible_in_tree():
+		return
+	if in_option and get_focus_owner() != null and not Utils.is_child_focused(self):
+		unselect_option()
+	elif not in_option and Utils.is_child_focused(self):
+		select_option()
 
 
 func set_label_path(path: NodePath):

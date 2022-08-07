@@ -19,21 +19,21 @@ static func find_focusable_child(node: Node, exclude_self: bool = true):
 	if not exclude_self and node is Control and node.focus_mode == 2:
 		return node
 	for child in node.get_children():
-		if child is Control and child.focus_mode == 2:
-			return child
-		else:
-			var result = find_focusable_child(child, false)
-			if result:
-				return result
+		var result = find_focusable_child(child, false)
+		if result:
+			return result
 	return null
 
 static func is_child_focused(node: Node, exclude_self: bool = true):
-	if not exclude_self and node is Control and node.has_focus():
-		return true
-	for child in node.get_children():
-		if child is Control and child.has_focus():
+	if not exclude_self:
+		if node.has_method('get_popup'):
+			print(node.get_popup().visible)
+			if node.get_popup().visible:
+				return true
+		if node is Control and node.has_focus():
 			return true
-		elif is_child_focused(child, false):
+	for child in node.get_children():
+		if is_child_focused(child, false):
 			return true
 	return false
 

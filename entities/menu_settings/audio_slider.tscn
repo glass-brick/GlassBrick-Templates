@@ -7,6 +7,7 @@ anchor_right = 1.0
 margin_bottom = 14.0
 script = ExtResource( 1 )
 label_path = NodePath("Label")
+exit_with_accept = true
 
 [node name="Label" type="Label" parent="."]
 margin_right = 638.0

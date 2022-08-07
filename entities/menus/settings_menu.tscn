@@ -7,17 +7,28 @@
 [ext_resource path="res://entities/menu_settings/audio_slider.tscn" type="PackedScene" id=5]
 [ext_resource path="res://entities/menus/settings_menu.gd" type="Script" id=6]
 
-[node name="SettingsMenu" type="TabContainer"]
+[node name="SettingsMenu" type="MarginContainer"]
 anchor_right = 1.0
 anchor_bottom = 1.0
+custom_constants/margin_right = 8
+custom_constants/margin_top = 8
+custom_constants/margin_left = 8
+custom_constants/margin_bottom = 8
+script = ExtResource( 6 )
+
+[node name="TabContainer" type="TabContainer" parent="."]
+unique_name_in_owner = true
+margin_left = 8.0
+margin_top = 8.0
+margin_right = 1272.0
+margin_bottom = 712.0
 focus_mode = 2
 size_flags_horizontal = 3
 size_flags_vertical = 3
 theme = ExtResource( 1 )
 tab_align = 0
-script = ExtResource( 6 )
 
-[node name="General" type="Tabs" parent="."]
+[node name="General" type="Tabs" parent="TabContainer"]
 anchor_right = 1.0
 anchor_bottom = 1.0
 margin_left = 10.0
@@ -25,28 +36,28 @@ margin_top = 24.0
 margin_right = -10.0
 margin_bottom = -10.0
 
-[node name="ScrollContainer" type="ScrollContainer" parent="General"]
+[node name="ScrollContainer" type="ScrollContainer" parent="TabContainer/General"]
 anchor_right = 1.0
 anchor_bottom = 1.0
 scroll_horizontal_enabled = false
 
-[node name="VBoxContainer" type="VBoxContainer" parent="General/ScrollContainer"]
-margin_right = 1260.0
+[node name="VBoxContainer" type="VBoxContainer" parent="TabContainer/General/ScrollContainer"]
+margin_right = 1244.0
 margin_bottom = 48.0
 size_flags_horizontal = 3
 
-[node name="ResetDefaults" type="Button" parent="General/ScrollContainer/VBoxContainer"]
-margin_right = 1260.0
+[node name="ResetDefaults" type="Button" parent="TabContainer/General/ScrollContainer/VBoxContainer"]
+margin_right = 1244.0
 margin_bottom = 22.0
 text = "RESET DEFAULTS"
 
-[node name="GoBack" type="Button" parent="General/ScrollContainer/VBoxContainer"]
+[node name="GoBack" type="Button" parent="TabContainer/General/ScrollContainer/VBoxContainer"]
 margin_top = 26.0
-margin_right = 1260.0
+margin_right = 1244.0
 margin_bottom = 48.0
 text = "GO BACK"
 
-[node name="Video" type="Tabs" parent="."]
+[node name="Video" type="Tabs" parent="TabContainer"]
 visible = false
 anchor_right = 1.0
 anchor_bottom = 1.0
@@ -55,25 +66,25 @@ margin_top = 32.0
 margin_right = -4.0
 margin_bottom = -4.0
 
-[node name="ScrollContainer" type="ScrollContainer" parent="Video"]
+[node name="ScrollContainer" type="ScrollContainer" parent="TabContainer/Video"]
 anchor_right = 1.0
 anchor_bottom = 1.0
 scroll_horizontal_enabled = false
 
-[node name="VBoxContainer" type="VBoxContainer" parent="Video/ScrollContainer"]
-margin_right = 1272.0
+[node name="VBoxContainer" type="VBoxContainer" parent="TabContainer/Video/ScrollContainer"]
+margin_right = 1256.0
 margin_bottom = 50.0
 size_flags_horizontal = 3
 
-[node name="ResolutionSelector" parent="Video/ScrollContainer/VBoxContainer" instance=ExtResource( 2 )]
+[node name="ResolutionSelector" parent="TabContainer/Video/ScrollContainer/VBoxContainer" instance=ExtResource( 2 )]
 margin_right = 1232.0
 
-[node name="FullscreenToggle" parent="Video/ScrollContainer/VBoxContainer" instance=ExtResource( 3 )]
+[node name="FullscreenToggle" parent="TabContainer/Video/ScrollContainer/VBoxContainer" instance=ExtResource( 3 )]
 margin_top = 26.0
 margin_right = 1232.0
 margin_bottom = 50.0
 
-[node name="Audio" type="Tabs" parent="."]
+[node name="Audio" type="Tabs" parent="TabContainer"]
 visible = false
 anchor_right = 1.0
 anchor_bottom = 1.0
@@ -82,22 +93,22 @@ margin_top = 32.0
 margin_right = -4.0
 margin_bottom = -4.0
 
-[node name="ScrollContainer" type="ScrollContainer" parent="Audio"]
+[node name="ScrollContainer" type="ScrollContainer" parent="TabContainer/Audio"]
 anchor_right = 1.0
 anchor_bottom = 1.0
 scroll_horizontal_enabled = false
 
-[node name="VBoxContainer" type="VBoxContainer" parent="Audio/ScrollContainer"]
-margin_right = 1272.0
+[node name="VBoxContainer" type="VBoxContainer" parent="TabContainer/Audio/ScrollContainer"]
+margin_right = 1256.0
 margin_bottom = 50.0
 size_flags_horizontal = 3
 
-[node name="AudioSlider" parent="Audio/ScrollContainer/VBoxContainer" instance=ExtResource( 5 )]
+[node name="AudioSlider" parent="TabContainer/Audio/ScrollContainer/VBoxContainer" instance=ExtResource( 5 )]
 anchor_right = 0.0
 margin_right = 1232.0
 label_text = "master volume"
 
-[node name="AudioSlider2" parent="Audio/ScrollContainer/VBoxContainer" instance=ExtResource( 5 )]
+[node name="AudioSlider2" parent="TabContainer/Audio/ScrollContainer/VBoxContainer" instance=ExtResource( 5 )]
 anchor_right = 0.0
 margin_top = 18.0
 margin_right = 1232.0
@@ -105,7 +116,7 @@ margin_bottom = 32.0
 bus_name = "SoundEffects"
 label_text = "sfx volume"
 
-[node name="AudioSlider3" parent="Audio/ScrollContainer/VBoxContainer" instance=ExtResource( 5 )]
+[node name="AudioSlider3" parent="TabContainer/Audio/ScrollContainer/VBoxContainer" instance=ExtResource( 5 )]
 anchor_right = 0.0
 margin_top = 36.0
 margin_right = 1232.0
@@ -113,7 +124,7 @@ margin_bottom = 50.0
 bus_name = "Music"
 label_text = "bgm volume"
 
-[node name="Controls" type="Tabs" parent="."]
+[node name="Controls" type="Tabs" parent="TabContainer"]
 visible = false
 anchor_right = 1.0
 anchor_bottom = 1.0
@@ -122,7 +133,7 @@ margin_top = 32.0
 margin_right = -4.0
 margin_bottom = -4.0
 
-[node name="ScrollContainer" type="ScrollContainer" parent="Controls"]
+[node name="ScrollContainer" type="ScrollContainer" parent="TabContainer/Controls"]
 anchor_right = 1.0
 anchor_bottom = 1.0
 size_flags_horizontal = 3
@@ -130,28 +141,29 @@ size_flags_vertical = 3
 follow_focus = true
 scroll_horizontal_enabled = false
 
-[node name="VBoxContainer" type="VBoxContainer" parent="Controls/ScrollContainer"]
-margin_right = 1272.0
+[node name="VBoxContainer" type="VBoxContainer" parent="TabContainer/Controls/ScrollContainer"]
+margin_right = 1256.0
 margin_bottom = 74.0
 size_flags_horizontal = 3
 
-[node name="KeybindingOption" parent="Controls/ScrollContainer/VBoxContainer" instance=ExtResource( 4 )]
+[node name="KeybindingOption" parent="TabContainer/Controls/ScrollContainer/VBoxContainer" instance=ExtResource( 4 )]
 margin_right = 1232.0
 option_name = "JUMP"
 
-[node name="KeybindingOption2" parent="Controls/ScrollContainer/VBoxContainer" instance=ExtResource( 4 )]
+[node name="KeybindingOption2" parent="TabContainer/Controls/ScrollContainer/VBoxContainer" instance=ExtResource( 4 )]
 margin_top = 26.0
 margin_right = 1232.0
 margin_bottom = 48.0
 action_name = "dash"
 option_name = "DASH"
 
-[node name="KeybindingOption3" parent="Controls/ScrollContainer/VBoxContainer" instance=ExtResource( 4 )]
+[node name="KeybindingOption3" parent="TabContainer/Controls/ScrollContainer/VBoxContainer" instance=ExtResource( 4 )]
 margin_top = 52.0
 margin_right = 1232.0
 margin_bottom = 74.0
 action_name = "interact"
 option_name = "INTERACT"
 
-[connection signal="pressed" from="General/ScrollContainer/VBoxContainer/ResetDefaults" to="." method="_on_ResetDefaults_pressed"]
-[connection signal="pressed" from="General/ScrollContainer/VBoxContainer/GoBack" to="." method="_on_GoBack_pressed"]
+[connection signal="tab_changed" from="TabContainer" to="." method="_on_SettingsMenu_tab_changed"]
+[connection signal="pressed" from="TabContainer/General/ScrollContainer/VBoxContainer/ResetDefaults" to="." method="_on_ResetDefaults_pressed"]
+[connection signal="pressed" from="TabContainer/General/ScrollContainer/VBoxContainer/GoBack" to="." method="_on_GoBack_pressed"]
