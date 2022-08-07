@@ -3,13 +3,12 @@ extends CanvasLayer
 signal actioned(next_id)
 
 const DialogueLine = preload("res://addons/dialogue_manager/dialogue_line.gd")
-const ExampleMenuItem = preload("res://dialogues/dialogue_balloon/menu_item.tscn")
 
 onready var balloon := $Balloon
-onready var margin := $Balloon/Margin
-onready var character_label := $"%Character"
-onready var dialogue_label := $"%Dialogue"
-onready var responses_menu := $"%ResponsesMenu"
+onready var margin: MarginContainer = $Balloon/Margin
+onready var character_label: RichTextLabel = $"%Character"
+onready var dialogue_label: RichTextLabel = $"%Dialogue"
+onready var responses_menu: Control = $"%ResponsesMenu"
 onready var next_indicator: Control = $"%NextIndicator"
 
 var dialogue: DialogueLine
@@ -18,6 +17,7 @@ var dialogue: DialogueLine
 func _ready() -> void:
 	set_next_indicator_node()
 	InputManager.connect("controls_changed", self, "set_next_indicator_node")
+	dialogue_label.connect("finished", self, "_on_finish_writing")
 	balloon.visible = false
 	responses_menu.is_active = false
 	next_indicator.visible = false
@@ -36,21 +36,16 @@ func _ready() -> void:
 	yield(dialogue_label.reset_height(), "completed")
 
 	# Show any responses we have
-	for item in responses_menu.get_children():
-		item.queue_free()
-
-	if dialogue.responses.size() > 0:
-		for response in dialogue.responses:
-			var item = ExampleMenuItem.instance()
-			item.bbcode_text = response.prompt
-			item.is_allowed = response.is_allowed
-			responses_menu.add_child(item)
+	responses_menu.setup_responses(dialogue.responses)
 
 	# Make sure our responses get included in the height reset
-	if dialogue.responses.size() > 0:
-		responses_menu.visible = true
+	responses_menu.visible = true
+
+	if dialogue.responses.size() > 0 or dialogue.time != null:
+		# dont add next_indicator label when there are responses
 		margin.set('custom_constants/margin_bottom', 10)
 	else:
+		# account for next_indicator label when there are no responses
 		margin.set('custom_constants/margin_bottom', 20)
 	margin.rect_size = Vector2(0, 0)
 
@@ -67,9 +62,9 @@ func _ready() -> void:
 	balloon.visible = true
 
 	dialogue_label.type_out()
-	yield(dialogue_label, "finished")
 
-	# Wait for input
+
+func _on_finish_writing():
 	var next_id: String = ""
 	if dialogue.responses.size() > 0:
 		responses_menu.is_active = true

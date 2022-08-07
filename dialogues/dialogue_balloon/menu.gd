@@ -4,6 +4,7 @@ signal selection_changed(index, node)
 signal actioned(index)
 
 const PRESSED_COUNTER := 90
+const MenuItem = preload("res://dialogues/dialogue_balloon/menu_item.tscn")
 
 export var select_action := "ui_accept"
 export var _pointer: NodePath = NodePath()
@@ -46,6 +47,16 @@ func action_item(item_index: int) -> void:
 
 	is_active = false
 	emit_signal("actioned", item_index, actioned_node)
+
+
+func setup_responses(responses: Array) -> void:
+	for child in get_children():
+		child.queue_free()
+	for response in responses:
+		var item = MenuItem.instance()
+		item.bbcode_text = response.prompt
+		item.is_allowed = response.is_allowed
+		add_child(item)
 
 
 ### SIGNAL
