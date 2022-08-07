@@ -1,0 +1,14 @@
+[gd_scene load_steps=2 format=2]
+
+[ext_resource path="res://dialogues/dialogue_balloon/menu_item.gd" type="Script" id=1]
+
+[node name="Item" type="RichTextLabel"]
+modulate = Color( 1, 1, 1, 0.470588 )
+anchor_right = 1.0
+anchor_bottom = 0.021
+margin_bottom = -0.120001
+custom_colors/default_color = Color( 0, 0, 0, 1 )
+bbcode_enabled = true
+fit_content_height = true
+scroll_active = false
+script = ExtResource( 1 )

@@ -26,17 +26,13 @@ func _on_ResetDefaults_pressed():
 func _unhandled_input(event: InputEvent):
 	if event.is_action_pressed("ui_next_tab"):
 		get_tree().set_input_as_handled()
-		tab_container.current_tab = (
-			(tab_container.current_tab + 1)
-			if tab_container.current_tab < (tab_container.get_tab_count() - 1)
-			else 0
+		tab_container.current_tab = Utils.next_idx_in_loop(
+			tab_container.current_tab, tab_container.get_tab_count()
 		)
 	elif event.is_action_pressed("ui_prev_tab"):
 		get_tree().set_input_as_handled()
-		tab_container.current_tab = (
-			(tab_container.current_tab - 1)
-			if tab_container.current_tab > 0
-			else (tab_container.get_tab_count() - 1)
+		tab_container.current_tab = Utils.prev_idx_in_loop(
+			tab_container.current_tab, tab_container.get_tab_count()
 		)
 
 

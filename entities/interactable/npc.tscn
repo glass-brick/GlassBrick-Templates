@@ -2,8 +2,8 @@
 
 [ext_resource path="res://entities/interactable/npc.gd" type="Script" id=1]
 [ext_resource path="res://assets/pixel_adventure_pack/Main Characters/Mask Dude/Idle (32x32).png" type="Texture" id=2]
-[ext_resource path="res://entities/interactable/dialogue_bubble.tscn" type="PackedScene" id=3]
 [ext_resource path="res://entities/interactable/interactable.gd" type="Script" id=4]
+[ext_resource path="res://dialogues/mask_dude.tres" type="Resource" id=5]
 
 [sub_resource type="RectangleShape2D" id=14]
 extents = Vector2( 11, 14 )
@@ -67,6 +67,8 @@ animations = [ {
 collision_layer = 0
 collision_mask = 2
 script = ExtResource( 1 )
+dialogue_node = "open_the_door"
+dialogue_resource = ExtResource( 5 )
 
 [node name="Interactable" type="Area2D" parent="."]
 position = Vector2( 0, 2 )
@@ -88,11 +90,3 @@ margin_left = -19.0
 margin_top = -36.0
 margin_right = 19.0
 margin_bottom = -23.0
-
-[node name="DialogueBubble" parent="." instance=ExtResource( 3 )]
-anchor_right = 0.0
-anchor_bottom = 0.0
-margin_left = -64.0
-margin_top = -76.0
-margin_right = 64.0
-margin_bottom = -16.0

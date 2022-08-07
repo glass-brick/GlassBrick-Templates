@@ -44,3 +44,9 @@ static func set_volume(bus_name: String, volume: float) -> void:
 static func get_volume(bus_name) -> float:
 	var bus_index = AudioServer.get_bus_index(bus_name)
 	return db2linear(AudioServer.get_bus_volume_db(bus_index))
+
+static func next_idx_in_loop(idx: int, total: int) -> int:
+	return (idx + 1) if idx < (total - 1) else 0
+
+static func prev_idx_in_loop(idx: int, total: int) -> int:
+	return (idx - 1) if idx > 0 else (total - 1)

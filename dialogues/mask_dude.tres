@@ -1,0 +1,101 @@
+[gd_resource type="Resource" load_steps=2 format=2]
+
+[ext_resource path="res://addons/dialogue_manager/dialogue_resource.gd" type="Script" id=1]
+
+[resource]
+script = ExtResource( 1 )
+syntax_version = 2
+raw_text = "~ open_the_door
+
+Mask Dude: Hey traveller! Looks like that [color=yellow]door[/color] is closed.
+Mask Dude: Can you open it for me?
+- Sure dude
+	Mask Dude: Thanks!
+- If I feel like it
+	Mask Dude: I guess I'll have to look for another traveller"
+errors = [  ]
+titles = {
+"open_the_door": "2"
+}
+lines = {
+"0": {
+"next_id": "2",
+"text": "open_the_door",
+"type": "title"
+},
+"2": {
+"character": "Mask Dude",
+"character_replacements": [  ],
+"inline_mutations": [  ],
+"next_id": "3",
+"pauses": {
+},
+"replacements": [  ],
+"speeds": [  ],
+"text": "Hey traveller! Looks like that [color=yellow]door[/color] is closed.",
+"time": null,
+"translation_key": "Hey traveller! Looks like that [color=yellow]door[/color] is closed.",
+"type": "dialogue"
+},
+"3": {
+"character": "Mask Dude",
+"character_replacements": [  ],
+"inline_mutations": [  ],
+"next_id": "4",
+"pauses": {
+},
+"replacements": [  ],
+"speeds": [  ],
+"text": "Can you open it for me?",
+"time": null,
+"translation_key": "Can you open it for me?",
+"type": "dialogue"
+},
+"4": {
+"next_id": "5",
+"next_id_after": "end",
+"replacements": [  ],
+"responses": PoolStringArray( "4", "6" ),
+"text": "Sure dude",
+"translation_key": "Sure dude",
+"type": "response"
+},
+"5": {
+"character": "Mask Dude",
+"character_replacements": [  ],
+"inline_mutations": [  ],
+"next_id": "end",
+"parent_id": "4",
+"pauses": {
+},
+"replacements": [  ],
+"speeds": [  ],
+"text": "Thanks!",
+"time": null,
+"translation_key": "Thanks!",
+"type": "dialogue"
+},
+"6": {
+"next_id": "7",
+"next_id_after": "end",
+"replacements": [  ],
+"text": "If I feel like it",
+"translation_key": "If I feel like it",
+"type": "response"
+},
+"7": {
+"character": "Mask Dude",
+"character_replacements": [  ],
+"inline_mutations": [  ],
+"next_id": "end",
+"parent_id": "6",
+"pauses": {
+},
+"replacements": [  ],
+"speeds": [  ],
+"text": "I guess I'll have to look for another traveller",
+"time": null,
+"translation_key": "I guess I'll have to look for another traveller",
+"type": "dialogue"
+}
+}

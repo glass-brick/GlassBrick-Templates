@@ -9,65 +9,10 @@
 config_version=4
 
 _global_script_classes=[ {
-"base": "Reference",
-"class": "DTS",
+"base": "Resource",
+"class": "DialogueResource",
 "language": "GDScript",
-"path": "res://addons/dialogic/Localization/translation_service.gd"
-}, {
-"base": "Node",
-"class": "Dialogic",
-"language": "GDScript",
-"path": "res://addons/dialogic/Other/DialogicClass.gd"
-}, {
-"base": "Reference",
-"class": "DialogicAnimaPropertiesHelper",
-"language": "GDScript",
-"path": "res://addons/dialogic/Nodes/Anima/DialogicAnimaPropertiesHelper.gd"
-}, {
-"base": "Node",
-"class": "DialogicAnimaResources",
-"language": "GDScript",
-"path": "res://addons/dialogic/Nodes/Anima/DialogicAnimaResources.gd"
-}, {
-"base": "Control",
-"class": "DialogicBackgroundMusic",
-"language": "GDScript",
-"path": "res://addons/dialogic/Nodes/BackgroundMusic.gd"
-}, {
-"base": "Node",
-"class": "DialogicCustomEvents",
-"language": "GDScript",
-"path": "res://addons/dialogic/Nodes/DialogicCustomEvents.gd"
-}, {
-"base": "Node",
-"class": "DialogicDefinitionsUtil",
-"language": "GDScript",
-"path": "res://addons/dialogic/Other/DialogicDefinitionsUtil.gd"
-}, {
-"base": "Node",
-"class": "DialogicParser",
-"language": "GDScript",
-"path": "res://addons/dialogic/Parser/DialogicParser.gd"
-}, {
-"base": "Reference",
-"class": "DialogicResources",
-"language": "GDScript",
-"path": "res://addons/dialogic/Other/DialogicResources.gd"
-}, {
-"base": "Reference",
-"class": "DialogicUtil",
-"language": "GDScript",
-"path": "res://addons/dialogic/Other/DialogicUtil.gd"
-}, {
-"base": "Panel",
-"class": "DialogueBubble",
-"language": "GDScript",
-"path": "res://entities/interactable/dialogue_bubble.gd"
-}, {
-"base": "PanelContainer",
-"class": "HistoryRow",
-"language": "GDScript",
-"path": "res://addons/dialogic/Example Assets/History/HistoryRow.gd"
+"path": "res://addons/dialogue_manager/dialogue_resource.gd"
 }, {
 "base": "Area2D",
 "class": "Interactable",
@@ -100,18 +45,7 @@ _global_script_classes=[ {
 "path": "res://utils/utils.gd"
 } ]
 _global_script_class_icons={
-"DTS": "",
-"Dialogic": "",
-"DialogicAnimaPropertiesHelper": "",
-"DialogicAnimaResources": "",
-"DialogicBackgroundMusic": "",
-"DialogicCustomEvents": "",
-"DialogicDefinitionsUtil": "",
-"DialogicParser": "",
-"DialogicResources": "",
-"DialogicUtil": "",
-"DialogueBubble": "",
-"HistoryRow": "",
+"DialogueResource": "",
 "Interactable": "",
 "MenuManager": "",
 "MenuOption": "",
@@ -136,6 +70,7 @@ SettingsManager="*res://utils/settings_manager.gd"
 SceneManager="*res://addons/scene_manager/SceneManager.tscn"
 InputManager="*res://utils/input_manager.gd"
 IntegerResolutionHandler="*res://addons/integer_resolution_handler/integer_resolution_handler.gd"
+DialogueManager="*res://addons/dialogue_manager/dialogue_manager.gd"
 
 [debug]
 
@@ -152,7 +87,7 @@ window/stretch/aspect="keep"
 
 [editor_plugins]
 
-enabled=PoolStringArray( "res://addons/dialogic/plugin.cfg", "res://addons/integer_resolution_handler/plugin.cfg", "res://addons/scene_manager/plugin.cfg" )
+enabled=PoolStringArray( "res://addons/dialogue_manager/plugin.cfg", "res://addons/integer_resolution_handler/plugin.cfg", "res://addons/scene_manager/plugin.cfg" )
 
 [gui]
 

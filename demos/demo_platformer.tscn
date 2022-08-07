@@ -179,7 +179,6 @@ tile_data = PoolIntArray( -1, 0, 0, -65536, 0, 1, -65535, 0, 1, -65534, 0, 1, -6
 
 [node name="NPC" parent="." instance=ExtResource( 5 )]
 position = Vector2( 240, 480 )
-timeline_name = "mask_dude_1"
 
 [node name="NPC2" parent="." instance=ExtResource( 5 )]
 position = Vector2( 157, 480 )
