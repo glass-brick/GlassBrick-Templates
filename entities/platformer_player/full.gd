@@ -13,7 +13,7 @@ onready var decceleration = float(max_speed) / float(decceleration_frames)
 enum DIRECTIONS { LEFT, RIGHT }
 var facing_direction = DIRECTIONS.RIGHT
 
-export (float, 0, 5, 0.1) var air_time = 1
+export (float, 0, 5, 0.1) var air_time = 1.0
 export (float, 0, 20, 0.5) var max_jump_height = 3.0
 export (float, 1.0, 5.0) var terminal_velocity = 1.5
 export (float, 1.0, 4.0) var wall_jump_speed = 1.5
@@ -27,9 +27,9 @@ var can_wall_jump = false
 var wall_jumped = false
 var jump_cancel_time = 0
 
-export (float, 50, 400) var wall_slide_max_speed = 100
+export (float, 50, 400) var wall_slide_max_speed = 100.0
 
-export (float) var dash_speed = 500
+export (float) var dash_speed = 500.0
 export (float, 0, 0.5) var dash_duration = 0.2
 var dash_timer = 0
 var dash_jumped = false

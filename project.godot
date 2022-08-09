@@ -14,6 +14,11 @@ _global_script_classes=[ {
 "language": "GDScript",
 "path": "res://addons/dialogue_manager/dialogue_resource.gd"
 }, {
+"base": "Reference",
+"class": "InputResources",
+"language": "GDScript",
+"path": "res://utils/input_resources.gd"
+}, {
 "base": "Area2D",
 "class": "Interactable",
 "language": "GDScript",
@@ -46,6 +51,7 @@ _global_script_classes=[ {
 } ]
 _global_script_class_icons={
 "DialogueResource": "",
+"InputResources": "",
 "Interactable": "",
 "MenuManager": "",
 "MenuOption": "",

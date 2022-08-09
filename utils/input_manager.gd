@@ -24,42 +24,6 @@ onready var control_mode = (
 	else CONTROL_MODES.KEYBOARD
 )
 
-const MOUSE_BUTTON_NAMES = {
-	BUTTON_LEFT: 'LMB',
-	BUTTON_RIGHT: 'RMB',
-	BUTTON_MIDDLE: 'Middle mouse button',
-	BUTTON_XBUTTON1: 'Mouse button 4',
-	BUTTON_XBUTTON2: 'Mouse button 5',
-}
-
-const GAMEPAD_BUTTON_IMAGES = {
-	JOY_XBOX_A: preload("res://assets/xbox_buttons/a.png"),
-	JOY_XBOX_B: preload("res://assets/xbox_buttons/b.png"),
-	JOY_XBOX_X: preload("res://assets/xbox_buttons/x.png"),
-	JOY_XBOX_Y: preload("res://assets/xbox_buttons/y.png"),
-	JOY_DPAD_UP: preload("res://assets/xbox_buttons/d-pad-up.png"),
-	JOY_DPAD_DOWN: preload("res://assets/xbox_buttons/d-pad-down.png"),
-	JOY_DPAD_LEFT: preload("res://assets/xbox_buttons/d-pad-left.png"),
-	JOY_DPAD_RIGHT: preload("res://assets/xbox_buttons/d-pad-right.png"),
-	JOY_L: preload("res://assets/xbox_buttons/lb.png"),
-	JOY_R: preload("res://assets/xbox_buttons/rb.png"),
-	JOY_L2: preload("res://assets/xbox_buttons/lt.png"),
-	JOY_R2: preload("res://assets/xbox_buttons/rt.png"),
-	JOY_L3: preload("res://assets/xbox_buttons/l3.png"),
-	JOY_R3: preload("res://assets/xbox_buttons/r3.png"),
-	JOY_SELECT: preload("res://assets/xbox_buttons/select.png"),
-	JOY_START: preload("res://assets/xbox_buttons/start.png"),
-}
-
-const GAMEPAD_AXIS_IMAGES = {
-	JOY_AXIS_0: preload("res://assets/xbox_buttons/l-stick-x-axis.png"),
-	JOY_AXIS_1: preload("res://assets/xbox_buttons/l-stick-y-axis.png"),
-	JOY_AXIS_2: preload("res://assets/xbox_buttons/r-stick-x-axis.png"),
-	JOY_AXIS_3: preload("res://assets/xbox_buttons/r-stick-y-axis.png"),
-	JOY_AXIS_6: preload("res://assets/xbox_buttons/lt.png"),
-	JOY_AXIS_7: preload("res://assets/xbox_buttons/rt.png"),
-}
-
 
 func _ready():
 	pause_mode = PAUSE_MODE_PROCESS
@@ -93,13 +57,23 @@ func get_input_event_display_resource(input_event: InputEvent):
 	if input_event == null:
 		return '[ Unset ]'
 	if input_event is InputEventKey:
-		return OS.get_scancode_string(input_event.get_scancode_with_modifiers())
+		var scancode: int = input_event.scancode
+		return (
+			InputResources.KEYBOARD_RESOURCES[scancode]
+			if scancode in InputResources.KEYBOARD_RESOURCES
+			else OS.get_scancode_string(scancode)
+		)
 	if input_event is InputEventJoypadButton:
-		return GAMEPAD_BUTTON_IMAGES[input_event.button_index]
+		return InputResources.GAMEPAD_BUTTON_RESOURCES[input_event.button_index]
 	if input_event is InputEventJoypadMotion:
-		return GAMEPAD_AXIS_IMAGES[input_event.axis]
+		var dictionary: Dictionary = InputResources.GAMEPAD_AXIS_RESOURCES[input_event.axis]
+		if input_event.axis_value > 0 and "positive" in dictionary:
+			return dictionary["positive"]
+		elif input_event.axis_value < 0 and "negative" in dictionary:
+			return dictionary["negative"]
+		return dictionary["generic"]
 	if input_event is InputEventMouseButton:
-		return MOUSE_BUTTON_NAMES[input_event.button_index]
+		return InputResources.MOUSE_BUTTON_RESOURCES[input_event.button_index]
 	return '[ Unknown ]'
 
 
