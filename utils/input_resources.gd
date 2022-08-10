@@ -110,7 +110,7 @@ const XBOX_BUTTON_RESOURCES = {
 	JOY_START: preload("res://assets/input/xbox_buttons/start.tres"),
 }
 
-const PLAYSTATION_BUTTON_RESOURCES = {
+const SONY_BUTTON_RESOURCES = {
 	JOY_SONY_X: preload("res://assets/input/playstation_buttons/cross.tres"),
 	JOY_SONY_CIRCLE: preload("res://assets/input/playstation_buttons/circle.tres"),
 	JOY_SONY_SQUARE: preload("res://assets/input/playstation_buttons/square.tres"),
@@ -129,7 +129,7 @@ const PLAYSTATION_BUTTON_RESOURCES = {
 	JOY_START: preload("res://assets/input/playstation_buttons/options.tres"),
 }
 
-const SWITCH_BUTTON_RESOURCES = {
+const NINTENDO_BUTTON_RESOURCES = {
 	JOY_DS_A: preload("res://assets/input/switch_buttons/a.tres"),
 	JOY_DS_B: preload("res://assets/input/switch_buttons/b.tres"),
 	JOY_DS_X: preload("res://assets/input/switch_buttons/x.tres"),
@@ -180,5 +180,110 @@ const GAMEPAD_AXIS_RESOURCES = {
 	JOY_ANALOG_R2:
 	{
 		"generic": preload("res://assets/input/xbox_buttons/rt.tres"),
+	},
+}
+
+const XBOX_AXIS_RESOURCES = {
+	JOY_ANALOG_LX:
+	{
+		"negative": preload("res://assets/input/xbox_buttons/l-stick-left.tres"),
+		"generic": preload("res://assets/input/xbox_buttons/l-stick-x-axis.tres"),
+		"positive": preload("res://assets/input/xbox_buttons/l-stick-right.tres"),
+	},
+	JOY_ANALOG_LY:
+	{
+		"negative": preload("res://assets/input/xbox_buttons/l-stick-up.tres"),
+		"generic": preload("res://assets/input/xbox_buttons/l-stick-y-axis.tres"),
+		"positive": preload("res://assets/input/xbox_buttons/l-stick-down.tres"),
+	},
+	JOY_ANALOG_RX:
+	{
+		"negative": preload("res://assets/input/xbox_buttons/r-stick-left.tres"),
+		"generic": preload("res://assets/input/xbox_buttons/r-stick-x-axis.tres"),
+		"positive": preload("res://assets/input/xbox_buttons/r-stick-right.tres"),
+	},
+	JOY_ANALOG_RY:
+	{
+		"negative": preload("res://assets/input/xbox_buttons/r-stick-up.tres"),
+		"generic": preload("res://assets/input/xbox_buttons/r-stick-y-axis.tres"),
+		"positive": preload("res://assets/input/xbox_buttons/r-stick-down.tres"),
+	},
+	JOY_ANALOG_L2:
+	{
+		"generic": preload("res://assets/input/xbox_buttons/lt.tres"),
+	},
+	JOY_ANALOG_R2:
+	{
+		"generic": preload("res://assets/input/xbox_buttons/rt.tres"),
+	},
+}
+
+const SONY_AXIS_RESOURCES = {
+	JOY_ANALOG_LX:
+	{
+		"negative": preload("res://assets/input/playstation_buttons/l-stick-left.tres"),
+		"generic": preload("res://assets/input/playstation_buttons/l-stick-x-axis.tres"),
+		"positive": preload("res://assets/input/playstation_buttons/l-stick-right.tres"),
+	},
+	JOY_ANALOG_LY:
+	{
+		"negative": preload("res://assets/input/playstation_buttons/l-stick-up.tres"),
+		"generic": preload("res://assets/input/playstation_buttons/l-stick-y-axis.tres"),
+		"positive": preload("res://assets/input/playstation_buttons/l-stick-down.tres"),
+	},
+	JOY_ANALOG_RX:
+	{
+		"negative": preload("res://assets/input/playstation_buttons/r-stick-left.tres"),
+		"generic": preload("res://assets/input/playstation_buttons/r-stick-x-axis.tres"),
+		"positive": preload("res://assets/input/playstation_buttons/r-stick-right.tres"),
+	},
+	JOY_ANALOG_RY:
+	{
+		"negative": preload("res://assets/input/playstation_buttons/r-stick-up.tres"),
+		"generic": preload("res://assets/input/playstation_buttons/r-stick-y-axis.tres"),
+		"positive": preload("res://assets/input/playstation_buttons/r-stick-down.tres"),
+	},
+	JOY_ANALOG_L2:
+	{
+		"generic": preload("res://assets/input/playstation_buttons/l2.tres"),
+	},
+	JOY_ANALOG_R2:
+	{
+		"generic": preload("res://assets/input/playstation_buttons/r2.tres"),
+	},
+}
+
+const NINTENDO_AXIS_RESOURCES = {
+	JOY_ANALOG_LX:
+	{
+		"negative": preload("res://assets/input/switch_buttons/l-stick-left.tres"),
+		"generic": preload("res://assets/input/switch_buttons/l-stick-x-axis.tres"),
+		"positive": preload("res://assets/input/switch_buttons/l-stick-right.tres"),
+	},
+	JOY_ANALOG_LY:
+	{
+		"negative": preload("res://assets/input/switch_buttons/l-stick-up.tres"),
+		"generic": preload("res://assets/input/switch_buttons/l-stick-y-axis.tres"),
+		"positive": preload("res://assets/input/switch_buttons/l-stick-down.tres"),
+	},
+	JOY_ANALOG_RX:
+	{
+		"negative": preload("res://assets/input/switch_buttons/r-stick-left.tres"),
+		"generic": preload("res://assets/input/switch_buttons/r-stick-x-axis.tres"),
+		"positive": preload("res://assets/input/switch_buttons/r-stick-right.tres"),
+	},
+	JOY_ANALOG_RY:
+	{
+		"negative": preload("res://assets/input/switch_buttons/r-stick-up.tres"),
+		"generic": preload("res://assets/input/switch_buttons/r-stick-y-axis.tres"),
+		"positive": preload("res://assets/input/switch_buttons/r-stick-down.tres"),
+	},
+	JOY_ANALOG_L2:
+	{
+		"generic": preload("res://assets/input/switch_buttons/zl.tres"),
+	},
+	JOY_ANALOG_R2:
+	{
+		"generic": preload("res://assets/input/switch_buttons/zr.tres"),
 	},
 }
