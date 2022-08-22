@@ -6,6 +6,6 @@ func enter():
 
 
 func update(delta):
-	if Input.is_action_just_pressed('jump'):
+	if InputManager.input_enabled and Input.is_action_just_pressed('jump'):
 		emit_signal("finished", "double_jump")
 	.update(delta)

@@ -4,7 +4,12 @@ signal state_changed(current_state)
 
 export (NodePath) var initial_state
 onready var states_map = {
-	"idle": $Idle, "move": $Move, "jump": $Jump, "double_jump": $DoubleJump, "fall": $Fall
+	"idle": $Idle,
+	"move": $Move,
+	"jump": $Jump,
+	"double_jump": $DoubleJump,
+	"fall": $Fall,
+	"walled": $Walled
 }
 var time_since_states := {}
 
@@ -46,7 +51,7 @@ func _physics_process(delta):
 
 
 func _change_state(state_name):
-	if not _active:
+	if not _active or not state_name in states_map.keys():
 		return
 	current_state.exit()
 

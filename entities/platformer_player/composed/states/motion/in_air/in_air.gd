@@ -26,3 +26,5 @@ func update(delta):
 	owner.velocity = owner.move_and_slide(owner.velocity, Vector2.UP)
 	if owner.is_on_floor():
 		emit_signal("finished", "idle")
+	elif owner.is_on_wall():
+		emit_signal("finished", "walled")

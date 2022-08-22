@@ -1,4 +1,4 @@
-[gd_scene load_steps=58 format=2]
+[gd_scene load_steps=60 format=2]
 
 [ext_resource path="res://assets/pixel_adventure_pack/Main Characters/Virtual Guy/Wall Jump (32x32).png" type="Texture" id=1]
 [ext_resource path="res://assets/pixel_adventure_pack/Main Characters/Virtual Guy/Run (32x32).png" type="Texture" id=2]
@@ -17,6 +17,8 @@
 [ext_resource path="res://entities/platformer_player/composed/states/motion/in_air/fall.gd" type="Script" id=15]
 [ext_resource path="res://entities/platformer_player/composed/composed.gd" type="Script" id=16]
 [ext_resource path="res://entities/platformer_player/composed/states/motion/in_air/double_jump.gd" type="Script" id=17]
+[ext_resource path="res://entities/platformer_player/composed/states/motion/walled.gd" type="Script" id=18]
+[ext_resource path="res://entities/platformer_player/composed/interactable_detection_area.gd" type="Script" id=19]
 
 [sub_resource type="ShaderMaterial" id=14]
 shader = ExtResource( 9 )
@@ -236,6 +238,7 @@ bus = "SoundEffects"
 
 [node name="InteractableDetectionArea" type="Area2D" parent="."]
 collision_mask = 32
+script = ExtResource( 19 )
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="InteractableDetectionArea"]
 shape = SubResource( 99 )
@@ -258,6 +261,9 @@ script = ExtResource( 15 )
 
 [node name="DoubleJump" type="Node" parent="StateMachine"]
 script = ExtResource( 17 )
+
+[node name="Walled" type="Node" parent="StateMachine"]
+script = ExtResource( 18 )
 
 [connection signal="area_entered" from="InteractableDetectionArea" to="." method="_on_InteractableDetectionArea_area_entered"]
 [connection signal="area_exited" from="InteractableDetectionArea" to="." method="_on_InteractableDetectionArea_area_exited"]

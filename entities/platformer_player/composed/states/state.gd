@@ -7,8 +7,6 @@ and makes sure every State object had all of these methods.
 """
 extends Node
 
-var input_coyote_time = 0.0
-
 signal finished(next_state_name)
 
 

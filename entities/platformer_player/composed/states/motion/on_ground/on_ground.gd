@@ -2,7 +2,7 @@ extends "../motion.gd"
 
 
 func handle_input(event):
-	if event.is_action_pressed("jump"):
+	if InputManager.input_enabled and event.is_action_pressed("jump"):
 		emit_signal("finished", "jump")
 	.handle_input(event)
 
