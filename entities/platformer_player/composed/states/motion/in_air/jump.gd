@@ -6,8 +6,7 @@ var jump_cancel_timer = 0.0
 
 
 func enter():
-	print('jumping!')
-	velocity.y = jump_speed
+	owner.velocity.y = jump_speed
 	owner.get_node("Jump").play()
 	owner.get_node("AnimatedSprite").play('Jump')
 	owner.get_node("PlayerParticles").emit_jump_particles()
@@ -15,12 +14,14 @@ func enter():
 
 
 func update(delta):
-	if velocity.y > 0:
-		emit_signal("finished", "fall")
 	if jump_cancel_timer > 0:
 		if not Input.is_action_pressed('jump'):
-			velocity.y = 0
+			owner.velocity.y = 0
 			jump_cancel_timer = 0
 		else:
 			jump_cancel_timer -= delta
+	elif Input.is_action_just_pressed('jump'):
+		emit_signal("finished", "double_jump")
+	if owner.velocity.y > 0:
+		emit_signal("finished", "fall")
 	.update(delta)

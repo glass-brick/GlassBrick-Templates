@@ -7,22 +7,24 @@ and makes sure every State object had all of these methods.
 """
 extends Node
 
+var input_coyote_time = 0.0
+
 signal finished(next_state_name)
 
 
 # Initialize the state. E.g. change the animation
-func enter():
+func enter() -> void:
 	return
 
 
 # Clean up the state. Reinitialize values like a timer
-func exit():
+func exit() -> void:
 	return
 
 
-func handle_input(event: InputEvent):
+func handle_input(event: InputEvent) -> void:
 	return
 
 
-func update(delta: float):
+func update(delta: float) -> void:
 	return

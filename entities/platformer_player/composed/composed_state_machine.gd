@@ -3,7 +3,10 @@ extends Node
 signal state_changed(current_state)
 
 export (NodePath) var initial_state
-onready var states_map = {"idle": $Idle, "move": $Moving, "jump": $Jumping, "fall": $Falling}
+onready var states_map = {
+	"idle": $Idle, "move": $Move, "jump": $Jump, "double_jump": $DoubleJump, "fall": $Fall
+}
+var time_since_states := {}
 
 var states_stack = []
 var current_state = null
@@ -11,8 +14,10 @@ var _active = false setget set_active
 
 
 func _ready():
-	for child in get_children():
-		child.connect("finished", self, "_change_state")
+	for state_key in states_map.keys():
+		var state = states_map[state_key]
+		state.connect("finished", self, "_change_state")
+		time_since_states[state_key] = 0.0
 	initialize(initial_state)
 
 

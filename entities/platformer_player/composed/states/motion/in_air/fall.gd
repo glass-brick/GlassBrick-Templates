@@ -1,8 +1,11 @@
-extends 'in_air.gd'
+extends "in_air.gd"
 
-export (float) var terminal_velocity := 200.0
+
+func enter():
+	owner.get_node("AnimatedSprite").play('Fall')
 
 
 func update(delta):
-	velocity.y = min(velocity.y, terminal_velocity)
+	if Input.is_action_just_pressed('jump'):
+		emit_signal("finished", "double_jump")
 	.update(delta)
