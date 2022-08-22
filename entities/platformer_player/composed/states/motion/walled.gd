@@ -6,8 +6,14 @@ export (float) var gravity := 640.0
 
 func enter():
 	if owner.get_node("WallDetector").is_wall_behind():
-		owner.flip()
+		flip()
 	owner.get_node("AnimatedSprite").play('WallSlide')
+
+
+func handle_input(event):
+	if InputManager.input_enabled and event.is_action_pressed("dash"):
+		flip()
+		emit_signal("finished", "dash")
 
 
 func update(delta):

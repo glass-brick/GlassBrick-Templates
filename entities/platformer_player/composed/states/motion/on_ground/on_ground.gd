@@ -2,8 +2,11 @@ extends "../motion.gd"
 
 
 func handle_input(event):
-	if InputManager.input_enabled and event.is_action_pressed("jump"):
-		emit_signal("finished", "jump")
+	if InputManager.input_enabled:
+		if event.is_action_pressed("jump"):
+			emit_signal("finished", "jump")
+		elif event.is_action_pressed("dash"):
+			emit_signal("finished", "dash")
 	.handle_input(event)
 
 

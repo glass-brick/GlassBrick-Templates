@@ -9,7 +9,8 @@ onready var states_map = {
 	"jump": $Jump,
 	"double_jump": $DoubleJump,
 	"fall": $Fall,
-	"walled": $Walled
+	"walled": $Walled,
+	"dash": $Dash,
 }
 var time_since_states := {}
 

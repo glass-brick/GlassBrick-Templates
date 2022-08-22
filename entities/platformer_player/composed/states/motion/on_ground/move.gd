@@ -8,12 +8,12 @@ onready var decceleration = float(max_speed) / float(decceleration_frames)
 
 
 func enter():
-	owner.face_axis(get_input_direction())
+	face_axis(get_input_direction())
 	owner.get_node("AnimatedSprite").play("Run")
 
 
 func update(delta):
-	owner.face_axis(get_input_direction())
+	face_axis(get_input_direction())
 	var input_direction = get_input_direction()
 	if not is_zero_approx(input_direction):
 		# important for controller stick owner.velocity management

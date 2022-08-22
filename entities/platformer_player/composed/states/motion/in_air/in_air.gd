@@ -9,8 +9,13 @@ export (float) var terminal_velocity := 300.0
 export (float) var gravity := 640.0
 
 
+func handle_input(event):
+	if InputManager.input_enabled and event.is_action_pressed("dash"):
+		emit_signal("finished", "dash")
+
+
 func update(delta):
-	owner.face_axis(get_input_direction())
+	face_axis(get_input_direction())
 
 	var input_direction = get_input_direction()
 	if not is_zero_approx(input_direction):

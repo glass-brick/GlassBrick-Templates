@@ -7,7 +7,7 @@
 [ext_resource path="res://assets/pixel_adventure_pack/Main Characters/Virtual Guy/Fall (32x32).png" type="Texture" id=5]
 [ext_resource path="res://utils/wall_detector.tscn" type="PackedScene" id=6]
 [ext_resource path="res://assets/sfx/jump_000.wav" type="AudioStream" id=7]
-[ext_resource path="res://entities/platformer_player/full.gd" type="Script" id=8]
+[ext_resource path="res://entities/platformer_player/full/full.gd" type="Script" id=8]
 [ext_resource path="res://shaders/aura_shader.gdshader" type="Shader" id=9]
 [ext_resource path="res://assets/pixel_adventure_pack/Main Characters/Virtual Guy/Idle (32x32).png" type="Texture" id=10]
 [ext_resource path="res://utils/player_particles.tscn" type="PackedScene" id=11]
