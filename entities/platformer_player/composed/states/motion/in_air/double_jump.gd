@@ -1,8 +1,6 @@
 extends "in_air.gd"
 
 export (float) var jump_speed := 320.0
-export (float) var jump_cancel_time := 0.5
-var jump_cancel_timer = 0.0
 
 
 func enter():
@@ -14,10 +12,5 @@ func enter():
 
 
 func update(delta):
-	if jump_cancel_timer > 0:
-		if not Input.is_action_pressed('jump'):
-			owner.velocity.y = 0
-			jump_cancel_timer = 0
-		else:
-			jump_cancel_timer -= delta
+	process_jump_cancel_timer(delta)
 	.update(delta)

@@ -8,6 +8,7 @@ and makes sure every State object had all of these methods.
 extends Node
 
 signal finished(next_state_name)
+var state_machine
 
 
 # Initialize the state. E.g. change the animation

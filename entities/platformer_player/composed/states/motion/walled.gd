@@ -10,12 +10,6 @@ func enter():
 	owner.get_node("AnimatedSprite").play('WallSlide')
 
 
-func handle_input(event):
-	if InputManager.input_enabled and event.is_action_pressed("dash"):
-		flip()
-		emit_signal("finished", "dash")
-
-
 func update(delta):
 	owner.velocity.y = clamp(
 		owner.velocity.y + gravity * delta, -wall_slide_max_speed, wall_slide_max_speed
@@ -30,3 +24,10 @@ func update(delta):
 		emit_signal("finished", "fall")
 	elif owner.is_on_floor():
 		emit_signal("finished", "idle")
+	if InputManager.input_enabled:
+		if Input.is_action_just_pressed("dash"):
+			flip()
+			emit_signal("finished", "dash")
+		elif Input.is_action_just_pressed("jump"):
+			flip()
+			emit_signal("finished", "wall_jump")

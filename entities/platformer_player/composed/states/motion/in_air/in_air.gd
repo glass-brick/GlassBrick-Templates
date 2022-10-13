@@ -1,12 +1,9 @@
 extends '../motion.gd'
 
-export (int) var max_speed = 200
-export (int) var acceleration_frames = 5
-export (int) var decceleration_frames = 2
-onready var acceleration = float(max_speed) / float(acceleration_frames)
-onready var decceleration = float(max_speed) / float(decceleration_frames)
 export (float) var terminal_velocity := 300.0
 export (float) var gravity := 640.0
+export (float) var jump_cancel_time := 0.5
+var jump_cancel_timer = 0.0
 
 
 func handle_input(event):
@@ -14,21 +11,24 @@ func handle_input(event):
 		emit_signal("finished", "dash")
 
 
-func update(delta):
-	face_axis(get_input_direction())
-
-	var input_direction = get_input_direction()
-	if not is_zero_approx(input_direction):
-		# important for controller stick owner.velocity management
-		var input_max_speed = max_speed * abs(input_direction)
-		owner.velocity.x = clamp(
-			owner.velocity.x + acceleration * input_direction, -input_max_speed, input_max_speed
-		)
-	else:
-		owner.velocity.x = move_toward(owner.velocity.x, 0, decceleration)
-
+func process_jump_gravity(delta):
 	owner.velocity.y = min(owner.velocity.y + gravity * delta, terminal_velocity)
 	owner.velocity = owner.move_and_slide(owner.velocity, Vector2.UP)
+
+
+func process_jump_cancel_timer(delta):
+	if jump_cancel_timer > 0:
+		if not Input.is_action_pressed('jump'):
+			owner.velocity.y = 0
+			jump_cancel_timer = 0
+		else:
+			jump_cancel_timer -= delta
+
+
+func update(delta):
+	face_axis(get_input_direction())
+	owner.velocity.x = get_updated_h_velocity(owner.velocity.x)
+	process_jump_gravity(delta)
 	if owner.is_on_floor():
 		emit_signal("finished", "idle")
 	elif owner.is_on_wall():
