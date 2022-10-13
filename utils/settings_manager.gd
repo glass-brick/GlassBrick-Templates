@@ -7,6 +7,9 @@ var settings: SettingsResource
 func _enter_tree():
 	pause_mode = PAUSE_MODE_PROCESS
 	settings = SettingsResource.load() if SettingsResource.exists() else SettingsResource.new()
+	if settings.version != SettingsResource.CURRENT_VERSION:
+		settings = SettingsResource.new()
+		settings.write()
 	load_settings()
 	emit_signal("settings_changed")
 
