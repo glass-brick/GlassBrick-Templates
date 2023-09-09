@@ -18,7 +18,7 @@ var input_enabled = true
 
 enum CONTROL_MODES { KEYBOARD, CONTROLLER }
 var controller_connected = Input.get_connected_joypads().size() > 0
-onready var control_mode = (
+@onready var control_mode = (
 	CONTROL_MODES.CONTROLLER
 	if controller_connected
 	else CONTROL_MODES.KEYBOARD
@@ -26,8 +26,8 @@ onready var control_mode = (
 
 
 func _ready():
-	pause_mode = PAUSE_MODE_PROCESS
-	Input.connect('joy_connection_changed', self, '_on_joy_connection_changed')
+	process_mode = PROCESS_MODE_ALWAYS
+	Input.connect('joy_connection_changed', Callable(self, '_on_joy_connection_changed'))
 
 
 func _on_joy_connection_changed(_device, _is_connected, _name, _guid):
@@ -57,11 +57,11 @@ func get_input_event_display_resource(input_event: InputEvent):
 	if input_event == null:
 		return '[ Unset ]'
 	if input_event is InputEventKey:
-		var scancode: int = input_event.scancode
+		var keycode: int = input_event.keycode
 		return (
-			InputResources.KEYBOARD_RESOURCES[scancode]
-			if scancode in InputResources.KEYBOARD_RESOURCES
-			else OS.get_scancode_string(scancode)
+			InputResources.KEYBOARD_RESOURCES[keycode]
+			if keycode in InputResources.KEYBOARD_RESOURCES
+			else OS.get_keycode_string(keycode)
 		)
 	if input_event is InputEventJoypadButton:
 		return InputResources.GAMEPAD_BUTTON_RESOURCES[input_event.button_index]
@@ -83,11 +83,11 @@ func get_input_event_node(input_event: InputEvent) -> Control:
 		var label_node := Label.new()
 		label_node.anchor_bottom = 1.0
 		label_node.anchor_right = 1.0
-		label_node.valign = Label.ALIGN_CENTER
-		label_node.align = Label.ALIGN_CENTER
+		label_node.valign = Label.ALIGNMENT_CENTER
+		label_node.align = Label.ALIGNMENT_CENTER
 		label_node.text = display_resource
 		return label_node
-	if display_resource is Texture:
+	if display_resource is Texture2D:
 		var texture_rect := TextureRect.new()
 		texture_rect.anchor_bottom = 1.0
 		texture_rect.anchor_right = 1.0
@@ -113,7 +113,7 @@ func map_event_to_action(action_name: String, event: InputEvent, previous_event:
 
 
 func get_action_event(action_name: String, idx: int):
-	var bindings = get_action_list(action_name)
+	var bindings = action_get_events(action_name)
 	return null if bindings.size() <= idx else bindings[idx]
 
 
@@ -127,8 +127,8 @@ func get_action_display_resource(action_name: String, idx: int):
 	return get_input_event_display_resource(input_event)
 
 
-func get_action_list(action_name) -> Array:
-	var actions = InputMap.get_action_list(action_name)
+func action_get_events(action_name) -> Array:
+	var actions = InputMap.action_get_events(action_name)
 	var final_actions = []
 	for event in actions:
 		if (

@@ -1,13 +1,14 @@
 [remap]
 
 importer="wav"
-type="AudioStreamSample"
-path="res://.import/management loop 3.wav-da6826bf232796bc7cdb21b2c755f442.sample"
+type="AudioStreamWAV"
+uid="uid://c7fbqjv1rn77k"
+path="res://.godot/imported/management loop 3.wav-da6826bf232796bc7cdb21b2c755f442.sample"
 
 [deps]
 
 source_file="res://assets/bgm/management loop 3.wav"
-dest_files=[ "res://.import/management loop 3.wav-da6826bf232796bc7cdb21b2c755f442.sample" ]
+dest_files=["res://.godot/imported/management loop 3.wav-da6826bf232796bc7cdb21b2c755f442.sample"]
 
 [params]
 
@@ -17,5 +18,7 @@ force/max_rate=false
 force/max_rate_hz=44100
 edit/trim=false
 edit/normalize=false
-edit/loop=true
+edit/loop_mode=0
+edit/loop_begin=0
+edit/loop_end=-1
 compress/mode=0

@@ -1,15 +1,15 @@
 [gd_scene load_steps=19 format=2]
 
 [ext_resource path="res://entities/interactable/npc.gd" type="Script" id=1]
-[ext_resource path="res://assets/pixel_adventure_pack/Main Characters/Mask Dude/Idle (32x32).png" type="Texture" id=2]
+[ext_resource path="res://assets/pixel_adventure_pack/Main Characters/Mask Dude/Idle (32x32).png" type="Texture2D" id=2]
 [ext_resource path="res://entities/interactable/interactable.gd" type="Script" id=4]
 [ext_resource path="res://dialogues/mask_dude.tres" type="Resource" id=5]
 
 [sub_resource type="RectangleShape2D" id=14]
-extents = Vector2( 11, 14 )
+size = Vector2( 11, 14 )
 
 [sub_resource type="RectangleShape2D" id=1]
-extents = Vector2( 11, 14 )
+size = Vector2( 11, 14 )
 
 [sub_resource type="AtlasTexture" id=2]
 atlas = ExtResource( 2 )
@@ -63,7 +63,7 @@ animations = [ {
 "speed": 10.0
 } ]
 
-[node name="NPC" type="KinematicBody2D"]
+[node name="NPC" type="CharacterBody2D"]
 collision_layer = 0
 collision_mask = 2
 script = ExtResource( 1 )
@@ -82,11 +82,11 @@ collision_shape = SubResource( 14 )
 position = Vector2( 0, 2 )
 shape = SubResource( 1 )
 
-[node name="AnimatedSprite" type="AnimatedSprite" parent="."]
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
 frames = SubResource( 13 )
 
 [node name="PromptContainer" type="Control" parent="."]
-margin_left = -19.0
-margin_top = -36.0
-margin_right = 19.0
-margin_bottom = -23.0
+offset_left = -19.0
+offset_top = -36.0
+offset_right = 19.0
+offset_bottom = -23.0

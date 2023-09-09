@@ -1,13 +1,13 @@
 extends Node2D
 
-export (NodePath) var animated_sprite_path
-export (float) var time_between_ghosts = 0.1
-export (Color) var ghost_color = Color.white
+@export (NodePath) var animated_sprite_path
+@export (float) var time_between_ghosts = 0.1
+@export (Color) var ghost_color = Color.WHITE
 var emitting_ghost_particles = false
 var ghost_timer = 0
-onready var animated_sprite: AnimatedSprite = get_node(animated_sprite_path)
-onready var wall_slide_trail: CPUParticles2D = $WallSlideParticles
-onready var jump_particles: CPUParticles2D = $JumpParticles
+@onready var animated_sprite: AnimatedSprite2D = get_node(animated_sprite_path)
+@onready var wall_slide_trail: CPUParticles2D = $WallSlideParticles
+@onready var jump_particles: CPUParticles2D = $JumpParticles
 
 
 func start_emitting_ghost_particles():
@@ -16,12 +16,12 @@ func start_emitting_ghost_particles():
 
 
 func stop_emitting_ghost_particles(delay = 0.0):
-	yield(get_tree().create_timer(delay), "timeout")
+	await get_tree().create_timer(delay).timeout
 	emitting_ghost_particles = false
 
 
 func draw_ghost():
-	var ghost := Sprite.new()
+	var ghost := Sprite2D.new()
 	ghost.set_texture(
 		animated_sprite.frames.get_frame(animated_sprite.animation, animated_sprite.frame)
 	)
@@ -29,10 +29,10 @@ func draw_ghost():
 	ghost.global_scale = global_scale
 	ghost.global_rotation = global_rotation
 	var tween := Tween.new()
-	var final_color = ghost_color.blend(Color.transparent)
+	var final_color = ghost_color.blend(Color.TRANSPARENT)
 	final_color.a = 0
 	tween.interpolate_property(ghost, "modulate", ghost_color, final_color, 0.5)
-	tween.connect('tween_completed', self, 'on_ghost_faded', [tween])
+	tween.connect('tween_completed', Callable(self, 'on_ghost_faded').bind(tween))
 	add_child(tween)
 	tween.start()
 	SceneManager.get_entity("Level").add_child(ghost)

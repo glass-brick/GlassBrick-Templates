@@ -1,6 +1,6 @@
 extends RichTextLabel
 
-var is_allowed: bool = true setget set_is_allowed
+var is_allowed: bool = true: set = set_is_allowed
 
 
 func set_is_allowed(value: bool) -> void:

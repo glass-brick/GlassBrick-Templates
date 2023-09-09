@@ -1,15 +1,15 @@
 extends MenuOption
-onready var checkbox: CheckBox = $"%CheckBox"
+@onready var checkbox: CheckBox = $"%CheckBox"
 
 
 func _ready():
-	SettingsManager.connect('settings_changed', self, '_on_settings_changed')
+	SettingsManager.connect('changed', Callable(self, '_on_settings_changed'))
 
 
 func _on_settings_changed():
-	checkbox.pressed = OS.window_fullscreen
+	checkbox.button_pressed = ((get_window().mode == Window.MODE_EXCLUSIVE_FULLSCREEN) or (get_window().mode == Window.MODE_FULLSCREEN))
 
 
 func _on_CheckBox_toggled(pressed: bool):
-	OS.window_fullscreen = pressed
+	get_window().mode = Window.MODE_EXCLUSIVE_FULLSCREEN if (pressed) else Window.MODE_WINDOWED
 	SettingsManager.save_fullscreen(pressed)

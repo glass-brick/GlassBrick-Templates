@@ -1,15 +1,15 @@
-extends KinematicBody2D
+extends CharacterBody2D
 
-export (String) var dialogue_node
-export (Resource) var dialogue_resource
-onready var animated_sprite: AnimatedSprite = $AnimatedSprite
-onready var interactable: Interactable = $Interactable
+@export (String) var dialogue_node
+@export (Resource) var dialogue_resource
+@onready var animated_sprite: AnimatedSprite2D = $AnimatedSprite2D
+@onready var interactable: Interactable = $Interactable
 var dialog: Node
 
 
 func _ready():
 	animated_sprite.play()
-	interactable.connect("interacted", self, "interact")
+	interactable.connect("interacted", Callable(self, "interact"))
 
 
 func interact():
@@ -23,11 +23,11 @@ func open_dialogue(dialogue_line = dialogue_node):
 		DialogueManager.get_next_dialogue_line(dialogue_line, dialogue_resource), "completed"
 	)
 	if dialogue != null:
-		var balloon = preload("res://dialogues/dialogue_balloon/dialogue_balloon.tscn").instance()
+		var balloon = preload("res://dialogues/dialogue_balloon/dialogue_balloon.tscn").instantiate()
 		balloon.dialogue = dialogue
 		get_tree().current_scene.add_child(balloon)
-		open_dialogue(yield(balloon, "actioned"))
+		open_dialogue(await balloon.actioned)
 	else:
-		yield(get_tree().create_timer(0.2), "timeout")
+		await get_tree().create_timer(0.2).timeout
 		InputManager.enable_input()
 		interactable.show_prompt()

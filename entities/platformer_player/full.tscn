@@ -1,15 +1,15 @@
 [gd_scene load_steps=52 format=2]
 
-[ext_resource path="res://assets/pixel_adventure_pack/Main Characters/Virtual Guy/Wall Jump (32x32).png" type="Texture" id=1]
-[ext_resource path="res://assets/pixel_adventure_pack/Main Characters/Virtual Guy/Run (32x32).png" type="Texture" id=2]
-[ext_resource path="res://assets/pixel_adventure_pack/Main Characters/Virtual Guy/Double Jump (32x32).png" type="Texture" id=3]
-[ext_resource path="res://assets/pixel_adventure_pack/Main Characters/Virtual Guy/Jump (32x32).png" type="Texture" id=4]
-[ext_resource path="res://assets/pixel_adventure_pack/Main Characters/Virtual Guy/Fall (32x32).png" type="Texture" id=5]
+[ext_resource path="res://assets/pixel_adventure_pack/Main Characters/Virtual Guy/Wall Jump (32x32).png" type="Texture2D" id=1]
+[ext_resource path="res://assets/pixel_adventure_pack/Main Characters/Virtual Guy/Run (32x32).png" type="Texture2D" id=2]
+[ext_resource path="res://assets/pixel_adventure_pack/Main Characters/Virtual Guy/Double Jump (32x32).png" type="Texture2D" id=3]
+[ext_resource path="res://assets/pixel_adventure_pack/Main Characters/Virtual Guy/Jump (32x32).png" type="Texture2D" id=4]
+[ext_resource path="res://assets/pixel_adventure_pack/Main Characters/Virtual Guy/Fall (32x32).png" type="Texture2D" id=5]
 [ext_resource path="res://utils/wall_detector.tscn" type="PackedScene" id=6]
 [ext_resource path="res://assets/sfx/jump_000.wav" type="AudioStream" id=7]
 [ext_resource path="res://entities/platformer_player/full.gd" type="Script" id=8]
 [ext_resource path="res://shaders/aura_shader.gdshader" type="Shader" id=9]
-[ext_resource path="res://assets/pixel_adventure_pack/Main Characters/Virtual Guy/Idle (32x32).png" type="Texture" id=10]
+[ext_resource path="res://assets/pixel_adventure_pack/Main Characters/Virtual Guy/Idle (32x32).png" type="Texture2D" id=10]
 [ext_resource path="res://utils/player_particles.tscn" type="PackedScene" id=11]
 
 [sub_resource type="ShaderMaterial" id=14]
@@ -198,15 +198,15 @@ animations = [ {
 } ]
 
 [sub_resource type="RectangleShape2D" id=1]
-extents = Vector2( 9, 12 )
+size = Vector2( 9, 12 )
 
 [sub_resource type="CircleShape2D" id=99]
 radius = 56.0357
 
-[node name="Player" type="KinematicBody2D"]
+[node name="Player" type="CharacterBody2D"]
 script = ExtResource( 8 )
 
-[node name="AnimatedSprite" type="AnimatedSprite" parent="."]
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
 material = SubResource( 14 )
 z_index = 1
 frames = SubResource( 13 )
@@ -219,7 +219,7 @@ shape = SubResource( 1 )
 [node name="WallDetector" parent="." instance=ExtResource( 6 )]
 
 [node name="PlayerParticles" parent="." instance=ExtResource( 11 )]
-animated_sprite_path = NodePath("../AnimatedSprite")
+animated_sprite_path = NodePath("../AnimatedSprite2D")
 time_between_ghosts = 0.05
 ghost_color = Color( 0.560784, 0.67451, 0.941176, 1 )
 

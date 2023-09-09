@@ -3,8 +3,8 @@
 [ext_resource path="res://dialogues/dialogue_balloon/dialogue_balloon.gd" type="Script" id=1]
 [ext_resource path="res://addons/dialogue_manager/dialogue_label.tscn" type="PackedScene" id=2]
 [ext_resource path="res://dialogues/dialogue_balloon/menu.tscn" type="PackedScene" id=3]
-[ext_resource path="res://assets/dialogue_background.png" type="Texture" id=4]
-[ext_resource path="res://assets/arrow.png" type="Texture" id=5]
+[ext_resource path="res://assets/dialogue_background.png" type="Texture2D" id=4]
+[ext_resource path="res://assets/arrow.png" type="Texture2D" id=5]
 
 [node name="DialogueBalloon" type="CanvasLayer"]
 script = ExtResource( 1 )
@@ -12,7 +12,7 @@ script = ExtResource( 1 )
 [node name="Balloon" type="Control" parent="."]
 anchor_right = 0.25
 anchor_bottom = 0.143
-margin_bottom = 0.0399933
+offset_bottom = 0.0399933
 
 [node name="Background" type="NinePatchRect" parent="Balloon"]
 anchor_right = 1.0
@@ -26,27 +26,27 @@ patch_margin_bottom = 16
 [node name="Margin" type="MarginContainer" parent="Balloon"]
 anchor_right = 1.0
 anchor_bottom = 1.0
-custom_constants/margin_right = 10
-custom_constants/margin_top = 10
-custom_constants/margin_left = 10
-custom_constants/margin_bottom = 20
+theme_override_constants/margin_right = 10
+theme_override_constants/margin_top = 10
+theme_override_constants/margin_left = 10
+theme_override_constants/margin_bottom = 20
 
 [node name="VBox" type="VBoxContainer" parent="Balloon/Margin"]
-margin_left = 10.0
-margin_top = 10.0
-margin_right = 310.0
-margin_bottom = 83.0
-custom_constants/separation = 5
+offset_left = 10.0
+offset_top = 10.0
+offset_right = 310.0
+offset_bottom = 83.0
+theme_override_constants/separation = 5
 
 [node name="Character" type="RichTextLabel" parent="Balloon/Margin/VBox"]
 unique_name_in_owner = true
 modulate = Color( 1, 1, 1, 0.470588 )
-margin_right = 300.0
-margin_bottom = 15.0
-rect_min_size = Vector2( 0, 15 )
-custom_colors/default_color = Color( 0, 0, 0, 1 )
+offset_right = 300.0
+offset_bottom = 15.0
+custom_minimum_size = Vector2( 0, 15 )
+theme_override_colors/default_color = Color( 0, 0, 0, 1 )
 bbcode_enabled = true
-bbcode_text = "Character"
+text = "Character"
 text = "Character"
 scroll_active = false
 
@@ -54,39 +54,39 @@ scroll_active = false
 unique_name_in_owner = true
 anchor_right = 0.0
 anchor_bottom = 0.0
-margin_top = 20.0
-margin_right = 300.0
-margin_bottom = 35.0
-rect_clip_content = false
-custom_colors/default_color = Color( 0, 0, 0, 1 )
-bbcode_text = "This is a bunch of dialogue!"
+offset_top = 20.0
+offset_right = 300.0
+offset_bottom = 35.0
+clip_contents = false
+theme_override_colors/default_color = Color( 0, 0, 0, 1 )
+text = "This is a bunch of dialogue!"
 text = "This is a bunch of dialogue!"
 skip_action = "interact"
 
 [node name="Responses" type="HBoxContainer" parent="Balloon/Margin/VBox"]
-margin_top = 40.0
-margin_right = 300.0
-margin_bottom = 73.0
+offset_top = 40.0
+offset_right = 300.0
+offset_bottom = 73.0
 size_flags_vertical = 3
 
 [node name="Control" type="Control" parent="Balloon/Margin/VBox/Responses"]
-margin_right = 16.0
-margin_bottom = 33.0
-rect_min_size = Vector2( 16, 0 )
+offset_right = 16.0
+offset_bottom = 33.0
+custom_minimum_size = Vector2( 16, 0 )
 
 [node name="Pointer" type="TextureRect" parent="Balloon/Margin/VBox/Responses/Control"]
 anchor_right = 1.0
 anchor_bottom = 1.0
-margin_bottom = -17.0
+offset_bottom = -17.0
 texture = ExtResource( 5 )
 
 [node name="ResponsesMenu" parent="Balloon/Margin/VBox/Responses" instance=ExtResource( 3 )]
 unique_name_in_owner = true
 anchor_right = 0.0
 anchor_bottom = 0.0
-margin_left = 20.0
-margin_right = 300.0
-margin_bottom = 33.0
+offset_left = 20.0
+offset_right = 300.0
+offset_bottom = 33.0
 size_flags_horizontal = 3
 select_action = "interact"
 _pointer = NodePath("../Control/Pointer")
@@ -97,9 +97,9 @@ anchor_left = 1.0
 anchor_top = 1.0
 anchor_right = 1.0
 anchor_bottom = 1.0
-margin_left = -30.0
-margin_top = -30.0
-margin_right = -10.0
-margin_bottom = -10.0
-rect_min_size = Vector2( 20, 20 )
+offset_left = -30.0
+offset_top = -30.0
+offset_right = -10.0
+offset_bottom = -10.0
+custom_minimum_size = Vector2( 20, 20 )
 size_flags_horizontal = 8

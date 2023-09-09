@@ -1,17 +1,17 @@
 [gd_scene load_steps=9 format=2]
 
-[ext_resource path="res://assets/pixel_adventure_pack/Terrain/Terrain (16x16).png" type="Texture" id=1]
+[ext_resource path="res://assets/pixel_adventure_pack/Terrain/Terrain (16x16).png" type="Texture2D" id=1]
 [ext_resource path="res://entities/interactable/door.gd" type="Script" id=2]
 [ext_resource path="res://entities/interactable/interactable.gd" type="Script" id=3]
 
 [sub_resource type="ConvexPolygonShape2D" id=1]
-points = PoolVector2Array( 16, 16, 0, 16, 0, 0, 16, 0 )
+points = PackedVector2Array( 16, 16, 0, 16, 0, 0, 16, 0 )
 
 [sub_resource type="ConvexPolygonShape2D" id=2]
-points = PoolVector2Array( 16, 16, 0, 16, 0, 0, 16, 0 )
+points = PackedVector2Array( 16, 16, 0, 16, 0, 0, 16, 0 )
 
 [sub_resource type="ConvexPolygonShape2D" id=3]
-points = PoolVector2Array( 16, 16, 0, 16, 0, 0, 16, 0 )
+points = PackedVector2Array( 16, 16, 0, 16, 0, 0, 16, 0 )
 
 [sub_resource type="TileSet" id=4]
 0/name = "Terrain (16x16).png 0"
@@ -58,7 +58,7 @@ points = PoolVector2Array( 16, 16, 0, 16, 0, 0, 16, 0 )
 0/z_index = 0
 
 [sub_resource type="RectangleShape2D" id=5]
-extents = Vector2( 8, 32 )
+size = Vector2( 8, 32 )
 
 [node name="Door" type="Node2D"]
 script = ExtResource( 2 )
@@ -68,7 +68,7 @@ tile_set = SubResource( 4 )
 cell_size = Vector2( 16, 16 )
 collision_layer = 2
 format = 1
-tile_data = PoolIntArray( 0, 0, 0, 65536, 0, 65536, 131072, 0, 65536, 196608, 0, 131072 )
+tile_data = PackedInt32Array( 0, 0, 0, 65536, 0, 65536, 131072, 0, 65536, 196608, 0, 131072 )
 
 [node name="Interactable" type="Area2D" parent="."]
 position = Vector2( 8, 32 )
@@ -79,7 +79,7 @@ prompt_container_path = NodePath("../PromptContainer")
 collision_shape = SubResource( 5 )
 
 [node name="PromptContainer" type="Control" parent="."]
-margin_left = -8.0
-margin_top = -24.0
-margin_right = 24.0
-margin_bottom = -11.0
+offset_left = -8.0
+offset_top = -24.0
+offset_right = 24.0
+offset_bottom = -11.0

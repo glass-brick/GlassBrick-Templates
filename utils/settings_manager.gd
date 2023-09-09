@@ -1,17 +1,17 @@
 extends Node
-signal settings_changed
+signal changed
 
 var settings: SettingsResource
 
 
 func _enter_tree():
-	pause_mode = PAUSE_MODE_PROCESS
+	process_mode = PROCESS_MODE_ALWAYS
 	settings = SettingsResource.load() if SettingsResource.exists() else SettingsResource.new()
 	if settings.version != SettingsResource.CURRENT_VERSION:
 		settings = SettingsResource.new()
 		settings.write()
 	load_settings()
-	emit_signal("settings_changed")
+	emit_signal("changed")
 
 
 func load_settings():
@@ -20,16 +20,26 @@ func load_settings():
 		var input_events = settings.custom_keybindings[action_name]
 		for event in input_events:
 			InputMap.action_add_event(action_name, event)
-	OS.window_fullscreen = settings.fullscreen
-	if not OS.window_fullscreen:
-		OS.window_size = settings.resolution
-		OS.window_position = (OS.get_screen_size() - settings.resolution) / 2
+	get_window().mode = (
+		Window.MODE_EXCLUSIVE_FULLSCREEN
+		if (settings.fullscreen)
+		else Window.MODE_WINDOWED
+	)
+	if not (
+		(get_window().mode == Window.MODE_EXCLUSIVE_FULLSCREEN)
+		or (get_window().mode == Window.MODE_FULLSCREEN)
+	):
+		get_window().size = settings.resolution
+		get_window().position = (
+			(DisplayServer.screen_get_size() - Vector2i(settings.resolution))
+			/ 2
+		)
 	for bus_name in settings.volumes.keys():
 		Utils.set_volume(bus_name, settings.volumes[bus_name])
 
 
 func save_keybindings(action_name: String):
-	settings.custom_keybindings[action_name] = InputMap.get_action_list(action_name)
+	settings.custom_keybindings[action_name] = InputMap.action_get_events(action_name)
 	settings.write()
 
 
@@ -51,5 +61,5 @@ func save_resolution(resolution: Vector2):
 func reset_defaults():
 	settings = SettingsResource.new()
 	load_settings()
-	emit_signal("settings_changed")
+	emit_signal("changed")
 	settings.write()

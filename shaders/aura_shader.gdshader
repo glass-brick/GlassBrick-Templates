@@ -2,8 +2,8 @@ shader_type canvas_item;
 render_mode blend_mix;
 
 uniform float radius = 5.0;
-uniform vec4 modulate: hint_color;
-uniform vec4 modulate_active: hint_color;
+uniform vec4 modulate: source_color;
+uniform vec4 modulate_active: source_color;
 uniform bool active;
 uniform float time_scale = 20;
 

@@ -4,7 +4,7 @@
 [ext_resource path="res://entities/menus/pause_menu.gd" type="Script" id=2]
 
 [node name="PauseMenuLayer" type="CanvasLayer"]
-pause_mode = 2
+process_mode = 3
 script = ExtResource( 2 )
 
 [node name="PauseMenuContainer" type="Control" parent="."]
@@ -23,26 +23,26 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 
 [node name="VBoxContainer" type="VBoxContainer" parent="PauseMenuContainer/PauseMenu"]
-margin_left = 603.0
-margin_top = 323.0
-margin_right = 676.0
-margin_bottom = 397.0
+offset_left = 603.0
+offset_top = 323.0
+offset_right = 676.0
+offset_bottom = 397.0
 
 [node name="Continue" type="Button" parent="PauseMenuContainer/PauseMenu/VBoxContainer"]
-margin_right = 73.0
-margin_bottom = 22.0
+offset_right = 73.0
+offset_bottom = 22.0
 text = "CONTINUE"
 
 [node name="Settings" type="Button" parent="PauseMenuContainer/PauseMenu/VBoxContainer"]
-margin_top = 26.0
-margin_right = 73.0
-margin_bottom = 48.0
+offset_top = 26.0
+offset_right = 73.0
+offset_bottom = 48.0
 text = "SETTINGS"
 
 [node name="Quit" type="Button" parent="PauseMenuContainer/PauseMenu/VBoxContainer"]
-margin_top = 52.0
-margin_right = 73.0
-margin_bottom = 74.0
+offset_top = 52.0
+offset_right = 73.0
+offset_bottom = 74.0
 text = "QUIT"
 
 [node name="SettingsMenu" parent="PauseMenuContainer" instance=ExtResource( 1 )]

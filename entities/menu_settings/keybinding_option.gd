@@ -1,12 +1,12 @@
 extends MenuOption
 
-export (String) var action_name = ""
-export (String) var option_name = "ACTION" setget set_option_name
+@export (String) var action_name = ""
+@export (String) var option_name = "ACTION": set = set_option_name
 
-onready var instruction_label: Label = $HBoxContainer/PressAKey
-onready var main_key: Button = $HBoxContainer/MainKey
-onready var secondary_key: Button = $HBoxContainer/SecondaryKey
-onready var timer: Timer = $Timer
+@onready var instruction_label: Label = $HBoxContainer/PressAKey
+@onready var main_key: Button = $HBoxContainer/MainKey
+@onready var secondary_key: Button = $HBoxContainer/SecondaryKey
+@onready var timer: Timer = $Timer
 var main_event: InputEvent
 var secondary_event: InputEvent
 
@@ -14,15 +14,15 @@ var selected_key_idx = null
 
 
 func _ready():
-	SettingsManager.connect('settings_changed', self, 'set_buttons')
-	InputManager.connect("control_mode_changed", self, "set_buttons")
-	InputManager.connect("erased_action_event", self, "on_erased_action_event")
+	SettingsManager.connect('changed', Callable(self, 'set_buttons'))
+	InputManager.connect("control_mode_changed", Callable(self, "set_buttons"))
+	InputManager.connect("erased_action_event", Callable(self, "on_erased_action_event"))
 	set_buttons()
 
 
 func set_option_name(value: String):
 	if not is_inside_tree():
-		yield(self, 'ready')
+		await self.ready
 	label.text = value
 
 
@@ -71,7 +71,7 @@ func finish_key_change():
 
 
 func _process(delta):
-	._process(delta)
+	super._process(delta)
 	if timer.time_left > 0:
 		instruction_label.text = (
 			"Press a %s (%d)"
@@ -108,10 +108,10 @@ func is_valid_change_event_input(event: InputEvent):
 
 func _input(event: InputEvent):
 	if selected_key_idx != null and is_valid_change_event_input(event):
-		get_tree().set_input_as_handled()
+		get_viewport().set_input_as_handled()
 		var event_to_change = main_event if selected_key_idx == 0 else secondary_event
 
-		if event is InputEventKey and event.scancode == KEY_ESCAPE:
+		if event is InputEventKey and event.keycode == KEY_ESCAPE:
 			InputMap.action_erase_event(action_name, event_to_change)
 		else:
 			InputManager.map_event_to_action(action_name, event, event_to_change)

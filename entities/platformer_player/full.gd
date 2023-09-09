@@ -1,59 +1,59 @@
-extends KinematicBody2D
+extends CharacterBody2D
 
 var velocity = Vector2()
 
-export (int) var health = 100
+@export var health := 100
 
-export (int) var max_speed = 200
-export (int) var acceleration_frames = 5
-export (int) var decceleration_frames = 2
-onready var acceleration = float(max_speed) / float(acceleration_frames)
-onready var decceleration = float(max_speed) / float(decceleration_frames)
+@export var max_speed := 200
+@export var acceleration_frames := 5
+@export var decceleration_frames := 2
+@onready var acceleration = float(max_speed) / float(acceleration_frames)
+@onready var decceleration = float(max_speed) / float(decceleration_frames)
 
 enum DIRECTIONS { LEFT, RIGHT }
 var facing_direction = DIRECTIONS.RIGHT
 
-export (float, 0, 5, 0.1) var air_time = 1.0
-export (float, 0, 20, 0.5) var max_jump_height = 3.0
-export (float, 1.0, 5.0) var terminal_velocity = 1.5
-export (float, 1.0, 4.0) var wall_jump_speed = 1.5
-onready var player_height = $CollisionShape2D.get_shape().get_extents().y
-onready var jump_speed = -player_height * max_jump_height * 9 / air_time
-onready var gravity = -jump_speed * 2 / air_time
-onready var max_fall_speed = -jump_speed * terminal_velocity
+@export_range (0, 5, 0.1) var air_time := 1.0
+@export_range (0, 20, 0.5) var max_jump_height := 3.0
+@export_range (1.0, 5.0) var terminal_velocity := 1.5
+@export_range (1.0, 4.0) var wall_jump_speed := 1.5
+@onready var player_height = $CollisionShape2D.get_shape().get_extents().y
+@onready var jump_speed = -player_height * max_jump_height * 9 / air_time
+@onready var gravity = -jump_speed * 2 / air_time
+@onready var max_fall_speed = -jump_speed * terminal_velocity
 var can_floor_jump = false
 var can_double_jump = true
 var can_wall_jump = false
 var wall_jumped = false
 var jump_cancel_time = 0
 
-export (float, 50, 400) var wall_slide_max_speed = 100.0
+@export_range(50, 400) var wall_slide_max_speed := 100.0
 
-export (float) var dash_speed = 500.0
-export (float, 0, 0.5) var dash_duration = 0.2
+@export var dash_speed := 500.0
+@export_range(float, 0, 0.5) var dash_duration = 0.2
 var dash_timer = 0
 var dash_jumped = false
 
-export (float) var invincibility_time = 0.5
+@export var invincibility_time := 0.5
 var invincibility_counter = 0.0
 var invincibility = false
 
-export (float) var acme_time_floor = 0.1
-export (float) var acme_time_wall = 0.2
+@export var acme_time_floor := 0.1
+@export var acme_time_wall := 0.2
 
-onready var animated_sprite : AnimatedSprite = $AnimatedSprite
-onready var wall_detector : Node2D = $WallDetector
-onready var player_particles: Node2D = $PlayerParticles
+@onready var animated_sprite : AnimatedSprite2D = $AnimatedSprite2D
+@onready var wall_detector : Node2D = $WallDetector
+@onready var player_particles: Node2D = $PlayerParticles
 
 enum STATES { FLOORED, AIRBORNE, WALLED, DASH, DEAD }
 
-onready var sm = StateMachine.new(
+@onready var sm = StateMachine.new(
 	self,
 	STATES.FLOORED,
 	STATES
 )
 
-onready var interactable_area : Area2D = $InteractableDetectionArea
+@onready var interactable_area : Area2D = $InteractableDetectionArea
 var interactables := []
 var interactable_target : Interactable
 
@@ -266,7 +266,10 @@ func _physics_process(delta: float):
 			process_walled_input()
 
 	if sm.state != STATES.DEAD:
-		velocity = move_and_slide(velocity, Vector2(0, -1))
+		set_velocity(velocity)
+		set_up_direction(Vector2(0, -1))
+		move_and_slide()
+		velocity = velocity
 		check_interactables()
 		process_invincibility(delta)
 
@@ -274,13 +277,13 @@ func process_invincibility(delta):
 	if invincibility:
 		invincibility_counter += delta
 		var mat = animated_sprite.get_material()
-		mat.set_shader_param("active", true)
+		mat.set_shader_parameter("active", true)
 		if invincibility_counter > invincibility_time:
 			invincibility = false
 	else:
 		invincibility_counter = 0
 		var mat = animated_sprite.get_material()
-		mat.set_shader_param("active", false)
+		mat.set_shader_parameter("active", false)
 
 
 func _on_hit(damage, _damager):

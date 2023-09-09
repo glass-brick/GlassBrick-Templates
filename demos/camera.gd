@@ -1,10 +1,10 @@
 extends Camera2D
 
-export (NodePath) var main_target
-export (bool) var input_camera_controls_enabled = true
-export (float) var input_camera_controls_amount = 50.0
-export (bool) var lookahead = true
-export (Vector2) var lookahead_amount = Vector2(0.25, 0.15)
+@export (NodePath) var main_target
+@export (bool) var input_camera_controls_enabled = true
+@export (float) var input_camera_controls_amount = 50.0
+@export (bool) var lookahead = true
+@export (Vector2) var lookahead_amount = Vector2(0.25, 0.15)
 var target: Node2D
 var target_prev_position: Vector2
 var target_velocity := Vector2.ZERO
@@ -13,7 +13,7 @@ var area: Rect2
 
 func _ready():
 	# fix camera jitter https://godotengine.org/qa/24510/camera2d-smoothing-jitter-in-godot-3-0
-	Engine.set_target_fps(Engine.get_iterations_per_second())
+	Engine.set_target_fps(Engine.get_physics_ticks_per_second())
 	back_to_main_target()
 	position = target_prev_position
 	reset_smoothing()
@@ -44,8 +44,8 @@ func back_to_main_target():
 
 func _input(event: InputEvent):
 	# test target switching
-	if event is InputEventKey and event.is_pressed() and event.scancode == KEY_Y:
+	if event is InputEventKey and event.is_pressed() and event.keycode == KEY_Y:
 		if target == get_node(main_target):
-			set_target(get_node(@'../NPC'))
+			set_target(get_node('../NPC'))
 		else:
 			back_to_main_target()

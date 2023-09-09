@@ -10,16 +10,16 @@ script = ExtResource( 1 )
 label_path = NodePath("Label")
 
 [node name="Label" type="Label" parent="."]
-margin_top = 5.0
-margin_right = 1252.0
-margin_bottom = 19.0
+offset_top = 5.0
+offset_right = 1252.0
+offset_bottom = 19.0
 size_flags_horizontal = 3
 text = "FULLSCREEN"
 
 [node name="CheckBox" type="CheckBox" parent="."]
 unique_name_in_owner = true
-margin_left = 1256.0
-margin_right = 1280.0
-margin_bottom = 24.0
+offset_left = 1256.0
+offset_right = 1280.0
+offset_bottom = 24.0
 
 [connection signal="toggled" from="CheckBox" to="." method="_on_CheckBox_toggled"]

@@ -37,11 +37,11 @@ static func is_child_focused(node: Node, exclude_self: bool = true):
 
 static func set_volume(bus_name: String, volume: float) -> void:
 	var bus_index = AudioServer.get_bus_index(bus_name)
-	AudioServer.set_bus_volume_db(bus_index, linear2db(volume))
+	AudioServer.set_bus_volume_db(bus_index, linear_to_db(volume))
 
 static func get_volume(bus_name) -> float:
 	var bus_index = AudioServer.get_bus_index(bus_name)
-	return db2linear(AudioServer.get_bus_volume_db(bus_index))
+	return db_to_linear(AudioServer.get_bus_volume_db(bus_index))
 
 static func next_idx_in_loop(idx: int, total: int) -> int:
 	return (idx + 1) if idx < (total - 1) else 0

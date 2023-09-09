@@ -10,7 +10,7 @@ var parent = null
 func _init(_parent: Node, _menus: Array, _callback_name: String):
 	parent = _parent
 	parent.add_child(self)
-	connect("top_level_back_requested", parent, _callback_name)
+	connect("top_level_back_requested", Callable(parent, _callback_name))
 	menus = _menus
 
 

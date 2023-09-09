@@ -1,7 +1,7 @@
 extends Node2D
 
-export (NodePath) var collider_path
-onready var collider: CollisionShape2D = get_node(collider_path)
+@export (NodePath) var collider_path
+@onready var collider: CollisionShape2D = get_node(collider_path)
 
 var top_front_raycast = RayCast2D.new()
 var bottom_front_raycast = RayCast2D.new()
@@ -18,10 +18,10 @@ func _ready():
 	top_back_raycast.position = collider.position + Vector2(0, height)
 	bottom_back_raycast.position = collider.position + Vector2(0, -height)
 
-	top_front_raycast.cast_to = Vector2(width + 1, 0)
-	bottom_front_raycast.cast_to = Vector2(width + 1, 0)
-	top_back_raycast.cast_to = Vector2(-(width + 1), 0)
-	bottom_back_raycast.cast_to = Vector2(-(width + 1), 0)
+	top_front_raycast.target_position = Vector2(width + 1, 0)
+	bottom_front_raycast.target_position = Vector2(width + 1, 0)
+	top_back_raycast.target_position = Vector2(-(width + 1), 0)
+	bottom_back_raycast.target_position = Vector2(-(width + 1), 0)
 
 	top_front_raycast.collision_mask = 2
 	bottom_front_raycast.collision_mask = 2

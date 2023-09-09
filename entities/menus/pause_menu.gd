@@ -1,11 +1,11 @@
 extends CanvasLayer
 
 var paused = false
-onready var container: Control = $"%PauseMenuContainer"
-onready var pause_menu: Control = $"%PauseMenu"
-onready var settings_menu: Control = $"%SettingsMenu"
-onready var menus = [pause_menu, settings_menu]
-onready var mm := MenuManager.new(self, menus, "_on_top_level_back_requested")
+@onready var container: Control = $"%PauseMenuContainer"
+@onready var pause_menu: Control = $"%PauseMenu"
+@onready var settings_menu: Control = $"%SettingsMenu"
+@onready var menus = [pause_menu, settings_menu]
+@onready var mm := MenuManager.new(self, menus, "_on_top_level_back_requested")
 
 
 func _ready():
@@ -15,7 +15,7 @@ func _ready():
 
 func _unhandled_input(event: InputEvent):
 	if event.is_action_pressed('ui_pause') or (event.is_action_pressed('ui_cancel') and paused):
-		get_tree().set_input_as_handled()
+		get_viewport().set_input_as_handled()
 		if not paused:
 			pause()
 		else:
