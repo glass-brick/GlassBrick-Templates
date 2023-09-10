@@ -10,13 +10,13 @@ var bottom_back_raycast = RayCast2D.new()
 
 
 func _ready():
-	var height = collider.get_shape().size.y
-	var width = collider.get_shape().size.x
+	var height = collider.get_shape().size.y / 2
+	var width = collider.get_shape().size.x / 2
 
-	top_front_raycast.position = collider.position + Vector2(0, height)
-	bottom_front_raycast.position = collider.position + Vector2(0, -height)
-	top_back_raycast.position = collider.position + Vector2(0, height)
-	bottom_back_raycast.position = collider.position + Vector2(0, -height)
+	top_front_raycast.position = collider.position + Vector2(0, -height)
+	bottom_front_raycast.position = collider.position + Vector2(0, height)
+	top_back_raycast.position = collider.position + Vector2(0, -height)
+	bottom_back_raycast.position = collider.position + Vector2(0, height)
 
 	top_front_raycast.target_position = Vector2(width + 1, 0)
 	bottom_front_raycast.target_position = Vector2(width + 1, 0)

@@ -1,7 +1,5 @@
 extends CharacterBody2D
 
-var velocity = Vector2()
-
 @export var health := 100
 
 @export var max_speed := 200
@@ -30,7 +28,7 @@ var jump_cancel_time = 0
 @export_range(50, 400) var wall_slide_max_speed := 100.0
 
 @export var dash_speed := 500.0
-@export_range(float, 0, 0.5) var dash_duration = 0.2
+@export_range(0, 0.5) var dash_duration := 0.2
 var dash_timer = 0
 var dash_jumped = false
 
@@ -110,7 +108,7 @@ func process_horizontal_move():
 
 	if dash_just_pressed and (is_on_floor() or not dash_jumped):
 		sm.travel_to(STATES.DASH)
-
+	
 	if wall_detector.is_on_wall() and not is_on_floor() and sm.time_since(STATES.WALLED) > acme_time_wall:
 		sm.travel_to(STATES.WALLED)
 
@@ -183,11 +181,10 @@ func process_dash(delta):
 
 
 func transited_state(from, to):
+	if to == STATES.FLOORED or to == STATES.WALLED:
+		can_double_jump = true
+		dash_jumped = false
 	match to:
-		STATES.FLOORED, STATES.WALLED:
-			can_double_jump = true
-			dash_jumped = false
-			continue
 		STATES.WALLED:
 			player_particles.start_emitting_wall_slide_particles()
 			if wall_detector.is_wall_behind():
@@ -196,7 +193,7 @@ func transited_state(from, to):
 			can_wall_jump = false
 		STATES.DEAD:
 			health = 0
-			velocity = Vector2()
+			velocity = Vector2.ZERO
 		STATES.DASH:
 			jump_cancel_time = 0
 			var direction := Input.get_vector('ui_left', 'ui_right', 'ui_up', 'ui_down') if InputManager.input_enabled else Vector2.ZERO
@@ -228,7 +225,7 @@ func transited_state(from, to):
 
 
 
-func _process(_delta):	
+func _process(_delta):
 	match sm.state:
 		STATES.FLOORED:
 			animated_sprite.play('Idle' if is_zero_approx(velocity.x) else 'Run')
@@ -244,18 +241,17 @@ func _process(_delta):
 				
 	
 func _physics_process(delta: float):
+	sm.print_state(sm.state)
+	if sm.state == STATES.FLOORED or sm.state == STATES.AIRBORNE:
+		if not is_zero_approx(velocity.y):
+			sm.travel_to(STATES.AIRBORNE)
+		process_horizontal_move()
+		process_jump_input(delta)
+	if sm.state == STATES.FLOORED or sm.state == STATES.AIRBORNE or sm.state == STATES.WALLED:
+		velocity.y = min(velocity.y + gravity * delta, max_fall_speed)
+		if velocity.y > 0:
+			jump_cancel_time = 0
 	match sm.state:
-		STATES.FLOORED, STATES.AIRBORNE:
-			if not is_zero_approx(velocity.y):
-				sm.travel_to(STATES.AIRBORNE)
-			process_horizontal_move()
-			process_jump_input(delta)
-			continue
-		STATES.FLOORED, STATES.AIRBORNE, STATES.WALLED:
-			velocity.y = min(velocity.y + gravity * delta, max_fall_speed)
-			if velocity.y > 0:
-				jump_cancel_time = 0
-			continue
 		STATES.AIRBORNE:
 			if is_on_floor():
 				sm.travel_to(STATES.FLOORED)
@@ -266,10 +262,8 @@ func _physics_process(delta: float):
 			process_walled_input()
 
 	if sm.state != STATES.DEAD:
-		set_velocity(velocity)
-		set_up_direction(Vector2(0, -1))
 		move_and_slide()
-		velocity = velocity
+		print(get_last_slide_collision())
 		check_interactables()
 		process_invincibility(delta)
 
