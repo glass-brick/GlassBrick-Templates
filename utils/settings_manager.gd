@@ -34,6 +34,7 @@ func load_settings():
 			(DisplayServer.screen_get_size() - Vector2i(settings.resolution))
 			/ 2
 		)
+	print(get_window().borderless)
 	for bus_name in settings.volumes.keys():
 		Utils.set_volume(bus_name, settings.volumes[bus_name])
 

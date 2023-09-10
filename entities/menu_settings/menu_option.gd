@@ -1,10 +1,10 @@
 extends Control
 class_name MenuOption
 
-@export (NodePath) var label_path: NodePath: set = set_label_path
-@export (Color) var focus_color := Color(1, 1, 0.7, 1)
-@export (Color) var selected_color := Color.YELLOW
-@export (bool) var exit_with_accept := false
+@export var label_path: NodePath: set = set_label_path
+@export var focus_color := Color(1, 1, 0.7, 1)
+@export var selected_color := Color.YELLOW
+@export var exit_with_accept := false
 var in_option := false
 var label: Label
 

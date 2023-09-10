@@ -1,8 +1,8 @@
 extends Node2D
 
-@export (NodePath) var animated_sprite_path
-@export (float) var time_between_ghosts = 0.1
-@export (Color) var ghost_color = Color.WHITE
+@export var animated_sprite_path : NodePath
+@export var time_between_ghosts := 0.1
+@export var ghost_color := Color.WHITE
 var emitting_ghost_particles = false
 var ghost_timer = 0
 @onready var animated_sprite: AnimatedSprite2D = get_node(animated_sprite_path)
@@ -25,6 +25,7 @@ func draw_ghost():
 	ghost.set_texture(
 		animated_sprite.frames.get_frame(animated_sprite.animation, animated_sprite.frame)
 	)
+	ghost.modulate = ghost_color
 	ghost.global_position = global_position
 	ghost.global_scale = global_scale
 	ghost.global_rotation = global_rotation
@@ -32,9 +33,7 @@ func draw_ghost():
 	var final_color = ghost_color.blend(Color.TRANSPARENT)
 	final_color.a = 0
 	tween.interpolate_property(ghost, "modulate", ghost_color, final_color, 0.5)
-	tween.connect('tween_completed', Callable(self, 'on_ghost_faded').bind(tween))
-	add_child(tween)
-	tween.start()
+	tween.connect('finished', Callable(self, 'on_ghost_faded').bind(tween))
 	SceneManager.get_entity("Level").add_child(ghost)
 
 

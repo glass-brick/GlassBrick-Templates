@@ -31,15 +31,15 @@ gdscript/warnings/return_value_discarded=false
 
 [display]
 
-window/integer_resolution_handler/base_height=180
-window/size/viewport_width=1280
-window/size/viewport_height=720
+window/size/viewport_width=320
+window/size/viewport_height=240
 window/size/resizable=false
-window/stretch/mode="2d"
+window/stretch/mode="viewport"
+window/integer_resolution_handler/base_height=180
 
 [editor_plugins]
 
-enabled=PackedStringArray("res://addons/integer_resolution_handler/plugin.cfg", "res://addons/scene_manager/plugin.cfg")
+enabled=PackedStringArray("res://addons/scene_manager/plugin.cfg")
 
 [gui]
 

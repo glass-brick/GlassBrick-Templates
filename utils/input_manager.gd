@@ -83,8 +83,8 @@ func get_input_event_node(input_event: InputEvent) -> Control:
 		var label_node := Label.new()
 		label_node.anchor_bottom = 1.0
 		label_node.anchor_right = 1.0
-		label_node.valign = Label.ALIGNMENT_CENTER
-		label_node.align = Label.ALIGNMENT_CENTER
+		label_node.vertical_alignment = VERTICAL_ALIGNMENT_CENTER
+		label_node.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
 		label_node.text = display_resource
 		return label_node
 	if display_resource is Texture2D:

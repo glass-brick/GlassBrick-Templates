@@ -1,7 +1,11 @@
 extends MenuOption
 
-@export (String) var action_name = ""
-@export (String) var option_name = "ACTION": set = set_option_name
+@export var action_name := ""
+@export var option_name := "ACTION":
+	set(value):
+		if not is_inside_tree():
+			await self.ready
+		label.text = value
 
 @onready var instruction_label: Label = $HBoxContainer/PressAKey
 @onready var main_key: Button = $HBoxContainer/MainKey
@@ -18,12 +22,6 @@ func _ready():
 	InputManager.connect("control_mode_changed", Callable(self, "set_buttons"))
 	InputManager.connect("erased_action_event", Callable(self, "on_erased_action_event"))
 	set_buttons()
-
-
-func set_option_name(value: String):
-	if not is_inside_tree():
-		await self.ready
-	label.text = value
 
 
 func set_buttons():

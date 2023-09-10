@@ -1,18 +1,7 @@
 extends OptionButton
 
 @onready var screen_size = DisplayServer.screen_get_size()
-@onready var base_resolution = Vector2(
-	(
-		ProjectSettings.get_setting('display/window/integer_resolution_handler/base_width')
-		if ProjectSettings.has_setting('display/window/integer_resolution_handler/base_width')
-		else 320
-	),
-	(
-		ProjectSettings.get_setting('display/window/integer_resolution_handler/base_height')
-		if ProjectSettings.has_setting('display/window/integer_resolution_handler/base_height')
-		else 240
-	)
-)
+@onready var base_resolution = Vector2i(320,240)
 @onready var resolution_options = []
 
 
@@ -33,7 +22,7 @@ func _ready():
 func _on_resolution_selected(idx):
 	var selected_resolution = resolution_options[idx]
 	get_window().size = selected_resolution
-	get_window().position = (screen_size - selected_resolution) / 2
+	# get_window().position = (screen_size - selected_resolution) / 2
 	SettingsManager.save_resolution(selected_resolution)
 
 

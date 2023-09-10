@@ -44,4 +44,4 @@ func go_back():
 
 
 func quit_game():
-	get_tree().notification(MainLoop.NOTIFICATION_WM_QUIT_REQUEST)
+	get_tree().quit()

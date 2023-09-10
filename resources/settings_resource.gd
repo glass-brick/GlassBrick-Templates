@@ -2,7 +2,7 @@ class_name SettingsResource
 extends Resource
 
 const SAVE_SETTINGS_BASE_PATH := "user://settings"
-const CURRENT_VERSION := 1.0
+const CURRENT_VERSION := 1.1
 @export var version: float = CURRENT_VERSION
 @export var custom_keybindings: Dictionary = {}
 @export var volumes := {

@@ -3,9 +3,17 @@ extends Area2D
 class_name Interactable
 signal interacted
 
-@export (NodePath) var prompt_container_path : set = set_prompt_container_path
+@export var prompt_container_path: NodePath:
+	set(new_path):
+		prompt_container_path = new_path
+		if not is_inside_tree():
+			await self.ready
+		prompt_container = get_node(prompt_container_path)
 @onready var prompt_container = get_node(prompt_container_path)
-@export (Shape2D) var collision_shape = RectangleShape2D.new(): set = set_collision_shape
+@export var collision_shape = RectangleShape2D.new():
+	set(new_shape):
+		collision_shape = new_shape
+		collision_shape_node.shape = collision_shape
 var collision_shape_node := CollisionShape2D.new()
 var is_targeted = false
 var enabled = true
@@ -54,18 +62,6 @@ func unset_target():
 	is_targeted = false
 
 
-func set_collision_shape(new_shape):
-	collision_shape = new_shape
-	collision_shape_node.shape = collision_shape
-
-
-func set_prompt_container_path(new_path):
-	prompt_container_path = new_path
-	if not is_inside_tree():
-		await self.ready
-	prompt_container = get_node(prompt_container_path)
-
-
 func set_prompt():
 	for child in prompt_container.get_children():
 		child.queue_free()
@@ -74,20 +70,18 @@ func set_prompt():
 
 func show_prompt():
 	prompt_container.visible = true
-	var tween := Tween.new()
-	add_child(tween)
-	tween.interpolate_property(prompt_container, "modulate", Color.TRANSPARENT, Color.WHITE, 0.2)
+	var tween := get_tree().create_tween()
+	tween.tween_property(prompt_container, "modulate", Color.WHITE, 0.2)
 	tween.start()
-	await tween.tween_completed
+	await tween.finished
 	tween.queue_free()
 
 
 func hide_prompt():
-	var tween := Tween.new()
-	add_child(tween)
-	tween.interpolate_property(prompt_container, "modulate", Color.WHITE, Color.TRANSPARENT, 0.2)
+	var tween := get_tree().create_tween()
+	tween.tween_property(prompt_container, "modulate", Color.TRANSPARENT, 0.2)
 	tween.start()
-	await tween.tween_completed
+	await tween.finished
 	if not is_targeted:
 		prompt_container.visible = false
 	tween.queue_free()

@@ -1,10 +1,10 @@
 extends Camera2D
 
-@export (NodePath) var main_target
-@export (bool) var input_camera_controls_enabled = true
-@export (float) var input_camera_controls_amount = 50.0
-@export (bool) var lookahead = true
-@export (Vector2) var lookahead_amount = Vector2(0.25, 0.15)
+@export var main_target : NodePath
+@export var input_camera_controls_enabled : bool = true
+@export var input_camera_controls_amount : float = 50.0
+@export var lookahead : bool = true
+@export var lookahead_amount : Vector2 = Vector2(0.25, 0.15)
 var target: Node2D
 var target_prev_position: Vector2
 var target_velocity := Vector2.ZERO
@@ -12,8 +12,6 @@ var area: Rect2
 
 
 func _ready():
-	# fix camera jitter https://godotengine.org/qa/24510/camera2d-smoothing-jitter-in-godot-3-0
-	Engine.set_target_fps(Engine.get_physics_ticks_per_second())
 	back_to_main_target()
 	position = target_prev_position
 	reset_smoothing()
@@ -23,8 +21,8 @@ func _process(delta):
 	var target_position = target.get_position()
 	position = target_position
 	if input_camera_controls_enabled:
-		var offset = Input.get_vector("camera_left", "camera_right", "camera_up", "camera_down")
-		position += offset * input_camera_controls_amount
+		var offset_input = Input.get_vector("camera_left", "camera_right", "camera_up", "camera_down")
+		position += offset_input * input_camera_controls_amount
 	if lookahead:
 		var new_velocity = (target_position - target_prev_position) / delta
 		var is_deccelerating = new_velocity.length() < target_velocity.length()
