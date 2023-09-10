@@ -2,21 +2,20 @@
 extends Node2D
 
 var open := false
-@export var height := 4:
+
+@onready var interactable: Interactable = $Interactable
+@onready var tilemap: TileMap = $Tilemap
+
+@export var time := 1.0
+@export var height := 3:
 	set(new_height):
 		height = new_height
 		if not is_inside_tree():
 			await self.ready
 		tilemap.clear()
-		for y in range(height):
-			tilemap.set_cell(0, Vector2i(0, y))
-		tilemap.update_bitmask_region(Vector2.ZERO, Vector2(1, height))
-		interactable.collision_shape.size = tilemap.cell_size * Vector2(0.5, height * 0.5)
-		interactable.position = interactable.collision_shape.size
-@export var time := 1.0
-@onready var tween := get_tree().create_tween()
-@onready var interactable: Interactable = $Interactable
-@onready var tilemap: TileMap = $Tilemap
+		tilemap.set_cells_terrain_connect(0, range(height).map(func(y): return Vector2i(0, y)), 0, 0, false)
+		interactable.collision_shape.size = Vector2(tilemap.tile_set.tile_size) * Vector2(1, height)
+		interactable.position = Vector2(tilemap.tile_set.tile_size) * Vector2(1, height) / 2.0
 
 
 func _ready():
@@ -26,7 +25,7 @@ func _ready():
 
 
 func interact():
-	if not tween.is_active():
+	if interactable.enabled:
 		if open:
 			close_door()
 		else:
@@ -35,13 +34,8 @@ func interact():
 
 func open_door():
 	interactable.disable()
-	tween.tween_property(
-		self,
-		"position",
-		self.position + Vector2.UP * height * tilemap.cell_size,
-		time,
-	)
-	tween.start()
+	var tween = get_tree().create_tween()
+	tween.tween_property(tilemap, "position",	Vector2.UP * height * 16,	time)
 	await tween.finished
 	open = true
 	interactable.enable()
@@ -49,14 +43,9 @@ func open_door():
 
 func close_door():
 	interactable.disable()
-	tween.tween_property(
-		self,
-		"position",
-		self.position + Vector2.DOWN * height * tilemap.cell_size,
-		time,
-	)
-	tween.start()
-	await tween.tween_completed
+	var tween = get_tree().create_tween()
+	tween.tween_property(tilemap,	"position", Vector2.ZERO, time)
+	await tween.finished
 	open = false
 	interactable.enable()
 

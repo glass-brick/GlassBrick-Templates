@@ -23,18 +23,18 @@ func stop_emitting_ghost_particles(delay = 0.0):
 func draw_ghost():
 	var ghost := Sprite2D.new()
 	ghost.set_texture(
-		animated_sprite.frames.get_frame(animated_sprite.animation, animated_sprite.frame)
+		animated_sprite.sprite_frames.get_frame_texture(animated_sprite.animation, animated_sprite.frame)
 	)
 	ghost.modulate = ghost_color
 	ghost.global_position = global_position
 	ghost.global_scale = global_scale
 	ghost.global_rotation = global_rotation
-	var tween := Tween.new()
-	var final_color = ghost_color.blend(Color.TRANSPARENT)
+	var tween := get_tree().create_tween()
+	var final_color = ghost_color
 	final_color.a = 0
-	tween.interpolate_property(ghost, "modulate", ghost_color, final_color, 0.5)
+	tween.tween_property(ghost, "modulate", final_color, 0.5)
 	tween.connect('finished', Callable(self, 'on_ghost_faded').bind(tween))
-	SceneManager.get_entity("Level").add_child(ghost)
+	SceneManager._current_scene.add_child(ghost)
 
 
 func on_ghost_faded(ghost, _key, tween):

@@ -30,7 +30,6 @@ func load_settings():
 		or (get_window().mode == Window.MODE_FULLSCREEN)
 	):
 		get_window().size = settings.resolution
-	print(get_window().borderless)
 	for bus_name in settings.volumes.keys():
 		Utils.set_volume(bus_name, settings.volumes[bus_name])
 

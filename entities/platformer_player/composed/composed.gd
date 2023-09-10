@@ -1,15 +1,10 @@
 extends CharacterBody2D
 
-@export var health := 100
-
 @export var max_speed := 200
 @export var acceleration_frames := 5
 @export var decceleration_frames := 2
 @onready var acceleration = float(max_speed) / float(acceleration_frames)
 @onready var decceleration = float(max_speed) / float(decceleration_frames)
-
-enum DIRECTIONS { LEFT, RIGHT }
-var facing_direction = DIRECTIONS.RIGHT
 
 @export_range (0, 5, 0.1) var air_time := 1.0
 @export_range (0, 20, 0.5) var max_jump_height := 3.0
@@ -32,16 +27,14 @@ var jump_cancel_time = 0
 var dash_timer = 0
 var dash_jumped = false
 
-@export var invincibility_time := 0.5
-var invincibility_counter = 0.0
-var invincibility = false
-
 @export var acme_time_floor := 0.1
 @export var acme_time_wall := 0.2
 
 @onready var animated_sprite : AnimatedSprite2D = $AnimatedSprite2D
 @onready var wall_detector : Node2D = $WallDetector
 @onready var player_particles: Node2D = $PlayerParticles
+@onready var health_component: HealthComponent = $HealthComponent
+@onready var interact_component: InteractComponent = $InteractComponent
 
 enum STATES { FLOORED, AIRBORNE, WALLED, DASH, DEAD }
 
@@ -51,27 +44,23 @@ enum STATES { FLOORED, AIRBORNE, WALLED, DASH, DEAD }
 	STATES
 )
 
-@onready var interactable_area : Area2D = $InteractableDetectionArea
-var interactables := []
-var interactable_target : Interactable
+@onready var directions2D : Directions2D = $Directions2D
 
-func set_health(new_health):
-	health = max(new_health, 0)
-	if health <= 0:
-		sm.travel_to(STATES.DEAD)
+func _ready():
+	health_component.dead.connect(func(): sm.travel_to(STATES.DEAD))
 
 func process_walled_input():
 	var direction := Input.get_axis('ui_left', 'ui_right') if InputManager.input_enabled else 0.0
 	var jump_just_pressed := Input.is_action_just_pressed('jump') if InputManager.input_enabled else false
 	var dash_just_pressed := Input.is_action_just_pressed('dash') if InputManager.input_enabled else false
 	can_wall_jump = true
-	var is_moving_off_wall = (is_facing(DIRECTIONS.LEFT) and direction > 0) or (is_facing(DIRECTIONS.RIGHT) and direction < 0)
+	var is_moving_off_wall = (directions2D.get_axis() < 0 and direction > 0) or (directions2D.get_axis() > 0 and direction < 0)
 
 	if is_on_floor():
 		sm.travel_to(STATES.FLOORED)
 	elif jump_just_pressed:
 		wall_jump()
-		flip()
+		directions2D.flip()
 		sm.travel_to(STATES.AIRBORNE)
 	elif not wall_detector.is_on_wall() or is_moving_off_wall:
 		sm.travel_to(STATES.AIRBORNE)
@@ -80,9 +69,9 @@ func process_walled_input():
 
 func wall_jump():
 	$Jump.play()
-	var jump_direction = facing_direction if sm.state == STATES.WALLED else opposite(facing_direction)
+	var jump_direction = directions2D.facing_direction if sm.state == STATES.WALLED else directions2D.opposite(directions2D.facing_direction)
 
-	velocity = Vector2(wall_jump_speed * max_speed * (1 if jump_direction == DIRECTIONS.LEFT else -1), jump_speed)
+	velocity = Vector2(wall_jump_speed * max_speed * -directions2D.get_axis(jump_direction), jump_speed)
 	wall_jumped = true
 	can_wall_jump = false
 
@@ -96,10 +85,7 @@ func process_horizontal_move():
 		velocity.x = velocity.x + acceleration * direction
 		if not wall_jumped:
 			velocity.x = clamp(velocity.x, -max_speed * abs(direction), max_speed * abs(direction))
-		if direction > 0:
-			face_right()
-		else:
-			face_left()
+		directions2D.face_axis(direction)
 	if wall_jumped or is_zero_approx(direction):
 		if velocity.x > 0:
 			velocity.x = max(velocity.x - decceleration, 0)
@@ -111,28 +97,6 @@ func process_horizontal_move():
 	
 	if wall_detector.is_on_wall() and not is_on_floor() and sm.time_since(STATES.WALLED) > acme_time_wall:
 		sm.travel_to(STATES.WALLED)
-
-func opposite(direction):
-	return DIRECTIONS.LEFT if direction == DIRECTIONS.RIGHT else DIRECTIONS.RIGHT
-
-func is_facing(direction):
-	return facing_direction == direction
-
-func flip():
-	if is_facing(DIRECTIONS.LEFT):
-		face_right()
-	else:
-		face_left()
-
-func face_left():
-	if is_facing(DIRECTIONS.RIGHT):
-		facing_direction = DIRECTIONS.LEFT
-		scale.x = -1
-
-func face_right():
-	if is_facing(DIRECTIONS.LEFT):
-		facing_direction = DIRECTIONS.RIGHT
-		scale.x = -1
 
 func process_jump_input(delta: float):
 	var jump_pressed = Input.is_action_pressed('jump') if InputManager.input_enabled else false
@@ -188,11 +152,10 @@ func transited_state(from, to):
 		STATES.WALLED:
 			player_particles.start_emitting_wall_slide_particles()
 			if wall_detector.is_wall_behind():
-				flip()
+				directions2D.flip()
 		STATES.FLOORED:
 			can_wall_jump = false
 		STATES.DEAD:
-			health = 0
 			velocity = Vector2.ZERO
 		STATES.DASH:
 			jump_cancel_time = 0
@@ -200,8 +163,8 @@ func transited_state(from, to):
 			player_particles.start_emitting_ghost_particles()
 			if(is_zero_approx(direction.x) and is_zero_approx(direction.y)):
 				if from == STATES.WALLED:
-					flip()
-				velocity = Vector2((-1 if is_facing(DIRECTIONS.LEFT) else 1) * dash_speed, 0)
+					directions2D.flip()
+				velocity = Vector2(directions2D.get_axis() * dash_speed, 0)
 			else:
 				if abs(direction.x) > 0.2:
 					direction.x = 1 if direction.x > 0 else -1
@@ -212,10 +175,7 @@ func transited_state(from, to):
 				else:
 					direction.y = 0
 				velocity = Vector2(direction.x, direction.y).normalized() * dash_speed
-				if velocity.x > 0:
-					face_right()
-				elif velocity.x < 0:
-					face_left()
+				directions2D.face_axis(velocity.x)
 			if not is_on_floor():
 				dash_jumped = true
 
@@ -262,49 +222,5 @@ func _physics_process(delta: float):
 
 	if sm.state != STATES.DEAD:
 		move_and_slide()
-		check_interactables()
-		process_invincibility(delta)
-
-func process_invincibility(delta):
-	if invincibility:
-		invincibility_counter += delta
-		var mat = animated_sprite.get_material()
-		mat.set_shader_parameter("active", true)
-		if invincibility_counter > invincibility_time:
-			invincibility = false
-	else:
-		invincibility_counter = 0
-		var mat = animated_sprite.get_material()
-		mat.set_shader_parameter("active", false)
-
-
-func _on_hit(damage, _damager):
-	if not invincibility and sm.state != STATES.DEAD:
-		set_health(health - damage)
-		invincibility = true
-
-func _on_InteractableDetectionArea_area_exited(area:Area2D):
-	if area is Interactable:
-		if area == interactable_target:
-			area.unset_target()
-			interactable_target = null
-		interactables.erase(area)
-
-func _on_InteractableDetectionArea_area_entered(area:Area2D):
-	if area is Interactable:
-		interactables.append(area)
-
-func check_interactables():
-	var closest_distance := INF
-	var closest_interactable : Interactable = null
-	for interactable in interactables:
-		var distance = (interactable.get_global_position() - get_global_position()).length()
-		if interactable.enabled and distance < closest_distance:
-			closest_distance = distance
-			closest_interactable = interactable
-	if closest_interactable != interactable_target:
-		if interactable_target:
-			interactable_target.unset_target()
-		interactable_target = closest_interactable
-		if interactable_target:
-			interactable_target.set_target()
+		interact_component.check_interactables()
+		health_component.process_invincibility(delta)

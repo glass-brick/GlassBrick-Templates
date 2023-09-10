@@ -28,17 +28,6 @@ func _ready():
 	InputManager.connect("controls_changed", Callable(self, "set_prompt"))
 
 
-func _unhandled_input(event: InputEvent):
-	if (
-		(not Engine.is_editor_hint())
-		and InputManager.input_enabled
-		and event.is_action_pressed("interact")
-		and is_targeted
-	):
-		get_viewport().set_input_as_handled()
-		interact()
-
-
 func interact():
 	if enabled:
 		emit_signal("interacted")
@@ -72,16 +61,11 @@ func show_prompt():
 	prompt_container.visible = true
 	var tween := get_tree().create_tween()
 	tween.tween_property(prompt_container, "modulate", Color.WHITE, 0.2)
-	tween.start()
-	await tween.finished
-	tween.queue_free()
 
 
 func hide_prompt():
 	var tween := get_tree().create_tween()
 	tween.tween_property(prompt_container, "modulate", Color.TRANSPARENT, 0.2)
-	tween.start()
 	await tween.finished
 	if not is_targeted:
 		prompt_container.visible = false
-	tween.queue_free()

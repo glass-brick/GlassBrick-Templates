@@ -1,167 +1,170 @@
-[gd_scene load_steps=52 format=3 uid="uid://m6c445u0jaby"]
+[gd_scene load_steps=55 format=3 uid="uid://bpecyjbu0ok2m"]
 
-[ext_resource type="Texture2D" uid="uid://bo4mrqa62psly" path="res://assets/pixel_adventure_pack/Main Characters/Virtual Guy/Wall Jump (32x32).png" id="1"]
-[ext_resource type="Texture2D" uid="uid://xxg7cuwgnw8d" path="res://assets/pixel_adventure_pack/Main Characters/Virtual Guy/Run (32x32).png" id="2"]
-[ext_resource type="Texture2D" uid="uid://d1vuoeo1nlqws" path="res://assets/pixel_adventure_pack/Main Characters/Virtual Guy/Double Jump (32x32).png" id="3"]
-[ext_resource type="Texture2D" uid="uid://dxyp6nd2pyhbp" path="res://assets/pixel_adventure_pack/Main Characters/Virtual Guy/Jump (32x32).png" id="4"]
-[ext_resource type="Texture2D" uid="uid://3n7afqtyomfq" path="res://assets/pixel_adventure_pack/Main Characters/Virtual Guy/Fall (32x32).png" id="5"]
-[ext_resource type="PackedScene" path="res://utils/wall_detector.tscn" id="6"]
-[ext_resource type="AudioStream" uid="uid://c4nfl20uhgf3v" path="res://assets/sfx/jump_000.wav" id="7"]
-[ext_resource type="Script" path="res://entities/platformer_player/full.gd" id="8"]
-[ext_resource type="Shader" path="res://shaders/aura_shader.gdshader" id="9"]
-[ext_resource type="Texture2D" uid="uid://d2y51bar6cuug" path="res://assets/pixel_adventure_pack/Main Characters/Virtual Guy/Idle (32x32).png" id="10"]
-[ext_resource type="PackedScene" path="res://utils/player_particles.tscn" id="11"]
+[ext_resource type="Script" path="res://entities/platformer_player/composed/composed.gd" id="1_403w4"]
+[ext_resource type="Shader" path="res://shaders/aura_shader.gdshader" id="1_tvs0m"]
+[ext_resource type="Texture2D" uid="uid://d1vuoeo1nlqws" path="res://assets/pixel_adventure_pack/Main Characters/Virtual Guy/Double Jump (32x32).png" id="2_th7xq"]
+[ext_resource type="Texture2D" uid="uid://3n7afqtyomfq" path="res://assets/pixel_adventure_pack/Main Characters/Virtual Guy/Fall (32x32).png" id="3_ppj6c"]
+[ext_resource type="Texture2D" uid="uid://d2y51bar6cuug" path="res://assets/pixel_adventure_pack/Main Characters/Virtual Guy/Idle (32x32).png" id="4_yneul"]
+[ext_resource type="Texture2D" uid="uid://dxyp6nd2pyhbp" path="res://assets/pixel_adventure_pack/Main Characters/Virtual Guy/Jump (32x32).png" id="5_3buuo"]
+[ext_resource type="Texture2D" uid="uid://xxg7cuwgnw8d" path="res://assets/pixel_adventure_pack/Main Characters/Virtual Guy/Run (32x32).png" id="6_7ncqt"]
+[ext_resource type="Texture2D" uid="uid://bo4mrqa62psly" path="res://assets/pixel_adventure_pack/Main Characters/Virtual Guy/Wall Jump (32x32).png" id="7_e308o"]
+[ext_resource type="PackedScene" path="res://utils/wall_detector.tscn" id="8_hb1wp"]
+[ext_resource type="PackedScene" path="res://utils/player_particles.tscn" id="9_ys460"]
+[ext_resource type="AudioStream" uid="uid://c4nfl20uhgf3v" path="res://assets/sfx/jump_000.wav" id="10_7pnxg"]
+[ext_resource type="Script" path="res://entities/platformer_player/composed/directions_2d.gd" id="11_3icoc"]
+[ext_resource type="Script" path="res://entities/platformer_player/composed/health_component.gd" id="12_7bxpm"]
+[ext_resource type="Script" path="res://entities/platformer_player/composed/interact_component.gd" id="13_kiswo"]
 
-[sub_resource type="ShaderMaterial" id="14"]
-shader = ExtResource("9")
-shader_parameter/radius = 5.0
-shader_parameter/modulate = Color(0, 0, 0, 0)
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_wjb8e"]
+shader = ExtResource("1_tvs0m")
+shader_parameter/radius = 0.0
+shader_parameter/modulate = Color(1, 1, 1, 0)
 shader_parameter/modulate_active = Color(1, 1, 1, 1)
 shader_parameter/active = false
-shader_parameter/time_scale = 30.0
+shader_parameter/time_scale = 20.0
 
 [sub_resource type="AtlasTexture" id="34"]
-atlas = ExtResource("3")
+atlas = ExtResource("2_th7xq")
 region = Rect2(0, 0, 32, 32)
 
 [sub_resource type="AtlasTexture" id="35"]
-atlas = ExtResource("3")
+atlas = ExtResource("2_th7xq")
 region = Rect2(32, 0, 32, 32)
 
 [sub_resource type="AtlasTexture" id="36"]
-atlas = ExtResource("3")
+atlas = ExtResource("2_th7xq")
 region = Rect2(64, 0, 32, 32)
 
 [sub_resource type="AtlasTexture" id="37"]
-atlas = ExtResource("3")
+atlas = ExtResource("2_th7xq")
 region = Rect2(96, 0, 32, 32)
 
 [sub_resource type="AtlasTexture" id="38"]
-atlas = ExtResource("3")
+atlas = ExtResource("2_th7xq")
 region = Rect2(128, 0, 32, 32)
 
 [sub_resource type="AtlasTexture" id="39"]
-atlas = ExtResource("3")
+atlas = ExtResource("2_th7xq")
 region = Rect2(160, 0, 32, 32)
 
 [sub_resource type="AtlasTexture" id="33"]
-atlas = ExtResource("5")
+atlas = ExtResource("3_ppj6c")
 region = Rect2(0, 0, 32, 32)
 
 [sub_resource type="AtlasTexture" id="2"]
-atlas = ExtResource("10")
+atlas = ExtResource("4_yneul")
 region = Rect2(0, 0, 32, 32)
 
 [sub_resource type="AtlasTexture" id="3"]
-atlas = ExtResource("10")
+atlas = ExtResource("4_yneul")
 region = Rect2(32, 0, 32, 32)
 
 [sub_resource type="AtlasTexture" id="4"]
-atlas = ExtResource("10")
+atlas = ExtResource("4_yneul")
 region = Rect2(64, 0, 32, 32)
 
 [sub_resource type="AtlasTexture" id="5"]
-atlas = ExtResource("10")
+atlas = ExtResource("4_yneul")
 region = Rect2(96, 0, 32, 32)
 
 [sub_resource type="AtlasTexture" id="6"]
-atlas = ExtResource("10")
+atlas = ExtResource("4_yneul")
 region = Rect2(128, 0, 32, 32)
 
 [sub_resource type="AtlasTexture" id="7"]
-atlas = ExtResource("10")
+atlas = ExtResource("4_yneul")
 region = Rect2(160, 0, 32, 32)
 
 [sub_resource type="AtlasTexture" id="8"]
-atlas = ExtResource("10")
+atlas = ExtResource("4_yneul")
 region = Rect2(192, 0, 32, 32)
 
 [sub_resource type="AtlasTexture" id="9"]
-atlas = ExtResource("10")
+atlas = ExtResource("4_yneul")
 region = Rect2(224, 0, 32, 32)
 
 [sub_resource type="AtlasTexture" id="10"]
-atlas = ExtResource("10")
+atlas = ExtResource("4_yneul")
 region = Rect2(256, 0, 32, 32)
 
 [sub_resource type="AtlasTexture" id="11"]
-atlas = ExtResource("10")
+atlas = ExtResource("4_yneul")
 region = Rect2(288, 0, 32, 32)
 
 [sub_resource type="AtlasTexture" id="12"]
-atlas = ExtResource("10")
+atlas = ExtResource("4_yneul")
 region = Rect2(320, 0, 32, 32)
 
 [sub_resource type="AtlasTexture" id="32"]
-atlas = ExtResource("4")
+atlas = ExtResource("5_3buuo")
 region = Rect2(0, 0, 32, 32)
 
 [sub_resource type="AtlasTexture" id="15"]
-atlas = ExtResource("2")
+atlas = ExtResource("6_7ncqt")
 region = Rect2(0, 0, 32, 32)
 
 [sub_resource type="AtlasTexture" id="16"]
-atlas = ExtResource("2")
+atlas = ExtResource("6_7ncqt")
 region = Rect2(32, 0, 32, 32)
 
 [sub_resource type="AtlasTexture" id="17"]
-atlas = ExtResource("2")
+atlas = ExtResource("6_7ncqt")
 region = Rect2(64, 0, 32, 32)
 
 [sub_resource type="AtlasTexture" id="18"]
-atlas = ExtResource("2")
+atlas = ExtResource("6_7ncqt")
 region = Rect2(96, 0, 32, 32)
 
 [sub_resource type="AtlasTexture" id="19"]
-atlas = ExtResource("2")
+atlas = ExtResource("6_7ncqt")
 region = Rect2(128, 0, 32, 32)
 
 [sub_resource type="AtlasTexture" id="20"]
-atlas = ExtResource("2")
+atlas = ExtResource("6_7ncqt")
 region = Rect2(160, 0, 32, 32)
 
 [sub_resource type="AtlasTexture" id="21"]
-atlas = ExtResource("2")
+atlas = ExtResource("6_7ncqt")
 region = Rect2(192, 0, 32, 32)
 
 [sub_resource type="AtlasTexture" id="22"]
-atlas = ExtResource("2")
+atlas = ExtResource("6_7ncqt")
 region = Rect2(224, 0, 32, 32)
 
 [sub_resource type="AtlasTexture" id="23"]
-atlas = ExtResource("2")
+atlas = ExtResource("6_7ncqt")
 region = Rect2(256, 0, 32, 32)
 
 [sub_resource type="AtlasTexture" id="24"]
-atlas = ExtResource("2")
+atlas = ExtResource("6_7ncqt")
 region = Rect2(288, 0, 32, 32)
 
 [sub_resource type="AtlasTexture" id="25"]
-atlas = ExtResource("2")
+atlas = ExtResource("6_7ncqt")
 region = Rect2(320, 0, 32, 32)
 
 [sub_resource type="AtlasTexture" id="26"]
-atlas = ExtResource("2")
+atlas = ExtResource("6_7ncqt")
 region = Rect2(352, 0, 32, 32)
 
 [sub_resource type="AtlasTexture" id="94"]
-atlas = ExtResource("1")
+atlas = ExtResource("7_e308o")
 region = Rect2(0, 0, 32, 32)
 
 [sub_resource type="AtlasTexture" id="95"]
-atlas = ExtResource("1")
+atlas = ExtResource("7_e308o")
 region = Rect2(32, 0, 32, 32)
 
 [sub_resource type="AtlasTexture" id="96"]
-atlas = ExtResource("1")
+atlas = ExtResource("7_e308o")
 region = Rect2(64, 0, 32, 32)
 
 [sub_resource type="AtlasTexture" id="97"]
-atlas = ExtResource("1")
+atlas = ExtResource("7_e308o")
 region = Rect2(96, 0, 32, 32)
 
 [sub_resource type="AtlasTexture" id="98"]
-atlas = ExtResource("1")
+atlas = ExtResource("7_e308o")
 region = Rect2(128, 0, 32, 32)
 
 [sub_resource type="SpriteFrames" id="13"]
@@ -312,40 +315,48 @@ size = Vector2(20, 25)
 radius = 56.0357
 
 [node name="Player" type="CharacterBody2D"]
+material = SubResource("ShaderMaterial_wjb8e")
 collision_mask = 2
 floor_snap_length = 0.0
 platform_floor_layers = 2
 platform_wall_layers = 2
-script = ExtResource("8")
+script = ExtResource("1_403w4")
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
 z_index = 1
-material = SubResource("14")
+use_parent_material = true
 sprite_frames = SubResource("13")
 animation = &"Idle"
-frame_progress = 0.927482
+frame_progress = 0.312907
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 position = Vector2(0, 3.5)
 shape = SubResource("1")
 
-[node name="WallDetector" parent="." instance=ExtResource("6")]
+[node name="WallDetector" parent="." instance=ExtResource("8_hb1wp")]
 
-[node name="PlayerParticles" parent="." instance=ExtResource("11")]
+[node name="PlayerParticles" parent="." instance=ExtResource("9_ys460")]
 animated_sprite_path = NodePath("../AnimatedSprite2D")
 time_between_ghosts = 0.05
 ghost_color = Color(0.560784, 0.67451, 0.941176, 1)
 
 [node name="Jump" type="AudioStreamPlayer2D" parent="."]
-stream = ExtResource("7")
+stream = ExtResource("10_7pnxg")
 volume_db = -10.0
 bus = &"SoundEffects"
 
-[node name="InteractableDetectionArea" type="Area2D" parent="."]
-collision_mask = 32
+[node name="Directions2D" type="Node2D" parent="."]
+script = ExtResource("11_3icoc")
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="InteractableDetectionArea"]
+[node name="HealthComponent" type="Node2D" parent="."]
+script = ExtResource("12_7bxpm")
+
+[node name="InteractComponent" type="Area2D" parent="."]
+collision_mask = 32
+script = ExtResource("13_kiswo")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="InteractComponent"]
 shape = SubResource("99")
 
-[connection signal="area_entered" from="InteractableDetectionArea" to="." method="_on_InteractableDetectionArea_area_entered"]
-[connection signal="area_exited" from="InteractableDetectionArea" to="." method="_on_InteractableDetectionArea_area_exited"]
+[connection signal="area_entered" from="InteractComponent" to="." method="_on_InteractableDetectionArea_area_entered"]
+[connection signal="area_exited" from="InteractComponent" to="." method="_on_InteractableDetectionArea_area_exited"]
