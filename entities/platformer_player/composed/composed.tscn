@@ -1,4 +1,4 @@
-[gd_scene load_steps=55 format=3 uid="uid://bpecyjbu0ok2m"]
+[gd_scene load_steps=61 format=3 uid="uid://bpecyjbu0ok2m"]
 
 [ext_resource type="Script" path="res://entities/platformer_player/composed/composed.gd" id="1_403w4"]
 [ext_resource type="Shader" path="res://shaders/aura_shader.gdshader" id="1_tvs0m"]
@@ -14,6 +14,12 @@
 [ext_resource type="Script" path="res://entities/platformer_player/composed/directions_2d.gd" id="11_3icoc"]
 [ext_resource type="Script" path="res://entities/platformer_player/composed/health_component.gd" id="12_7bxpm"]
 [ext_resource type="Script" path="res://entities/platformer_player/composed/interact_component.gd" id="13_kiswo"]
+[ext_resource type="Script" path="res://entities/platformer_player/composed/state_machine/character_state_machine.gd" id="15_sqrgr"]
+[ext_resource type="Script" path="res://entities/platformer_player/composed/state_machine/floored_state.gd" id="16_urva7"]
+[ext_resource type="Script" path="res://entities/platformer_player/composed/state_machine/airborne_state.gd" id="17_r8bp6"]
+[ext_resource type="Script" path="res://entities/platformer_player/composed/state_machine/walled_state.gd" id="18_oxp18"]
+[ext_resource type="Script" path="res://entities/platformer_player/composed/state_machine/dash_state.gd" id="19_nqb04"]
+[ext_resource type="Script" path="res://entities/platformer_player/composed/state_machine/dead_state.gd" id="20_w8kpu"]
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_wjb8e"]
 shader = ExtResource("1_tvs0m")
@@ -357,6 +363,42 @@ script = ExtResource("13_kiswo")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="InteractComponent"]
 shape = SubResource("99")
+
+[node name="CharacterStateMachine" type="Node" parent="." node_paths=PackedStringArray("character", "current_state")]
+script = ExtResource("15_sqrgr")
+character = NodePath("..")
+current_state = NodePath("Floored")
+debug = true
+
+[node name="Floored" type="Node" parent="CharacterStateMachine" node_paths=PackedStringArray("jump_sound", "dash_state", "airborne_state")]
+script = ExtResource("16_urva7")
+max_speed = 250
+jump_sound = NodePath("../../Jump")
+dash_state = NodePath("../Dash")
+airborne_state = NodePath("../Airborne")
+
+[node name="Airborne" type="Node" parent="CharacterStateMachine" node_paths=PackedStringArray("jump_sound", "dash_state", "walled_state", "floored_state")]
+script = ExtResource("17_r8bp6")
+jump_sound = NodePath("../../Jump")
+dash_state = NodePath("../Dash")
+walled_state = NodePath("../Walled")
+floored_state = NodePath("../Floored")
+
+[node name="Walled" type="Node" parent="CharacterStateMachine" node_paths=PackedStringArray("jump_sound", "dash_state", "airborne_state", "floored_state")]
+script = ExtResource("18_oxp18")
+jump_sound = NodePath("../../Jump")
+dash_state = NodePath("../Dash")
+airborne_state = NodePath("../Airborne")
+floored_state = NodePath("../Floored")
+
+[node name="Dash" type="Node" parent="CharacterStateMachine" node_paths=PackedStringArray("airborne_state", "walled_state", "floored_state")]
+script = ExtResource("19_nqb04")
+airborne_state = NodePath("../Airborne")
+walled_state = NodePath("../Walled")
+floored_state = NodePath("../Floored")
+
+[node name="Dead" type="Node" parent="CharacterStateMachine"]
+script = ExtResource("20_w8kpu")
 
 [connection signal="area_entered" from="InteractComponent" to="." method="_on_InteractableDetectionArea_area_entered"]
 [connection signal="area_exited" from="InteractComponent" to="." method="_on_InteractableDetectionArea_area_exited"]
